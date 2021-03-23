@@ -40,9 +40,46 @@ QImage &QuImageBase::image() const {
     return d->image;
 }
 
-void QuImageBase::setImage(const QImage& image) {
-    /* zoom taked place in paint() */
-    d->image = image;
+void QuImageBase::setImage(const QImage &img) {
+    d->image = img;
+}
+
+void QuImageBase::setImage(const CuMatrix<double> &data) {
+
+}
+
+void QuImageBase::setImage(const CuMatrix<unsigned short> &data) {
+
+}
+
+void QuImageBase::setImage(const CuMatrix<unsigned char> &data) {
+    QImage& img = image();
+    if(img.size() != QSize(data.nrows(), data.ncols()))
+    {
+        QVector<QRgb> &colorT = colorTable();
+        QImage newImage = QImage(data.nrows(), data.ncols(), QImage::Format_Indexed8);
+        newImage.setColorTable(colorT);
+        for(size_t i = 0; i < data.nrows(); i++)  {
+            for(size_t j = 0; j < data.ncols(); j++)
+                newImage.setPixel(i, j, data[i][j]);
+        }
+        /* newImage without colorTable. setImage will save current color table from current image
+         * and then restore it
+         */
+        setImage(newImage);
+    }
+    else /* no resize needed */
+    {
+        for(size_t i = 0; i < data.nrows(); i++)
+        {
+            for(size_t j = 0; j < data.ncols(); j++)
+                img.setPixel(i, j, data[i][j]);
+        }
+        /* img is a reference to the current image. No resize needed, so image has been reused.
+         * setImage will find a non empty color table and won't save/restore it
+         */
+        setImage(img);
+    }
 }
 
 void QuImageBase::setColorTable(const  QVector<QRgb> &rgb)

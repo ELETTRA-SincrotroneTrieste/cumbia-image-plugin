@@ -6,6 +6,7 @@
 #include <QImage>
 #include <cupluginloader.h>
 #include <cumacros.h>
+#include <cumatrix.h>
 
 class Cumbia;
 class CumbiaPool;
@@ -23,8 +24,13 @@ public:
     virtual ~QuImageBaseI() {};
 
     // set image methods
+    virtual void setImage(const CuMatrix<double> &image) = 0;
+    virtual void setImage(const CuMatrix<unsigned short> &image) = 0;
+    virtual void setImage(const CuMatrix<unsigned char> &image) = 0;
+
+    virtual void setImage(const QImage& img) = 0;
     virtual QImage& image() const = 0;
-    virtual void setImage(const QImage &image) = 0;
+
     // error methods
     virtual void setErrorImage(const QImage& i) = 0;
     virtual QImage errorImage() const = 0;
@@ -60,7 +66,7 @@ public:
    QObject *image_plo;
    QuImagePluginInterface *plugin_i = QuImagePluginInterface::get_instance(cumbia_pool, m_ctrl_factory_pool, image_plo);
    if(!plugin_i)
-        perr("MyimageApp: failed to load plugin \"%s\"", QuImagePluginInterface::file_name);
+        perr("MyimageApp: failed to load plugin \"%s\"", qstoc(QuImagePluginInterface::file_name()));
     else { // image here
     }
  * \endcode
@@ -100,11 +106,7 @@ public:
      */
     virtual QuImageBaseI *new_image(QWidget* parent, bool opengl = false) const = 0;
 
-
-//    virtual QuImageGLWidgetA *new_gl_image(QWidget* parent) const = 0;
-
     // convenience method to get the plugin instance
-
     /*!
      * \brief QuImagePluginInterface::get_instance returns a new instance of the plugin
      * \param cu_poo pointer to a previously allocated CumbiaPool

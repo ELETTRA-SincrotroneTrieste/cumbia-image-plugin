@@ -18,7 +18,7 @@ public:
 };
 
 QuImageWidget::QuImageWidget(QWidget *parent) :
-    QWidget(parent) {
+    QLabel(parent) {
     d = new EImageWidgetPrivate;
     d->imgb = new QuImageBase(this, false);
     d->scaleWithZoom = true;

@@ -53,7 +53,6 @@ private:
     // QuImagePluginInterface interface
 public:
     QuImageBaseI *new_image(QWidget *parent, bool opengl) const;
-//    QuImageGLWidgetA *new_gl_image(QWidget *parent) const;
 };
 
 #endif // QUIMAGEPLUGIN_H

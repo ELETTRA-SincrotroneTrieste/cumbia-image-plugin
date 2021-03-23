@@ -37,7 +37,11 @@ public:
     QWidget *asWidget() const;
 
     QImage& image() const;
-    void setImage(const QImage &image);
+    void setImage(const QImage& img);
+
+    virtual void setImage(const CuMatrix<double> &data);
+    virtual void setImage(const CuMatrix<unsigned short> &data);
+    virtual void setImage(const CuMatrix<unsigned char> &data);
 
     void setImageMouseEventInterface(ImageMouseEventInterface* ifa);
 

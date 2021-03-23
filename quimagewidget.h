@@ -1,7 +1,7 @@
 #ifndef QUIMAGEWIDGET_H
 #define QUIMAGEWIDGET_H
 
-#include <QWidget>
+#include <QLabel>
 #include <QRgb>
 #include <QVector>
 #include <quimagebase.h>
@@ -13,7 +13,7 @@ class ImageMouseEventInterface;
 class QMenu;
 class EImageWidgetPrivate;
 
-class QuImageWidget : public QWidget, public QuImageBaseI
+class QuImageWidget : public QLabel, public QuImageBaseI
 {
     Q_OBJECT
 
