@@ -11,7 +11,8 @@ class QImage;
 class ExternalScaleWidget;
 class ImageMouseEventInterface;
 class QMenu;
-class EImageWidgetPrivate;
+class QuImageWidgetPrivate;
+class CuData;
 
 class QuImageWidget : public QLabel, public QuImageBaseI
 {
@@ -21,8 +22,7 @@ class QuImageWidget : public QLabel, public QuImageBaseI
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
 
 public:
-    explicit QuImageWidget(QWidget *parent = 0);
-
+    explicit QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
     virtual ~QuImageWidget();
 
     bool scaleWithZoom() const;
@@ -43,6 +43,8 @@ public slots:
 
     QWidget *asWidget() const;
 
+    void onNewData(const CuData& da);
+
 protected:
 
     QSize minimumSizeHint() const;
@@ -56,10 +58,13 @@ protected:
     virtual QMenu* rightClickMenu();
 
 private:
-    EImageWidgetPrivate *d;
+    QuImageWidgetPrivate *d;
 
     // QuImageBaseI interface
 public:
+    void setImage(const CuMatrix<double> &image);
+    void setImage(const CuMatrix<unsigned short> &image);
+    void setImage(const CuMatrix<unsigned char> &image);
     QImage &image() const;
     void setColorTable(const QVector<QRgb> &rgb);
     QVector<QRgb> &colorTable() const;
@@ -69,6 +74,11 @@ public:
     void setZoom(int n);
     void setZoomEnabled(bool en);
     float zoom() const;
+
+    void setSource(const QString& src);
+    void unsetSource();
+
+public:
 };
 
 #endif // IMAGE_H

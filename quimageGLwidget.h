@@ -11,7 +11,7 @@ class QuImageGLWidget : public QOpenGLWidget, public QuImageBaseI {
     Q_OBJECT
 
 public:
-    explicit QuImageGLWidget(QWidget *parent = 0);
+    explicit QuImageGLWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
     virtual ~QuImageGLWidget();
     void setImage(const QImage& image);
 
@@ -44,6 +44,15 @@ public:
     void setZoomEnabled(bool en);
     float zoom() const;
     QWidget *asWidget() const;
+
+    // QuImageBaseI interface
+public:
+    void setImage(const CuMatrix<double> &image);
+    void setImage(const CuMatrix<unsigned short> &image);
+    void setImage(const CuMatrix<unsigned char> &image);
+
+    void setSource(const QString &src);
+    void unsetSource();
 };
 
 #endif // IMAGEGL_H

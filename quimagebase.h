@@ -16,23 +16,29 @@ class QWheelEvent;
 
 class QuImageBasePrivate
 {
-    public:
-        QImage image, errorImage, noise;
-        int isOpenGL;
-        float zoom;
-        bool error;
-        QString errorMessage;
-        ImageMouseEventInterface *mouseEventIf;
-        bool leftButton, zoomEnabled;
-        QPoint mP1, mP2;
-        QWidget *widget;
-        QVector<QRgb> colorTable;
+public:
+
+    QuImageBasePrivate(CumbiaPool *cu_p, const CuControlsFactoryPool &fpoo) : cu_pool(cu_p), fpool(fpoo) { }
+
+    QImage image, errorImage, noise;
+    int isOpenGL;
+    float zoom;
+    bool error;
+    QString errorMessage;
+    ImageMouseEventInterface *mouseEventIf;
+    bool leftButton, zoomEnabled;
+    QPoint mP1, mP2;
+    QWidget *widget;
+    QVector<QRgb> colorTable;
+
+    CumbiaPool *cu_pool;
+    const CuControlsFactoryPool &fpool;
 };
 
 class QuImageBase : public QuImageBaseI
 {
 public:
-    QuImageBase(QWidget *widget, bool isOpenGL);
+    QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
     virtual ~QuImageBase();
     QWidget *asWidget() const;
 
@@ -68,7 +74,12 @@ public:
 
     void execConfigDialog();
 
+    void setSource(const QString &src);
+    void unsetSource();
+
 private:
+
+    void m_set_image(const CuMatrix<unsigned char> &data);
 
     QuImageBasePrivate *d;
 };

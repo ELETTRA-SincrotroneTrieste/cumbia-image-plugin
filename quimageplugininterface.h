@@ -53,6 +53,10 @@ public:
 
     virtual QWidget *asWidget() const = 0;
 
+    // cumbia engine
+    virtual void setSource(const QString& src) = 0;
+    virtual void unsetSource() = 0;
+
 };
 
 /*!

@@ -22,18 +22,22 @@ int main(int argc, char *argv[])
     qu_app.setProperty("office", "T2PT025");
     qu_app.setProperty("hwReferent", "$HW_REFERENT$"); /* name of the referent that provides the device server */
     
+    int ret = 1;
+    if(argc < 2)
+        perr("CuDisplay: usage: %s source\n", argv[0]);
+    else {
 
-    CumbiaPool *cu_p = new CumbiaPool();
-    CuDisplay *w = new CuDisplay(cu_p, NULL);
-    w->show();
-    // exec application loop
-    int ret = qu_app.exec();
-    // delete resources and return
-    delete w;
+        CumbiaPool *cu_p = new CumbiaPool();
+        CuDisplay *w = new CuDisplay(cu_p, NULL);
+        w->show();
+        // exec application loop
+        ret = qu_app.exec();
+        // delete resources and return
+        delete w;
 
-    for(std::string n : cu_p->names())
-        if(cu_p->get(n))
-            delete cu_p->get(n);
-
+        for(std::string n : cu_p->names())
+            if(cu_p->get(n))
+                delete cu_p->get(n);
+    }
     return ret;
 }

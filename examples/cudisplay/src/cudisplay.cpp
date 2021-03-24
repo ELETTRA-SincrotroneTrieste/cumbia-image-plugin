@@ -27,9 +27,11 @@ CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
     QuImagePluginInterface *plugin_i = QuImagePluginInterface::get_instance(cumbia_pool, m_ctrl_factory_pool, &magic_plo);
     if(!plugin_i)
         perr("CuDisplay: failed to load plugin \"%s\"", QuImagePluginInterface::file_name().toStdString().c_str());
-    else {
+    else if(qApp->arguments().size() > 1) {
+        plugin_i->init(cumbia_pool, m_ctrl_factory_pool);
         QGridLayout *glo = new QGridLayout(this);
         QuImageBaseI *iw = plugin_i->new_image(this);
+        iw->setSource(qApp->arguments().at(1));
         glo->addWidget(iw->asWidget(), 0, 0, 5, 5);
     }
 

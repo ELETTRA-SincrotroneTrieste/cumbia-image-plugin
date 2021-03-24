@@ -6,21 +6,24 @@
 #include <QContextMenuEvent>
 #include <QPainter>
 
+#include <cudata.h>
+
 /*
  * Class with properties specific to EImageWidget, as a QWidget.
  * Other properties are stored by EImageWidgetBasePrivate
  */
-class EImageWidgetPrivate
+class QuImageWidgetPrivate
 {
 public:
-    QuImageBase *imgb;
+    QuImageWidgetPrivate(QuImageBase *img) : imgb(img) { }
+
     bool scaleWithZoom;
+    QuImageBase *imgb;
 };
 
-QuImageWidget::QuImageWidget(QWidget *parent) :
-    QLabel(parent) {
-    d = new EImageWidgetPrivate;
-    d->imgb = new QuImageBase(this, false);
+QuImageWidget::QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo) :
+    QLabel(parent)  {
+    d = new QuImageWidgetPrivate(new QuImageBase(this, false, cu_p, fpoo));
     d->scaleWithZoom = true;
 }
 
@@ -106,6 +109,18 @@ QMenu *QuImageWidget::rightClickMenu()
     return menu;
 }
 
+void QuImageWidget::setImage(const CuMatrix<double> &image) {
+    d->imgb->setImage(image);
+}
+
+void QuImageWidget::setImage(const CuMatrix<unsigned short> &image) {
+    d->imgb->setImage(image);
+}
+
+void QuImageWidget::setImage(const CuMatrix<unsigned char> &image) {
+    d->imgb->setImage(image);
+}
+
 QImage &QuImageWidget::image() const {
     return d->imgb->image();
 }
@@ -142,6 +157,14 @@ float QuImageWidget::zoom() const {
     return d->imgb->zoom();
 }
 
+void QuImageWidget::setSource(const QString &src) {
+    d->imgb->setSource(src);
+}
+
+void QuImageWidget::unsetSource() {
+    d->imgb->unsetSource();
+}
+
 QSize QuImageWidget::minimumSizeHint() const
 {
     const int min = 32;
@@ -172,6 +195,37 @@ void QuImageWidget::setScaleWithZoom(bool scale)
 
 QWidget *QuImageWidget::asWidget() const {
     return d->imgb->asWidget();
+}
+
+void QuImageWidget::onNewData(const CuData &da) {
+    printf("\e[0;32mQuImage.onNewData(%s)\e[0m\n", datos(da));
+    if(da["err"].toBool()) {
+
+    } else {
+        const CuVariant &v = da["value"];
+        if(v.getFormat() == CuVariant::Matrix) {
+            switch(v.getType()) {
+            case CuVariant::Double:
+                d->imgb->setImage(v.toMatrix<double>());
+                break;
+            case CuVariant::UChar:
+                d->imgb->setImage(v.toMatrix<unsigned char>());
+                break;
+            case CuVariant::UShort:
+                d->imgb->setImage(v.toMatrix<unsigned short>());
+                break;
+            case CuVariant::Int: {
+                CuMatrix<int> mi = v.toMatrix<int>();
+                const std::vector<int> iv =  mi.data();
+                const std::vector<unsigned char> ucv(iv.begin(), iv.end());
+                d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
+            }  break;
+            default:
+                perr("QuImageWidget.onNewData: data type %d [%s] is not supported", v.getType(), v.dataTypeStr(v.getType()).c_str());
+                break;
+            }
+        }
+    }
 }
 
 

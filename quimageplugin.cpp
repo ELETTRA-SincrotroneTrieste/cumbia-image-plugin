@@ -16,6 +16,8 @@
 
 class CuImagePluginPrivate {
 public:
+    CuImagePluginPrivate() : cu_pool(nullptr) {}
+
     CumbiaPool *cu_pool;
     CuControlsFactoryPool fpoo;
 };
@@ -44,8 +46,8 @@ const QObject *CuImagePlugin::get_qobject() const {
 }
 
 QuImageBaseI *CuImagePlugin::new_image(QWidget *parent, bool opengl) const {
-    if(!opengl) return new QuImageWidget(parent);
-    else return new QuImageGLWidget(parent);
+    if(!opengl) return new QuImageWidget(parent, d->cu_pool, d->fpoo);
+    else return new QuImageGLWidget(parent, d->cu_pool, d->fpoo);
 }
 
 

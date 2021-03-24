@@ -3,13 +3,13 @@
 
 class QuImageGLWidgetPrivate {
 public:
+    QuImageGLWidgetPrivate(QuImageBase *img) : imgb(img) { }
     QuImageBase *imgb;
 };
 
-QuImageGLWidget::QuImageGLWidget(QWidget *parent) :
+QuImageGLWidget::QuImageGLWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo) :
     QOpenGLWidget(parent) {
-    d = new QuImageGLWidgetPrivate();
-    d->imgb = new QuImageBase(this, true);
+    d = new QuImageGLWidgetPrivate(new QuImageBase(this, false, cu_p, fpoo));
 }
 
 QuImageGLWidget::~QuImageGLWidget()
@@ -46,8 +46,27 @@ void QuImageGLWidget::mouseReleaseEvent(QMouseEvent *ev)
     d->imgb->mouseRelease(ev);
 }
 
-QImage &QuImageGLWidget::image() const
-{
+void QuImageGLWidget::setImage(const CuMatrix<double> &image) {
+    d->imgb->setImage(image);
+}
+
+void QuImageGLWidget::setImage(const CuMatrix<unsigned short> &image) {
+    d->imgb->setImage(image);
+}
+
+void QuImageGLWidget::setImage(const CuMatrix<unsigned char> &image) {
+    d->imgb->setImage(image);
+}
+
+void QuImageGLWidget::setSource(const QString &src) {
+    d->imgb->setSource(src);
+}
+
+void QuImageGLWidget::unsetSource() {
+    d->imgb->unsetSource();
+}
+
+QImage &QuImageGLWidget::image() const {
     return d->imgb->image();
 }
 

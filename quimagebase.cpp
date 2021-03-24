@@ -9,12 +9,14 @@
 #include "eimagemouseeventinterface.h"
 #include <math.h>
 #include <QSettings>
+#include <QtDebug>
+#include <quwatcher.h>
 #include "quimgconfdialog.h"
 #include "colortablemap.h"
 
-QuImageBase::QuImageBase(QWidget *widget, bool isOpenGL)
+QuImageBase::QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const CuControlsFactoryPool &fpoo)
 {
-    d = new QuImageBasePrivate();
+    d = new QuImageBasePrivate(cu_p, fpoo);
     d->widget = widget;
     d->isOpenGL = isOpenGL;
     d->error = false;
@@ -45,16 +47,27 @@ void QuImageBase::setImage(const QImage &img) {
 }
 
 void QuImageBase::setImage(const CuMatrix<double> &data) {
-
+    const std::vector<double> &v = data.data();
+    std::vector<unsigned char> vuc(v.begin(), v.end());
+    m_set_image(CuMatrix<unsigned char>(vuc, data.nrows(), data.ncols()));
 }
 
 void QuImageBase::setImage(const CuMatrix<unsigned short> &data) {
-
+    const std::vector<unsigned short> &v = data.data();
+    std::vector<unsigned char> vuc(v.begin(), v.end());
+    m_set_image(CuMatrix<unsigned char>(vuc, data.nrows(), data.ncols()));
 }
 
 void QuImageBase::setImage(const CuMatrix<unsigned char> &data) {
+    m_set_image(data);
+}
+
+void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
+{
     QImage& img = image();
-    if(img.size() != QSize(data.nrows(), data.ncols()))
+    bool changed = img.size() != QSize(data.nrows(), data.ncols());
+    qDebug() << __PRETTY_FUNCTION__ << image() << "size " << img.size() << " data " << data.nrows() << "x" << data.ncols();
+    if(changed)
     {
         QVector<QRgb> &colorT = colorTable();
         QImage newImage = QImage(data.nrows(), data.ncols(), QImage::Format_Indexed8);
@@ -68,18 +81,22 @@ void QuImageBase::setImage(const CuMatrix<unsigned char> &data) {
          */
         setImage(newImage);
     }
-    else /* no resize needed */
-    {
-        for(size_t i = 0; i < data.nrows(); i++)
-        {
-            for(size_t j = 0; j < data.ncols(); j++)
-                img.setPixel(i, j, data[i][j]);
+    else  {/* no resize needed */
+        for(size_t i = 0; i < data.nrows(); i++) {
+            for(size_t j = 0; j < data.ncols(); j++)  {
+                if(img.pixel(i, j) != data[i][j]) {
+                    changed = true;
+                    img.setPixel(i, j, data[i][j]);
+                }
+            }
         }
         /* img is a reference to the current image. No resize needed, so image has been reused.
          * setImage will find a non empty color table and won't save/restore it
          */
         setImage(img);
     }
+    if(changed)
+        d->widget->update();
 }
 
 void QuImageBase::setColorTable(const  QVector<QRgb> &rgb)
@@ -278,4 +295,26 @@ void QuImageBase::execConfigDialog()
         d->image.setColorTable(colorMap[co.getColorTableName()]);
     }
 }
+
+void QuImageBase::setSource(const QString &src) {
+    if(d->cu_pool) {
+        QuWatcher *w = d->widget->findChild<QuWatcher *>();
+        if(!w) {
+            w = new QuWatcher(d->widget, d->cu_pool, d->fpool);
+            QObject::connect(w, SIGNAL(newData(CuData)), d->widget, SLOT(onNewData(CuData)));
+        }
+        w->setSource(src);
+    }
+    else
+        perr("QuImageBase.setSource: cannot set source (%s) if QuImagePluginInterface::init() has not been called", qstoc(src));
+}
+
+void QuImageBase::unsetSource() {
+    QuWatcher *w = d->widget->findChild<QuWatcher *>();
+    if(w) {
+        w->unsetSource();
+        w->deleteLater();
+    }
+}
+
 
