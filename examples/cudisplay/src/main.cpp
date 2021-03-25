@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     QuApplication qu_app( argc, argv );
     qu_app.setOrganizationName("Elettra");
-    qu_app.setApplicationName("Magicdemo");
+    qu_app.setApplicationName("CuDisplay");
     QString version(VERSION);
     qu_app.setApplicationVersion(version);
     qu_app.setProperty("author", "Giacomo");

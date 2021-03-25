@@ -21,6 +21,9 @@ class CuDisplay : public QWidget
 public:
     explicit CuDisplay(CumbiaPool *cu_p, QWidget *parent = 0);
     ~CuDisplay();
+protected slots:
+    void setFitToWindow(bool f);
+    void onZoomRectChanged(const QRect& r);
 
 private:
     Ui::Magicdemo *ui;

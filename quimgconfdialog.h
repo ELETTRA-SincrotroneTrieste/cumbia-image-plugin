@@ -4,24 +4,32 @@
 #include <QDialog>
 #include <QVector>
 #include <QRgb>
+#include <QMap>
 
 namespace Ui {
-class ConfDialog;
+class QuImgConfDialog;
 }
+
+class QuImgConfDialogListener {
+public:
+    virtual void onApply(const QMap<QString, QVariant> &conf) = 0;
+};
 
 class QuImgConfDialog : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit QuImgConfDialog(QWidget *parent = 0);
+    explicit QuImgConfDialog(QuImgConfDialogListener* li, QWidget *parent);
     ~QuImgConfDialog();
-
     QString getColorTableName() const;
 
-private:
-    Ui::ConfDialog *ui;
+public slots:
+    void applyClicked();
 
+private:
+    Ui::QuImgConfDialog *ui;
+    QuImgConfDialogListener *l;
 };
+
 
 #endif // QUIMAGECONFDIALOG_H

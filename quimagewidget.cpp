@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QContextMenuEvent>
 #include <QPainter>
+#include <QScrollArea>
 
 #include <cudata.h>
 
@@ -22,9 +23,10 @@ public:
 };
 
 QuImageWidget::QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo) :
-    QLabel(parent)  {
+    QWidget(parent)  {
     d = new QuImageWidgetPrivate(new QuImageBase(this, false, cu_p, fpoo));
-    d->scaleWithZoom = true;
+    d->imgb->setImageBaseListener(this);
+    d->scaleWithZoom  = true;
 }
 
 QuImageWidget::~QuImageWidget()
@@ -38,54 +40,48 @@ bool QuImageWidget::scaleWithZoom() const
     return d->scaleWithZoom;
 }
 
-QImage QuImageWidget::errorImage() const
-{
+bool QuImageWidget::fitToWidget() const {
+    return d->imgb->fitToWidget();
+}
+
+QImage QuImageWidget::errorImage() const {
     return d->imgb->errorImage();
 }
 
-void QuImageWidget::setErrorMessage(const QString &msg)
-{
+void QuImageWidget::setErrorMessage(const QString &msg) {
     d->imgb->setErrorMessage(msg);
 }
 
-void QuImageWidget::setError(bool error)
-{
+void QuImageWidget::setError(bool error) {
     d->imgb->setError(error);
 }
 
-void QuImageWidget::setOk(bool ok)
-{
+void QuImageWidget::setOk(bool ok) {
     setError(!ok);
 }
 
-void QuImageWidget::setImage(const QImage& img)
-{
+void QuImageWidget::setImage(const QImage& img) {
     d->imgb->setImage(img);
-    if(d->scaleWithZoom)
-    {
+    if(d->scaleWithZoom) {
         QImage& imgRef = d->imgb->image();
         setGeometry(x(), y(), imgRef.width() * (d->imgb->zoom() / 100.0), imgRef.height() * (d->imgb->zoom() / 100.0));
     }
     update();
 }
 
-void QuImageWidget::setErrorImage(const QImage &img)
-{
+void QuImageWidget::setErrorImage(const QImage &img) {
     d->imgb->setErrorImage(img);
 }
 
-void QuImageWidget::mousePressEvent(QMouseEvent *ev)
-{
+void QuImageWidget::mousePressEvent(QMouseEvent *ev) {
     d->imgb->mousePress(ev);
 }
 
-void QuImageWidget::mouseMoveEvent(QMouseEvent *ev)
-{
+void QuImageWidget::mouseMoveEvent(QMouseEvent *ev) {
     d->imgb->mouseMove(ev);
 }
 
-void QuImageWidget::mouseReleaseEvent(QMouseEvent *ev)
-{
+void QuImageWidget::mouseReleaseEvent(QMouseEvent *ev) {
     d->imgb->mouseRelease(ev);
 }
 
@@ -102,11 +98,11 @@ void QuImageWidget::wheelEvent(QWheelEvent *we)
     setImage(image());
 }
 
-QMenu *QuImageWidget::rightClickMenu()
+void QuImageWidget::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu *menu = new QMenu(this);
     menu->addAction("Change Color Map...", this, SLOT(execConfigDialog()));
-    return menu;
+    menu->exec(QCursor::pos());
 }
 
 void QuImageWidget::setImage(const CuMatrix<double> &image) {
@@ -165,11 +161,15 @@ void QuImageWidget::unsetSource() {
     d->imgb->unsetSource();
 }
 
+void QuImageWidget::onZoom(const QRect &zoomRect) {
+    emit zoomRectChanged(zoomRect);
+}
+
 QSize QuImageWidget::minimumSizeHint() const
 {
     const int min = 32;
     const QImage& i = image();
-    if(!i.isNull() && i.width()/4.0 * i.height()/4.0 > min * min)
+    if(!d->imgb->fitToWidget() && !i.isNull() && i.width()/4.0 * i.height()/4.0 > min * min)
         return i.size();
     return QSize(min, min);
 }
@@ -193,12 +193,19 @@ void QuImageWidget::setScaleWithZoom(bool scale)
     update();
 }
 
+void QuImageWidget::setFitToWidget(bool fit) {
+    d->imgb->setFitToWidget(fit);
+    updateGeometry();
+    qDebug() << __PRETTY_FUNCTION__ << fit << geometry() << "BEFORE adjustSize";
+    adjustSize();
+    qDebug() << __PRETTY_FUNCTION__ << fit << geometry() << "AFTER adjustSize";
+}
+
 QWidget *QuImageWidget::asWidget() const {
     return d->imgb->asWidget();
 }
 
 void QuImageWidget::onNewData(const CuData &da) {
-    printf("\e[0;32mQuImage.onNewData(%s)\e[0m\n", datos(da));
     if(da["err"].toBool()) {
 
     } else {

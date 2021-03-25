@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QImage>
 #include <quimageplugininterface.h>
+#include <quimgconfdialog.h>
 
 class ImageMouseEventInterface;
 class ExternalScaleWidget;
@@ -13,6 +14,11 @@ class QPaintDevice;
 class QWidget;
 class QMouseEvent;
 class QWheelEvent;
+
+class QuImageBaseListener {
+public:
+    virtual void onZoom(const QRect& zoomRect) = 0;
+};
 
 class QuImageBasePrivate
 {
@@ -24,6 +30,7 @@ public:
     int isOpenGL;
     float zoom;
     bool error;
+    bool fit_to_w; // fit to widget
     QString errorMessage;
     ImageMouseEventInterface *mouseEventIf;
     bool leftButton, zoomEnabled;
@@ -33,9 +40,10 @@ public:
 
     CumbiaPool *cu_pool;
     const CuControlsFactoryPool &fpool;
+    QuImageBaseListener *listener;
 };
 
-class QuImageBase : public QuImageBaseI
+class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
 {
 public:
     QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
@@ -77,11 +85,24 @@ public:
     void setSource(const QString &src);
     void unsetSource();
 
+    void setFitToWidget(bool fit);
+    bool fitToWidget() const;
+
+    QPoint mapToImg(const QPoint& p);
+
+    void setImageBaseListener(QuImageBaseListener *li);
+
+    // QuImgConfDialogListener interface
+public:
+    void onApply(const QMap<QString, QVariant> &conf);
+
 private:
 
     void m_set_image(const CuMatrix<unsigned char> &data);
+    QRect m_calc_zoom_rect(const QPoint& pos, double factor);
 
     QuImageBasePrivate *d;
+
 };
 
 #endif // QUIMAGEBASE_H

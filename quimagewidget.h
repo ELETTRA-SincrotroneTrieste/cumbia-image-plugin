@@ -1,7 +1,7 @@
 #ifndef QUIMAGEWIDGET_H
 #define QUIMAGEWIDGET_H
 
-#include <QLabel>
+#include <QWidget>
 #include <QRgb>
 #include <QVector>
 #include <quimagebase.h>
@@ -14,10 +14,11 @@ class QMenu;
 class QuImageWidgetPrivate;
 class CuData;
 
-class QuImageWidget : public QLabel, public QuImageBaseI
+class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseListener
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool fitToWidget READ fitToWidget WRITE setFitToWidget DESIGNABLE true)
     Q_PROPERTY(bool scaleWithZoom READ scaleWithZoom WRITE setScaleWithZoom DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
 
@@ -26,9 +27,11 @@ public:
     virtual ~QuImageWidget();
 
     bool scaleWithZoom() const;
+    bool fitToWidget() const;
     QImage errorImage() const;
 
 signals:
+    void zoomRectChanged(const QRect& r);
     
 public slots:
 
@@ -40,6 +43,7 @@ public slots:
     void setOk(bool ok);
     void execConfigDialog();
     void setScaleWithZoom(bool scale);
+    void setFitToWidget(bool fit);
 
     QWidget *asWidget() const;
 
@@ -55,7 +59,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *ev);
     void wheelEvent(QWheelEvent *we);
 
-    virtual QMenu* rightClickMenu();
+    void contextMenuEvent(QContextMenuEvent *e);
 
 private:
     QuImageWidgetPrivate *d;
@@ -79,6 +83,10 @@ public:
     void unsetSource();
 
 public:
+
+    // QuImageBaseListener interface
+public:
+    void onZoom(const QRect &zoomRect);
 };
 
 #endif // IMAGE_H
