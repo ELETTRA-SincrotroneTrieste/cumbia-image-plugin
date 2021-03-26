@@ -23,8 +23,13 @@ public:
     ~CuDisplay();
 protected slots:
     void setFitToWindow(bool f);
-    void onZoomRectChanged(const QRect& r);
+    void onZoomRectChanged(const QRect &from, const QRect& r);
 
+    /// TEST!
+    void onScrollValueChanged(int v);
+    void onScrollRangeChanged(int, int);
+    ///
+    ///
 private:
     Ui::Magicdemo *ui;
 

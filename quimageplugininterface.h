@@ -49,7 +49,7 @@ public:
     virtual bool zoomEnabled() const = 0;
     virtual void setZoom(int n) = 0;
     virtual void setZoomEnabled(bool en) = 0;
-    virtual float zoom() const = 0;
+    virtual float zoomValue() const = 0;
 
     virtual QWidget *asWidget() const = 0;
 

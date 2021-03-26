@@ -12,6 +12,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QCheckBox>
 
 CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
@@ -37,7 +38,7 @@ CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
         label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         QuImageBaseI *iw = plugin_i->new_image(this);
         iw->asWidget()->setObjectName("image_w");
-        connect(iw->asWidget(), SIGNAL(zoomRectChanged(QRect)), this, SLOT(onZoomRectChanged(QRect)));
+        connect(iw->asWidget(), SIGNAL(zoomRectChanged(QRect,QRect)), this, SLOT(onZoomRectChanged(QRect,QRect)));
         printf("\e[1;33mCuDisplay : setting mouse tracking for testing purposes\e[0m\n");
         iw->asWidget()->setMouseTracking(true);
         sa->setWidget(iw->asWidget());
@@ -48,6 +49,9 @@ CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
         glo->addWidget(sa, 1, 0, 5, 5);
         glo->addWidget(cb, glo->rowCount(), 0, 1 , glo->columnCount());
         cb->setChecked(true);
+        QScrollBar *sb = sa->horizontalScrollBar();
+        connect(sb, SIGNAL(valueChanged(int)), this, SLOT(onScrollValueChanged(int)));
+        connect(sb, SIGNAL(rangeChanged(int, int)), this, SLOT(onScrollRangeChanged(int, int)));
     }
 
 }
@@ -62,7 +66,29 @@ void CuDisplay::setFitToWindow(bool f) {
     findChild<QWidget *>("image_w")->setProperty("fitToWidget", f);
 }
 
-void CuDisplay::onZoomRectChanged(const QRect &r) {
-    qDebug() << __PRETTY_FUNCTION__ << r;
+void CuDisplay::onZoomRectChanged(const QRect& from, const QRect &r) {
+    QScrollArea *sa = findChild<QScrollArea *>();
+//    qDebug() << __PRETTY_FUNCTION__ << r << "scroll min" << sa->horizontalScrollBar()->minimum() << sa->horizontalScrollBar()->maximum() << "value "
+//<< sa->horizontalScrollBar()->value();
+
+    QScrollBar *sb = sa->horizontalScrollBar();
+    sb->setValue(qMin(sb->maximum(), sb->value() + r.x()));
+//    qDebug() << __PRETTY_FUNCTION__ << "sb val" << sb->value() << "max" << sb->maximum();
+    sb = sa->verticalScrollBar();
+    sb->setValue(qMin(sb->maximum(), sb->value() + r.y()));
+
+}
+
+void CuDisplay::onScrollValueChanged(int v)
+{
+    QScrollBar *sb = qobject_cast<QScrollBar *>(sender());
+//    qDebug() << __PRETTY_FUNCTION__ << "value" << v << "min " << sb->minimum() << "max: " << sb->maximum();
+
+}
+
+void CuDisplay::onScrollRangeChanged(int m, int M)
+{
+    QScrollBar *sb = qobject_cast<QScrollBar *>(sender());
+//    qDebug() << __PRETTY_FUNCTION__ << "value" << sb->value() << "min " << m << "max: " << M;
 }
 

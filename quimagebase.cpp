@@ -68,7 +68,7 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
 {
     QImage& img = image();
     bool changed = img.size() != QSize(data.nrows(), data.ncols());
-//    qDebug() << __PRETTY_FUNCTION__ << image() << "size " << img.size() << " data " << data.nrows() << "x" << data.ncols();
+    //    qDebug() << __PRETTY_FUNCTION__ << image() << "size " << img.size() << " data " << data.nrows() << "x" << data.ncols();
     if(changed)
     {
         QVector<QRgb> &colorT = colorTable();
@@ -116,7 +116,7 @@ bool QuImageBase::zoomEnabled() const {
     return d->zoomEnabled;
 }
 
-float QuImageBase::zoom() const {
+float QuImageBase::zoomValue() const {
     return d->zoom;
 }
 
@@ -140,7 +140,6 @@ void QuImageBase::mouseMove(QMouseEvent *ev) {
     if(d->mouseEventIf)
         d->mouseEventIf->imageMouseMoveEvent(ev->pos(), ev->button());
     const QPoint &p = mapToImg(ev->pos());
-    printf("QuImageBase.mouseMove: \e[1;36m(%d,%d) --> (%d,%d)\e[0m\n", ev->pos().x(), ev->pos().y(), p.x(), p.y());
     d->widget->update();
 }
 
@@ -160,7 +159,12 @@ void QuImageBase::mouseRelease(QMouseEvent *ev)
     QRect r(QPoint(0,0), d->widget->geometry().size());
     if(d->mouseEventIf && !d->mP1.isNull() && r.contains(ev->pos()))
         d->mouseEventIf->imageMouseReleaseEvent(ev->pos(), ev->button());
-
+    else if(!d->mP1.isNull() && ev->button() == Qt::LeftButton) {  // use rect to zoom
+        zoom(mapToImg(QRect(d->mP1, d->mP2)));
+    }
+    else if(!d->mouseEventIf && ev->button() == Qt::MiddleButton) {
+        unzoom(ev->pos());
+    }
     d->mP1 = QPoint();
     d->mP2 = QPoint();
     d->widget->update();
@@ -168,26 +172,56 @@ void QuImageBase::mouseRelease(QMouseEvent *ev)
 
 
 QRect QuImageBase::m_calc_zoom_rect(const QPoint &pos, double factor) {
-    const QRect& g0 = d->widget->geometry();
-    double dx = (pos.x() - g0.width()/2.0)/(double) g0.width();
-    double dy = (pos.y() -g0.height()/2.0) / (double) g0.height();
-    dx *= factor;
-    dy *= factor;
-    QRect g;
-    g.setSize(g0.size() * factor);
-    g.moveTop(-g0.height() * dy);
-    g.moveLeft(-g0.width() * dx);
-    qDebug() << __PRETTY_FUNCTION__ << "moving top" << -dy << " moving left " << -dx << "rect " << g0 << "-->" << g << "pos" << pos << "zoom" << d->zoom;
+    const QSize& g0 =  d->widget->size();
+    double xr = pos.x() / (double) g0.width(); // [0.0 - 1.0]
+    double yr = pos.y() / (double) g0.height(); // [0.0 - 1.0]
+    const QSize& g1 = g0 * factor;
+    double dx = (g1.width() -  g0.width()) * xr;
+    double dy = (g1.height() - g0.height()) * yr;
+    QRect g(QPoint(dx, dy), g1);
+    qDebug() << __PRETTY_FUNCTION__  << "dx" << -dx << "dy" << -dy << "rect " << g0 << "-->" << g << "pos" << pos << "zoom" << d->zoom;
     return g;
 }
 
-void QuImageBase::wheelEvent(QWheelEvent *event) {
-    int delta = event->delta();
-    const double z0 = d->zoom;
-    delta > 0 ? d->zoom = d->zoom * delta/100.0 : d->zoom = d->zoom / (-delta/100.0);
-    const QRect& r = m_calc_zoom_rect(event->pos(), d->zoom/z0);
+// r in image coordinates
+void QuImageBase::m_zoom(const QRect &r) {
+    if(d->zoom_stack.isEmpty())
+        d->zoom_stack << d->widget->geometry();
+    const QRect& g0 =  d->zoom_stack[0];
+    const QRect& geom = d->widget->geometry();
+    QRect sel = r.intersected(d->image.rect());
+    const float &rw = g0.width()/(float) sel.width();
+    const float &rh = g0.height()/(float) sel.height();
+    float factor = qMax(rw, rh); // max ratio
+    d->zoom = 100 * factor;
+    QRect nr = QRect(QPoint(g0.x(), g0.y()), g0.size() * factor);
+    d->widget->setGeometry(nr);
     d->widget->updateGeometry();
-    if(d->listener) d->listener->onZoom(r);
+    qDebug() << __PRETTY_FUNCTION__ << "zoom rect in img coords" << r << "img rect" << d->image.rect() << "selection " << sel
+             <<  "geom before " << geom << "after " << d->widget->geometry() << "zoom" << d->zoom << "factor " << factor;
+}
+
+void QuImageBase::unzoom(const QPoint& pos) {
+    qDebug() << __PRETTY_FUNCTION__ << "unzoom";
+    foreach(const QRect& r, d->zoom_stack)
+        qDebug() << "-" << r;
+    if(d->zoom_stack.size() > 1) {
+        d->zoom_stack.takeLast(); // remove current from stack
+        m_zoom(d->zoom_stack.last()); // restore previous zoom rect
+    }
+}
+
+void QuImageBase::zoom(const QRect &r) {
+    const QRect& g0 = d->widget->geometry();
+    m_zoom(r);
+    d->zoom_stack << r;
+    if(d->listener)
+        d->listener->onZoom(g0, d->widget->geometry());
+};
+
+void QuImageBase::wheelEvent(QWheelEvent *event) {
+    if(d->mouseEventIf)
+        d->mouseEventIf->imageMouseWheelEvent(event);
 }
 
 void QuImageBase::setImageMouseEventInterface(ImageMouseEventInterface* ifa) {
@@ -210,13 +244,13 @@ void QuImageBase::paint(QPaintEvent *e, QWidget *paintDevice)
     imgRect.setSize(d->image.size() * (d->zoom/100.0));
     if(d->fit_to_w) imgRect.setSize(e->rect().size());
     else imgRect.setSize(d->image.size() * (d->zoom/100.0));
-//    qDebug() << __FUNCTION__ << "zoom: " << d->zoom << "imgRect" << imgRect << " paint device geom " << paintDevice->geometry() <<
-//                " paint rect " << e->rect();
+    //    qDebug() << __FUNCTION__ << "zoom: " << d->zoom << "imgRect" << imgRect << " paint device geom " << paintDevice->geometry() <<
+    //                " paint rect " << e->rect();
     p.drawImage(imgRect, d->image, d->image.rect());
 
 
     //
-   // p.drawImage(0, 0, d->image);
+    // p.drawImage(0, 0, d->image);
     if(!d->mP1.isNull() && !d->mP2.isNull())
     {
         QPen pen = p.pen();
@@ -337,6 +371,14 @@ QPoint QuImageBase::mapToImg(const QPoint &p) {
     const QSize &s = d->image.size()/* * (d->zoom/100.0)*/;
     const QSize& ws = d->widget->size();
     return QPoint(s.width() * p.x() / ws.width(), s.height() * p.y() / ws.height());
+}
+
+QRect QuImageBase::mapToImg(const QRect &r) {
+    return QRect(mapToImg(r.topLeft()), mapToImg(r.bottomRight()));
+}
+
+QList<QRect> QuImageBase::zoomStack() const {
+    return d->zoom_stack;
 }
 
 void QuImageBase::setImageBaseListener(QuImageBaseListener *li) {

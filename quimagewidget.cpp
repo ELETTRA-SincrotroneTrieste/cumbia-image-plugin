@@ -64,7 +64,7 @@ void QuImageWidget::setImage(const QImage& img) {
     d->imgb->setImage(img);
     if(d->scaleWithZoom) {
         QImage& imgRef = d->imgb->image();
-        setGeometry(x(), y(), imgRef.width() * (d->imgb->zoom() / 100.0), imgRef.height() * (d->imgb->zoom() / 100.0));
+        setGeometry(x(), y(), imgRef.width() * (d->imgb->zoomValue() / 100.0), imgRef.height() * (d->imgb->zoomValue() / 100.0));
     }
     update();
 }
@@ -93,9 +93,7 @@ void QuImageWidget::paintEvent(QPaintEvent *e)
 
 void QuImageWidget::wheelEvent(QWheelEvent *we)
 {
-    d->imgb->wheelEvent(we);
-    we->accept();
-    setImage(image());
+    QWidget::wheelEvent(we);
 }
 
 void QuImageWidget::contextMenuEvent(QContextMenuEvent *e)
@@ -149,8 +147,8 @@ void QuImageWidget::setZoomEnabled(bool en){
     d->imgb->setZoomEnabled(en);
 }
 
-float QuImageWidget::zoom() const {
-    return d->imgb->zoom();
+float QuImageWidget::zoomValue() const {
+    return d->imgb->zoomValue();
 }
 
 void QuImageWidget::setSource(const QString &src) {
@@ -161,8 +159,8 @@ void QuImageWidget::unsetSource() {
     d->imgb->unsetSource();
 }
 
-void QuImageWidget::onZoom(const QRect &zoomRect) {
-    emit zoomRectChanged(zoomRect);
+void QuImageWidget::onZoom(const QRect &oldRect, const QRect &newRect) {
+    emit zoomRectChanged(oldRect, newRect);
 }
 
 QSize QuImageWidget::minimumSizeHint() const

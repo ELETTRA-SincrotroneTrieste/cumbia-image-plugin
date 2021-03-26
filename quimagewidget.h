@@ -31,7 +31,7 @@ public:
     QImage errorImage() const;
 
 signals:
-    void zoomRectChanged(const QRect& r);
+    void zoomRectChanged(const QRect& from, const QRect& to);
     
 public slots:
 
@@ -77,7 +77,7 @@ public:
     bool zoomEnabled() const;
     void setZoom(int n);
     void setZoomEnabled(bool en);
-    float zoom() const;
+    float zoomValue() const;
 
     void setSource(const QString& src);
     void unsetSource();
@@ -86,7 +86,7 @@ public:
 
     // QuImageBaseListener interface
 public:
-    void onZoom(const QRect &zoomRect);
+    void onZoom(const QRect& oldRect, const QRect &newRect);
 };
 
 #endif // IMAGE_H

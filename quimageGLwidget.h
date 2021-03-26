@@ -42,7 +42,7 @@ public:
     bool zoomEnabled() const;
     void setZoom(int n);
     void setZoomEnabled(bool en);
-    float zoom() const;
+    float zoomValue() const;
     QWidget *asWidget() const;
 
     // QuImageBaseI interface

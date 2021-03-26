@@ -17,7 +17,7 @@ class QWheelEvent;
 
 class QuImageBaseListener {
 public:
-    virtual void onZoom(const QRect& zoomRect) = 0;
+    virtual void onZoom(const QRect& oldRect, const QRect& newRect) = 0;
 };
 
 class QuImageBasePrivate
@@ -41,6 +41,7 @@ public:
     CumbiaPool *cu_pool;
     const CuControlsFactoryPool &fpool;
     QuImageBaseListener *listener;
+    QList<QRect> zoom_stack;
 };
 
 class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
@@ -70,7 +71,9 @@ public:
     void setZoom(int n) { d->zoom = n; }
     void setZoomEnabled(bool en);
     bool zoomEnabled() const;
-    float zoom() const;
+    float zoomValue() const;
+    void unzoom(const QPoint &pos);
+    void zoom(const QRect& r);
 
     bool isOpenGL() const;
     void mouseMove(QMouseEvent *e);
@@ -89,6 +92,8 @@ public:
     bool fitToWidget() const;
 
     QPoint mapToImg(const QPoint& p);
+    QRect mapToImg(const QRect& r);
+    QList<QRect> zoomStack() const;
 
     void setImageBaseListener(QuImageBaseListener *li);
 
@@ -99,6 +104,7 @@ public:
 private:
 
     void m_set_image(const CuMatrix<unsigned char> &data);
+    void m_zoom(const QRect& selectionRect);
     QRect m_calc_zoom_rect(const QPoint& pos, double factor);
 
     QuImageBasePrivate *d;

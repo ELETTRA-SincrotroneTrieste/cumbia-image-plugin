@@ -116,8 +116,8 @@ void QuImageGLWidget::setZoomEnabled(bool en) {
     d->imgb->setZoomEnabled(en);
 }
 
-float QuImageGLWidget::zoom() const {
-    return d->imgb->zoom();
+float QuImageGLWidget::zoomValue() const {
+    return d->imgb->zoomValue();
 }
 
 void QuImageGLWidget::paintEvent(QPaintEvent *e)
