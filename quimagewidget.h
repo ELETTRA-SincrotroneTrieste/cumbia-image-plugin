@@ -31,7 +31,7 @@ public:
     QImage errorImage() const;
 
 signals:
-    void zoomRectChanged(const QRect& from, const QRect& to);
+    void zoomRectChanged(const QRect& zoom_r);
     
 public slots:
 
@@ -39,6 +39,7 @@ public slots:
     void setErrorImage(const QImage& img);
     void setErrorMessage(const QString &msg);
     void setError(bool error);
+    bool error() const;
 
     void setOk(bool ok);
     void execConfigDialog();
@@ -77,16 +78,23 @@ public:
     bool zoomEnabled() const;
     void setZoom(int n);
     void setZoomEnabled(bool en);
-    float zoomValue() const;
+    float zoomLevel() const;
 
     void setSource(const QString& src);
     void unsetSource();
+
+
+    // image -> widget geometry mappings
+    virtual QPoint mapToImg(const QPoint& p) const;
+    virtual QRect mapToImg(const QRect& r) const;
+    virtual QPoint mapFromImg(const QPoint& p) const;
+    virtual QRect mapFromImg(const QRect& r) const;
 
 public:
 
     // QuImageBaseListener interface
 public:
-    void onZoom(const QRect& oldRect, const QRect &newRect);
+    void onZoom(const QRect& zoomr);
 };
 
 #endif // IMAGE_H

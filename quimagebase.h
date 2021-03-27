@@ -6,6 +6,8 @@
 #include <QImage>
 #include <quimageplugininterface.h>
 #include <quimgconfdialog.h>
+#include <quimgpainter.h>
+#include <quimgzoomer.h>
 
 class ImageMouseEventInterface;
 class ExternalScaleWidget;
@@ -17,7 +19,7 @@ class QWheelEvent;
 
 class QuImageBaseListener {
 public:
-    virtual void onZoom(const QRect& oldRect, const QRect& newRect) = 0;
+    virtual void onZoom(const QRect& zoom_r) = 0;
 };
 
 class QuImageBasePrivate
@@ -42,6 +44,11 @@ public:
     const CuControlsFactoryPool &fpool;
     QuImageBaseListener *listener;
     QList<QRect> zoom_stack;
+
+    // painter
+    QuImgPainter painter;
+    // zoomer
+    QuImgZoomer zoomer;
 };
 
 class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
@@ -60,6 +67,7 @@ public:
 
     void setImageMouseEventInterface(ImageMouseEventInterface* ifa);
 
+    bool error() const;
     void setError(bool error);
     void setErrorMessage(const QString& msg);
     void setErrorImage(const QImage& i);
@@ -71,7 +79,7 @@ public:
     void setZoom(int n) { d->zoom = n; }
     void setZoomEnabled(bool en);
     bool zoomEnabled() const;
-    float zoomValue() const;
+    float zoomLevel() const;
     void unzoom(const QPoint &pos);
     void zoom(const QRect& r);
 
@@ -81,7 +89,7 @@ public:
     void mouseRelease(QMouseEvent *e);
     void wheelEvent(QWheelEvent * event);
 
-    void paint(QPaintEvent *e, QWidget *paintDevice);
+    void paint(QPaintEvent *e, QWidget *widget);
 
     void execConfigDialog();
 
@@ -91,8 +99,10 @@ public:
     void setFitToWidget(bool fit);
     bool fitToWidget() const;
 
-    QPoint mapToImg(const QPoint& p);
-    QRect mapToImg(const QRect& r);
+    QPoint mapToImg(const QPoint& p) const;
+    QRect mapToImg(const QRect& r)const;
+    QPoint mapFromImg(const QPoint &p)const;
+    QRect mapFromImg(const QRect &p)const;
     QList<QRect> zoomStack() const;
 
     void setImageBaseListener(QuImageBaseListener *li);
@@ -105,7 +115,6 @@ private:
 
     void m_set_image(const CuMatrix<unsigned char> &data);
     void m_zoom(const QRect& selectionRect);
-    QRect m_calc_zoom_rect(const QPoint& pos, double factor);
 
     QuImageBasePrivate *d;
 

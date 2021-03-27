@@ -78,6 +78,10 @@ QImage QuImageGLWidget::errorImage() const {
     return d->imgb->errorImage();
 }
 
+bool QuImageGLWidget::error() const {
+    return d->imgb->error();
+}
+
 void QuImageGLWidget::setError(bool error)
 {
     d->imgb->setError(error);
@@ -116,11 +120,27 @@ void QuImageGLWidget::setZoomEnabled(bool en) {
     d->imgb->setZoomEnabled(en);
 }
 
-float QuImageGLWidget::zoomValue() const {
-    return d->imgb->zoomValue();
+float QuImageGLWidget::zoomLevel() const {
+    return d->imgb->zoomLevel();
 }
 
 void QuImageGLWidget::paintEvent(QPaintEvent *e)
 {
     d->imgb->paint(e, this);
+}
+
+QPoint QuImageGLWidget::mapToImg(const QPoint& p) const {
+   return d->imgb->mapToImg(p);
+}
+
+QRect QuImageGLWidget::mapToImg(const QRect& r) const{
+    return d->imgb->mapToImg(r);
+}
+
+QPoint QuImageGLWidget::mapFromImg(const QPoint& p) const{
+    return d->imgb->mapFromImg(p);
+}
+
+QRect QuImageGLWidget::mapFromImg(const QRect& r) const{
+    return d->imgb->mapFromImg(r);
 }

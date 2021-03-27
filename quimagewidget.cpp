@@ -56,6 +56,10 @@ void QuImageWidget::setError(bool error) {
     d->imgb->setError(error);
 }
 
+bool QuImageWidget::error() const {
+    return d->imgb->error();
+}
+
 void QuImageWidget::setOk(bool ok) {
     setError(!ok);
 }
@@ -64,7 +68,7 @@ void QuImageWidget::setImage(const QImage& img) {
     d->imgb->setImage(img);
     if(d->scaleWithZoom) {
         QImage& imgRef = d->imgb->image();
-        setGeometry(x(), y(), imgRef.width() * (d->imgb->zoomValue() / 100.0), imgRef.height() * (d->imgb->zoomValue() / 100.0));
+        setGeometry(x(), y(), imgRef.width() * (d->imgb->zoomLevel() / 100.0), imgRef.height() * (d->imgb->zoomLevel() / 100.0));
     }
     update();
 }
@@ -147,8 +151,8 @@ void QuImageWidget::setZoomEnabled(bool en){
     d->imgb->setZoomEnabled(en);
 }
 
-float QuImageWidget::zoomValue() const {
-    return d->imgb->zoomValue();
+float QuImageWidget::zoomLevel() const {
+    return d->imgb->zoomLevel();
 }
 
 void QuImageWidget::setSource(const QString &src) {
@@ -159,8 +163,8 @@ void QuImageWidget::unsetSource() {
     d->imgb->unsetSource();
 }
 
-void QuImageWidget::onZoom(const QRect &oldRect, const QRect &newRect) {
-    emit zoomRectChanged(oldRect, newRect);
+void QuImageWidget::onZoom(const QRect &zoomr) {
+    emit zoomRectChanged(zoomr);
 }
 
 QSize QuImageWidget::minimumSizeHint() const
@@ -231,6 +235,22 @@ void QuImageWidget::onNewData(const CuData &da) {
             }
         }
     }
+}
+
+QPoint QuImageWidget::mapToImg(const QPoint& p) const {
+   return d->imgb->mapToImg(p);
+}
+
+QRect QuImageWidget::mapToImg(const QRect& r) const{
+    return d->imgb->mapToImg(r);
+}
+
+QPoint QuImageWidget::mapFromImg(const QPoint& p) const{
+    return d->imgb->mapFromImg(p);
+}
+
+QRect QuImageWidget::mapFromImg(const QRect& r) const{
+    return d->imgb->mapFromImg(r);
 }
 
 

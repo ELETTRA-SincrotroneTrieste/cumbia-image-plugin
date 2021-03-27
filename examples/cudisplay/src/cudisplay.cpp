@@ -36,15 +36,16 @@ CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
         QGridLayout *glo = new QGridLayout(this);
         QLabel *label = new QLabel(qApp->arguments().at(1), this);
         label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        QuImageBaseI *iw = plugin_i->new_image(this);
+        iw = plugin_i->new_image(this);
         iw->asWidget()->setObjectName("image_w");
-        connect(iw->asWidget(), SIGNAL(zoomRectChanged(QRect,QRect)), this, SLOT(onZoomRectChanged(QRect,QRect)));
+        connect(iw->asWidget(), SIGNAL(zoomRectChanged(QRect)), this, SLOT(onZoomRectChanged(QRect)));
         printf("\e[1;33mCuDisplay : setting mouse tracking for testing purposes\e[0m\n");
         iw->asWidget()->setMouseTracking(true);
+        iw->setImage(QImage(":/PM5544.png"));
         sa->setWidget(iw->asWidget());
         QCheckBox *cb = new QCheckBox("Fit to window", this);
         connect(cb, SIGNAL(toggled(bool)), this, SLOT(setFitToWindow(bool)));
-        iw->setSource(qApp->arguments().at(1));
+  //      iw->setSource(qApp->arguments().at(1));
         glo->addWidget(label, 0, 0, 1, 5);
         glo->addWidget(sa, 1, 0, 5, 5);
         glo->addWidget(cb, glo->rowCount(), 0, 1 , glo->columnCount());
@@ -66,28 +67,33 @@ void CuDisplay::setFitToWindow(bool f) {
     findChild<QWidget *>("image_w")->setProperty("fitToWidget", f);
 }
 
-void CuDisplay::onZoomRectChanged(const QRect& from, const QRect &r) {
+// r in image coordinates
+void CuDisplay::onZoomRectChanged(const QRect &r) {
     QScrollArea *sa = findChild<QScrollArea *>();
-//    qDebug() << __PRETTY_FUNCTION__ << r << "scroll min" << sa->horizontalScrollBar()->minimum() << sa->horizontalScrollBar()->maximum() << "value "
-//<< sa->horizontalScrollBar()->value();
+    sa->setProperty("center", r.center());
+    QRect zr = iw->mapFromImg(r);
 
-    QScrollBar *sb = sa->horizontalScrollBar();
-    sb->setValue(qMin(sb->maximum(), sb->value() + r.x()));
-//    qDebug() << __PRETTY_FUNCTION__ << "sb val" << sb->value() << "max" << sb->maximum();
-    sb = sa->verticalScrollBar();
-    sb->setValue(qMin(sb->maximum(), sb->value() + r.y()));
-
+    qDebug() << __PRETTY_FUNCTION__ << r << "scroll min" << sa->horizontalScrollBar()->minimum() << sa->horizontalScrollBar()->maximum() << "value "
+     << sa->horizontalScrollBar()->value() << "zoom r" << r
+     << "zoom r in widget coords" << zr << "widget geom" << sa->widget()->geometry()
+     << "ensuring visible center " << zr.center();
+    sa->setProperty("zoomr", zr);
+    sa->ensureVisible(zr.center().x(), zr.center().y()/*, zr.width()/2.0, zr.height()/2.0*/);
 }
 
 void CuDisplay::onScrollValueChanged(int v)
 {
-    QScrollBar *sb = qobject_cast<QScrollBar *>(sender());
-//    qDebug() << __PRETTY_FUNCTION__ << "value" << v << "min " << sb->minimum() << "max: " << sb->maximum();
-
 }
 
 void CuDisplay::onScrollRangeChanged(int m, int M)
 {
+    QScrollArea *sa = findChild<QScrollArea *>();
+    const QRect zr = sa->property("zoomr").toRect();
+    qDebug() << __PRETTY_FUNCTION__ << sa;
+    if(zr.isValid())
+        sa->ensureVisible(zr.center().x(), zr.center().y(), zr.width()/2.0, zr.height()/2.0);
+
+
     QScrollBar *sb = qobject_cast<QScrollBar *>(sender());
 //    qDebug() << __PRETTY_FUNCTION__ << "value" << sb->value() << "min " << m << "max: " << M;
 }

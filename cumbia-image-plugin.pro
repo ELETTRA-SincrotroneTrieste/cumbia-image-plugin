@@ -111,7 +111,9 @@ SOURCES += \
 	quimagereadevent.cpp \
 	quimagewidget.cpp \
 	quimgconfdialog.cpp \
-    quimageplugin.cpp
+    quimageplugin.cpp \
+    quimgpainter.cpp \
+    quimgzoomer.cpp
 
 HEADERS += \
     colortablemap.h \
@@ -121,7 +123,9 @@ HEADERS += \
 	quimagereadevent.h \
 	quimagewidget.h \
 	quimgconfdialog.h \
-    quimageplugin.h
+    quimageplugin.h \
+    quimgpainter.h \
+    quimgzoomer.h
 
 DISTFILES +=  \
     cumbia-image.json \

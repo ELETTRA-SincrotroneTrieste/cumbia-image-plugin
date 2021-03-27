@@ -10,6 +10,8 @@
 class CumbiaPool;
 // cumbia
 
+class QuImageBaseI;
+
 namespace Ui {
 class Magicdemo;
 }
@@ -23,7 +25,7 @@ public:
     ~CuDisplay();
 protected slots:
     void setFitToWindow(bool f);
-    void onZoomRectChanged(const QRect &from, const QRect& r);
+    void onZoomRectChanged(const QRect& r);
 
     /// TEST!
     void onScrollValueChanged(int v);
@@ -38,6 +40,8 @@ private:
     QuLogImpl m_log_impl;
     CuControlsFactoryPool m_ctrl_factory_pool;
     // cumbia
+
+    QuImageBaseI *iw;
 };
 
 #endif // Magicdemo_H

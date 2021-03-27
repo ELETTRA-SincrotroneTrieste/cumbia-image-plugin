@@ -33,6 +33,7 @@ public:
     QImage &image() const;
     void setErrorImage(const QImage &i);
     QImage errorImage() const;
+    bool error() const;
     void setError(bool error);
     void setErrorMessage(const QString &msg);
     void setColorTable(const QVector<QRgb> &rgb);
@@ -42,7 +43,7 @@ public:
     bool zoomEnabled() const;
     void setZoom(int n);
     void setZoomEnabled(bool en);
-    float zoomValue() const;
+    float zoomLevel() const;
     QWidget *asWidget() const;
 
     // QuImageBaseI interface
@@ -53,6 +54,13 @@ public:
 
     void setSource(const QString &src);
     void unsetSource();
+
+
+    // image -> widget geometry mappings
+    virtual QPoint mapToImg(const QPoint& p) const;
+    virtual QRect mapToImg(const QRect& r) const;
+    virtual QPoint mapFromImg(const QPoint& p) const;
+    virtual QRect mapFromImg(const QRect& r) const;
 };
 
 #endif // IMAGEGL_H

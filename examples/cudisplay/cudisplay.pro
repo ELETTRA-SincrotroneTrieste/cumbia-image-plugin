@@ -7,7 +7,6 @@ include($${CUMBIA_ROOT}/include/quapps/quapps.pri)
 
 DEFINES -= QT_NO_DEBUG_OUTPUT
 
-# RESOURCES +=
 
 SOURCES += src/main.cpp \
     src/cudisplay.cpp
@@ -74,3 +73,6 @@ message("        cuuimake --configure to configure cuuimake")
 message("        cuuimake -jN to execute cuuimake and then make -jN")
 message("        cuuimake --make to run cuuimake and then make")
 message("-")
+
+RESOURCES += \
+    src/cudisplay.qrc

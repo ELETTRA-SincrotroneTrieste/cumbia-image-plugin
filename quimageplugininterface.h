@@ -32,6 +32,7 @@ public:
     virtual QImage& image() const = 0;
 
     // error methods
+    virtual bool error() const = 0;
     virtual void setErrorImage(const QImage& i) = 0;
     virtual QImage errorImage() const = 0;
     virtual void setError(bool error) = 0;
@@ -45,11 +46,17 @@ public:
 
     virtual  bool isOpenGL() const = 0;
 
+    // image -> widget geometry mappings
+    virtual QPoint mapToImg(const QPoint& p) const = 0;
+    virtual QRect mapToImg(const QRect& p) const = 0;
+    virtual QPoint mapFromImg(const QPoint& p) const = 0;
+    virtual QRect mapFromImg(const QRect& p) const = 0;
+
     // zoom methods
     virtual bool zoomEnabled() const = 0;
     virtual void setZoom(int n) = 0;
     virtual void setZoomEnabled(bool en) = 0;
-    virtual float zoomValue() const = 0;
+    virtual float zoomLevel() const = 0;
 
     virtual QWidget *asWidget() const = 0;
 
