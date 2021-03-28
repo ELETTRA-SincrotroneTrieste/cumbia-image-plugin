@@ -26,6 +26,7 @@ public:
     QList<QRect> zoomStack() const;
 private:
     QuImgZoomerPrivate *d;
+    void m_zoom(const QRect &r);
 };
 
 #endif // QUIMGZOOMER_H
