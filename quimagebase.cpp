@@ -21,10 +21,7 @@ QuImageBase::QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const
     d->widget = widget;
     d->isOpenGL = isOpenGL;
     d->error = false;
-    d->fit_to_w = true;
     d->mouseEventIf = NULL;
-    d->zoom = 100;
-    d->zoomEnabled = true;
     d->image = QImage();
     d->colorTable = ColorTableMap()["c"];
     d->errorImage.load(":/artwork/okguy.png");
@@ -34,6 +31,7 @@ QuImageBase::QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const
 
 QuImageBase::~QuImageBase()
 {
+    delete d->zoomer;
     delete d;
 }
 
@@ -109,16 +107,20 @@ void QuImageBase::setColorTable(const  QVector<QRgb> &rgb)
     d->image.setColorTable(d->colorTable);
 }
 
-void QuImageBase::setZoomEnabled(bool en) {
-    d->zoomEnabled = en;
+bool QuImageBase::zoomEnabled() const {
+    return d->zoomer->enabled();
 }
 
-bool QuImageBase::zoomEnabled() const {
-    return d->zoomer.enabled();
+void QuImageBase::setZoomEnabled(bool en) {
+    d->zoomer->setEnabled(en);
 }
 
 float QuImageBase::zoomLevel() const {
-    return d->zoomer.level();
+    return d->zoomer->level();
+}
+
+void QuImageBase::setZoomLevel(float f) {
+    d->zoomer->setLevel(f);
 }
 
 bool QuImageBase::isOpenGL() const { return d->isOpenGL; }
@@ -163,60 +165,17 @@ void QuImageBase::mouseRelease(QMouseEvent *ev)
     if(d->mouseEventIf && !d->mP1.isNull() && r.contains(ev->pos()))
         d->mouseEventIf->imageMouseReleaseEvent(ev->pos(), ev->button());
     else if(!d->mP1.isNull() && ev->button() == Qt::LeftButton) {  // use rect to zoom
-        zoom(mapToImg(QRect(d->mP1, d->mP2)));
+        QRect zr = d->zoomer->zoom(mapToImg(QRect(d->mP1, d->mP2)));
+        if(d->listener) d->listener->onZoom(zr);
     }
     else if(!d->mouseEventIf && ev->button() == Qt::MiddleButton) {
-        unzoom(ev->pos());
+        QRect zr = d->zoomer->unzoom();
+        if(d->listener) d->listener->onZoom(zr);
     }
     d->mP1 = QPoint();
     d->mP2 = QPoint();
     d->widget->update();
 }
-
-// r in image coordinates
-void QuImageBase::m_zoom(const QRect &r) {
-    if(d->zoom_stack.isEmpty())
-        d->zoom_stack << d->widget->geometry();
-    const QRect& g0 =  d->zoom_stack[0];
-    const QRect geom = d->widget->geometry();
-    QRect sel = r.intersected(d->image.rect());
-//    QRect visibleR = d->widget->visibleRegion().boundingRect();
-    const float &rw = g0.width()/(float) sel.width();
-    const float &rh = g0.height()/(float) sel.height();
-    float factor = qMax(rw, rh); // max ratio
-    d->zoom = 100 * factor;
-    QRect nr = QRect(QPoint(g0.x(), g0.y()), g0.size() * factor);
-    d->widget->setGeometry(nr);
-    d->widget->updateGeometry();
-    qDebug() << __PRETTY_FUNCTION__ << "zoom rect in img coords" << r << "img rect" << d->image.rect() << "selection " << sel
-             <<  "geom before " << geom << "after " << d->widget->geometry() << "zoom" << d->zoom << "factor " << factor;
-}
-
-void QuImageBase::unzoom(const QPoint& pos) {
-    qDebug() << __PRETTY_FUNCTION__ << "unzoom";
-    foreach(const QRect& r, d->zoom_stack)
-        qDebug() << "-" << r;
-    if(d->zoom_stack.size() > 1) {
-        d->zoom_stack.takeLast(); // remove current from stack
-        m_zoom(d->zoom_stack.last()); // restore previous zoom rect
-        if(d->listener)
-            d->listener->onZoom(d->zoom_stack.last());
-    }
-//    if(d->zoom_stack.size() == 1)
-//        d->zoom_stack.clear();
-}
-
-/*!
- * \brief QuImageBase::zoom zoom the rect r, which is in image coordinates!
- * \param r the zoom rectangle in image coordinates
- */
-void QuImageBase::zoom(const QRect &r) {
-    const QRect g0 = d->widget->geometry();
-    m_zoom(r);
-    d->zoom_stack << r;
-    if(d->listener)
-        d->listener->onZoom(r);
-};
 
 void QuImageBase::wheelEvent(QWheelEvent *event) {
     if(d->mouseEventIf)
@@ -235,7 +194,9 @@ bool QuImageBase::error() const {
     return d->error;
 }
 
-void QuImageBase::setError(bool error) { d->error = error ; }
+void QuImageBase::setError(bool error) {
+    d->error = error ;
+}
 
 void QuImageBase::setErrorMessage(const QString &msg) { d->errorMessage = msg; }
 
@@ -258,14 +219,6 @@ void QuImageBase::unsetSource() {
         w->unsetSource();
         w->deleteLater();
     }
-}
-
-void QuImageBase::setFitToWidget(bool fit) {
-    d->fit_to_w = fit;
-}
-
-bool QuImageBase::fitToWidget() const {
-    return d->fit_to_w;
 }
 
 /*! \brief maps point p in widget coordinates to the corresponding pixel in the image
@@ -292,18 +245,20 @@ QRect QuImageBase::mapFromImg(const QRect &r)const  {
     return QRect(mapFromImg(r.topLeft()), mapFromImg(r.bottomRight()));
 }
 
-
-
-QList<QRect> QuImageBase::zoomStack() const {
-    return d->zoom_stack;
-}
-
 void QuImageBase::setImageBaseListener(QuImageBaseListener *li) {
     d->listener = li;
 }
 
-void QuImageBase::execConfigDialog()
-{
+void QuImageBase::setFitToWidget(bool fit) {
+    d->fit_to_w = fit;
+    d->widget->update();
+}
+
+bool QuImageBase::fitToWidget() const {
+    return d->fit_to_w;
+}
+
+void QuImageBase::execConfigDialog() {
     QuImgConfDialog co(this, d->widget);
     co.exec();
 }
@@ -311,9 +266,5 @@ void QuImageBase::execConfigDialog()
 void QuImageBase::onApply(const QMap<QString, QVariant> &conf) {
     ColorTableMap colorMap;
     d->image.setColorTable(colorMap[conf["color_table"].toString()]);
-    d->widget->setProperty("scaleWithZoom", conf["scale_with_zoom"].toBool());
     d->widget->setProperty("fitToWidget", conf["fit_to_widget"].toBool());
-    qDebug() << __PRETTY_FUNCTION__ << "scale with zoom property on widget " << d->widget->property("scaleWithZoom").toBool();
 }
-
-

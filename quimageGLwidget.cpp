@@ -112,8 +112,8 @@ bool QuImageGLWidget::zoomEnabled() const {
     return d->imgb->zoomEnabled();
 }
 
-void QuImageGLWidget::setZoom(int n) {
-    d->imgb->setZoom(n);
+void QuImageGLWidget::setZoomLevel(float n) {
+    d->imgb->setZoomLevel(n);
 }
 
 void QuImageGLWidget::setZoomEnabled(bool en) {

@@ -26,16 +26,18 @@ class QuImageBasePrivate
 {
 public:
 
-    QuImageBasePrivate(CumbiaPool *cu_p, const CuControlsFactoryPool &fpoo) : cu_pool(cu_p), fpool(fpoo) { }
+    QuImageBasePrivate(CumbiaPool *cu_p, const CuControlsFactoryPool &fpoo)
+        : cu_pool(cu_p),
+          fpool(fpoo),
+          zoomer(new QuImgZoomer(true, this)) { }
 
     QImage image, errorImage, noise;
     int isOpenGL;
-    float zoom;
     bool error;
     bool fit_to_w; // fit to widget
     QString errorMessage;
     ImageMouseEventInterface *mouseEventIf;
-    bool leftButton, zoomEnabled;
+    bool leftButton;
     QPoint mP1, mP2;
     QWidget *widget;
     QVector<QRgb> colorTable;
@@ -43,12 +45,10 @@ public:
     CumbiaPool *cu_pool;
     const CuControlsFactoryPool &fpool;
     QuImageBaseListener *listener;
-    QList<QRect> zoom_stack;
-
     // painter
     QuImgPainter painter;
     // zoomer
-    QuImgZoomer zoomer;
+    QuImgZoomer *zoomer;
 };
 
 class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
@@ -67,6 +67,9 @@ public:
 
     void setImageMouseEventInterface(ImageMouseEventInterface* ifa);
 
+    void setFitToWidget(bool fit);
+    bool fitToWidget() const;
+
     bool error() const;
     void setError(bool error);
     void setErrorMessage(const QString& msg);
@@ -76,12 +79,10 @@ public:
     void setColorTable(const QVector<QRgb> &rgb);
     QVector<QRgb>& colorTable() const;
 
-    void setZoom(int n) { d->zoom = n; }
+    void setZoomLevel(float f);
     void setZoomEnabled(bool en);
     bool zoomEnabled() const;
     float zoomLevel() const;
-    void unzoom(const QPoint &pos);
-    void zoom(const QRect& r);
 
     bool isOpenGL() const;
     void mouseMove(QMouseEvent *e);
@@ -96,28 +97,19 @@ public:
     void setSource(const QString &src);
     void unsetSource();
 
-    void setFitToWidget(bool fit);
-    bool fitToWidget() const;
-
     QPoint mapToImg(const QPoint& p) const;
     QRect mapToImg(const QRect& r)const;
     QPoint mapFromImg(const QPoint &p)const;
     QRect mapFromImg(const QRect &p)const;
-    QList<QRect> zoomStack() const;
 
     void setImageBaseListener(QuImageBaseListener *li);
 
     // QuImgConfDialogListener interface
 public:
     void onApply(const QMap<QString, QVariant> &conf);
-
 private:
-
     void m_set_image(const CuMatrix<unsigned char> &data);
-    void m_zoom(const QRect& selectionRect);
-
     QuImageBasePrivate *d;
-
 };
 
 #endif // QUIMAGEBASE_H

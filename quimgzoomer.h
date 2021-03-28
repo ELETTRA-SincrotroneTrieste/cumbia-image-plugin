@@ -20,14 +20,12 @@ public:
     void setEnabled(bool en);
     bool enabled() const;
 
-    void unzoom(const QPoint &pos);
-    void zoom(const QRect& r);
+    QRect unzoom();
+    QRect zoom(const QRect& r);
 
     QList<QRect> zoomStack() const;
 private:
     QuImgZoomerPrivate *d;
-    void m_zoom(const QRect& selectionRect);
-
 };
 
 #endif // QUIMGZOOMER_H

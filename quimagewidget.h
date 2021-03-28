@@ -19,14 +19,12 @@ class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseLis
     Q_OBJECT
 
     Q_PROPERTY(bool fitToWidget READ fitToWidget WRITE setFitToWidget DESIGNABLE true)
-    Q_PROPERTY(bool scaleWithZoom READ scaleWithZoom WRITE setScaleWithZoom DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
 
 public:
     explicit QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
     virtual ~QuImageWidget();
 
-    bool scaleWithZoom() const;
     bool fitToWidget() const;
     QImage errorImage() const;
 
@@ -43,7 +41,6 @@ public slots:
 
     void setOk(bool ok);
     void execConfigDialog();
-    void setScaleWithZoom(bool scale);
     void setFitToWidget(bool fit);
 
     QWidget *asWidget() const;
@@ -76,7 +73,7 @@ public:
     void setImageMouseEventInterface(ImageMouseEventInterface *ifa);
     bool isOpenGL() const;
     bool zoomEnabled() const;
-    void setZoom(int n);
+    void setZoomLevel(float n);
     void setZoomEnabled(bool en);
     float zoomLevel() const;
 

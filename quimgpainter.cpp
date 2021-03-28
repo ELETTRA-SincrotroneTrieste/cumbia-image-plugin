@@ -27,9 +27,9 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
 
     QPainter p(imgb_d->widget);
     QRect imgRect = imgb_d->image.rect();
-    imgRect.setSize(imgb_d->image.size() * (imgb_d->zoom/100.0));
+    imgRect.setSize(imgb_d->image.size() * (imgb_d->zoomer->level()/100.0));
     if(imgb_d->fit_to_w) imgRect.setSize(e->rect().size());
-    else imgRect.setSize(imgb_d->image.size() * (imgb_d->zoom/100.0));
+    else imgRect.setSize(imgb_d->image.size() * (imgb_d->zoomer->level()/100.0));
     //    qDebug() << __FUNCTION__ << "zoom: " << imgb->zoom << "imgRect" << imgRect << " paint device geom " << paintDevice->geometry() <<
     //                " paint rect " << e->rect();
     p.drawImage(imgRect, imgb_d->image, imgb_d->image.rect());
@@ -49,10 +49,10 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
 
         p.setPen(pen);
 
-        int p1x = imgb_d->mP1.x() * 100 / imgb_d->zoom;
-        int p1y = imgb_d->mP1.y() * 100 / imgb_d->zoom;
-        int p2x = imgb_d->mP2.x() * 100 / imgb_d->zoom;
-        int p2y = imgb_d->mP2.y() * 100 / imgb_d->zoom;
+        int p1x = imgb_d->mP1.x() * 100 / imgb_d->zoomer->level();
+        int p1y = imgb_d->mP1.y() * 100 / imgb_d->zoomer->level();
+        int p2x = imgb_d->mP2.x() * 100 / imgb_d->zoomer->level();
+        int p2y = imgb_d->mP2.y() * 100 / imgb_d->zoomer->level();
 
         QFont f = p.font();
         f.setBold(true);

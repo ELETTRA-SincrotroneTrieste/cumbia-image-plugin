@@ -41,7 +41,7 @@ public:
     void setImageMouseEventInterface(ImageMouseEventInterface *ifa);
     bool isOpenGL() const;
     bool zoomEnabled() const;
-    void setZoom(int n);
+    void setZoomLevel(float n);
     void setZoomEnabled(bool en);
     float zoomLevel() const;
     QWidget *asWidget() const;

@@ -54,9 +54,9 @@ public:
 
     // zoom methods
     virtual bool zoomEnabled() const = 0;
-    virtual void setZoom(int n) = 0;
     virtual void setZoomEnabled(bool en) = 0;
     virtual float zoomLevel() const = 0;
+    virtual void setZoomLevel(float l) = 0;
 
     virtual QWidget *asWidget() const = 0;
 

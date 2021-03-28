@@ -35,15 +35,6 @@ QuImageWidget::~QuImageWidget()
     delete d;
 }
 
-bool QuImageWidget::scaleWithZoom() const
-{
-    return d->scaleWithZoom;
-}
-
-bool QuImageWidget::fitToWidget() const {
-    return d->imgb->fitToWidget();
-}
-
 QImage QuImageWidget::errorImage() const {
     return d->imgb->errorImage();
 }
@@ -143,8 +134,8 @@ bool QuImageWidget::zoomEnabled() const{
     return d->imgb->zoomEnabled();
 }
 
-void QuImageWidget::setZoom(int n){
-    d->imgb->setZoom(n);
+void QuImageWidget::setZoomLevel(float n){
+    d->imgb->setZoomLevel(n);
 }
 
 void QuImageWidget::setZoomEnabled(bool en){
@@ -186,12 +177,6 @@ QSize QuImageWidget::sizeHint() const
 void QuImageWidget::execConfigDialog()
 {
     d->imgb->execConfigDialog();
-    update();
-}
-
-void QuImageWidget::setScaleWithZoom(bool scale)
-{
-    d->scaleWithZoom = scale;
     update();
 }
 
