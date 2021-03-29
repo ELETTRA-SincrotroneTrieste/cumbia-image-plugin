@@ -10,6 +10,7 @@ public:
     QuImgPainter();
     virtual ~QuImgPainter();
     void paint(QPaintEvent *e, QuImageBasePrivate *imgb);
+    bool dirty;
 };
 
 #endif // QUIMGPAINTER_H

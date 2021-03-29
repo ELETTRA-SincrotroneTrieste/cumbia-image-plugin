@@ -24,14 +24,8 @@ public:
     explicit CuDisplay(CumbiaPool *cu_p, QWidget *parent = 0);
     ~CuDisplay();
 protected slots:
-    void setFitToWindow(bool f);
-    void onZoomRectChanged(const QRect& r);
-
-    /// TEST!
-    void onScrollValueChanged(int v);
-    void onScrollRangeChanged(int, int);
-    ///
-    ///
+    void setScaleContents(bool f);
+    void onZoomRectChanged(const QRect &from, const QRect& r);
 private:
     Ui::Magicdemo *ui;
 

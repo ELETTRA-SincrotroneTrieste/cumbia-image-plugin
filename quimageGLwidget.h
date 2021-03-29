@@ -15,6 +15,9 @@ public:
     virtual ~QuImageGLWidget();
     void setImage(const QImage& image);
 
+    bool scaleContents() const;
+    void setScaleContents(bool scale);
+
 signals:
 
 public slots:
@@ -38,7 +41,7 @@ public:
     void setErrorMessage(const QString &msg);
     void setColorTable(const QVector<QRgb> &rgb);
     QVector<QRgb> &colorTable() const;
-    void setImageMouseEventInterface(ImageMouseEventInterface *ifa);
+    void setImageMouseEventInterface(QuImageMouseEventIf *ifa);
     bool isOpenGL() const;
     bool zoomEnabled() const;
     void setZoomLevel(float n);

@@ -112,18 +112,20 @@ SOURCES += \
 	quimagewidget.cpp \
 	quimgconfdialog.cpp \
     quimageplugin.cpp \
+    quimgmousetracker.cpp \
     quimgpainter.cpp \
     quimgzoomer.cpp
 
 HEADERS += \
     colortablemap.h \
-	eimagemouseeventinterface.h \
 	quimageGLwidget.h \
 	quimagebase.h \
+    quimagemouseeventif.h \
 	quimagereadevent.h \
 	quimagewidget.h \
 	quimgconfdialog.h \
     quimageplugin.h \
+    quimgmousetracker.h \
     quimgpainter.h \
     quimgzoomer.h
 

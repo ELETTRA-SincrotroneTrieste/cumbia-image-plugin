@@ -9,7 +9,7 @@
 
 class QImage;
 class ExternalScaleWidget;
-class ImageMouseEventInterface;
+class QuImageMouseEventIf;
 class QMenu;
 class QuImageWidgetPrivate;
 class CuData;
@@ -18,18 +18,18 @@ class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseLis
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool fitToWidget READ fitToWidget WRITE setFitToWidget DESIGNABLE true)
+    Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
 
 public:
     explicit QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
     virtual ~QuImageWidget();
 
-    bool fitToWidget() const;
+    bool scaleContents() const;
     QImage errorImage() const;
 
 signals:
-    void zoomRectChanged(const QRect& zoom_r);
+    void zoomRectChanged(const QRect& from_z, const QRect& to_z);
     
 public slots:
 
@@ -41,7 +41,7 @@ public slots:
 
     void setOk(bool ok);
     void execConfigDialog();
-    void setFitToWidget(bool fit);
+    void setScaleContents(bool fit);
 
     QWidget *asWidget() const;
 
@@ -59,6 +59,8 @@ protected:
 
     void contextMenuEvent(QContextMenuEvent *e);
 
+    void resizeEvent(QResizeEvent *re);
+
 private:
     QuImageWidgetPrivate *d;
 
@@ -70,7 +72,7 @@ public:
     QImage &image() const;
     void setColorTable(const QVector<QRgb> &rgb);
     QVector<QRgb> &colorTable() const;
-    void setImageMouseEventInterface(ImageMouseEventInterface *ifa);
+    void setImageMouseEventInterface(QuImageMouseEventIf *ifa);
     bool isOpenGL() const;
     bool zoomEnabled() const;
     void setZoomLevel(float n);
@@ -91,7 +93,7 @@ public:
 
     // QuImageBaseListener interface
 public:
-    void onZoom(const QRect& zoomr);
+    void onZoom(const QRect& from_z, const QRect& to_z);
 };
 
 #endif // IMAGE_H

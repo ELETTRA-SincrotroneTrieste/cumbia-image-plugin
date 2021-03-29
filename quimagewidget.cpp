@@ -17,8 +17,6 @@ class QuImageWidgetPrivate
 {
 public:
     QuImageWidgetPrivate(QuImageBase *img) : imgb(img) { }
-
-    bool scaleWithZoom;
     QuImageBase *imgb;
 };
 
@@ -26,7 +24,6 @@ QuImageWidget::QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControls
     QWidget(parent)  {
     d = new QuImageWidgetPrivate(new QuImageBase(this, false, cu_p, fpoo));
     d->imgb->setImageBaseListener(this);
-    d->scaleWithZoom  = true;
 }
 
 QuImageWidget::~QuImageWidget()
@@ -57,8 +54,9 @@ void QuImageWidget::setOk(bool ok) {
 
 void QuImageWidget::setImage(const QImage& img) {
     d->imgb->setImage(img);
-    if(d->scaleWithZoom) {
+    if(!d->imgb->scaleContents()) {
         QImage& imgRef = d->imgb->image();
+        qDebug() << __PRETTY_FUNCTION__ << "calling setGeometry";
         setGeometry(x(), y(), imgRef.width() * (d->imgb->zoomLevel() / 100.0), imgRef.height() * (d->imgb->zoomLevel() / 100.0));
     }
     update();
@@ -98,6 +96,12 @@ void QuImageWidget::contextMenuEvent(QContextMenuEvent *e)
     menu->exec(QCursor::pos());
 }
 
+void QuImageWidget::resizeEvent(QResizeEvent *re) {
+    d->imgb->setPainterDirty(true);
+    qDebug() << __PRETTY_FUNCTION__ << "calling QWidget::resizeEvent" << re->oldSize() << re->size();
+    QWidget::resizeEvent(re);
+}
+
 void QuImageWidget::setImage(const CuMatrix<double> &image) {
     d->imgb->setImage(image);
 }
@@ -122,7 +126,7 @@ QVector<QRgb> &QuImageWidget::colorTable() const{
     return d->imgb->colorTable();
 }
 
-void QuImageWidget::setImageMouseEventInterface(ImageMouseEventInterface *ifa){
+void QuImageWidget::setImageMouseEventInterface(QuImageMouseEventIf *ifa){
     d->imgb->setImageMouseEventInterface(ifa);
 }
 
@@ -154,15 +158,15 @@ void QuImageWidget::unsetSource() {
     d->imgb->unsetSource();
 }
 
-void QuImageWidget::onZoom(const QRect &zoomr) {
-    emit zoomRectChanged(zoomr);
+void QuImageWidget::onZoom(const QRect &from_z, const QRect &to_z) {
+    emit zoomRectChanged(from_z, to_z);
 }
 
 QSize QuImageWidget::minimumSizeHint() const
 {
     const int min = 32;
     const QImage& i = image();
-    if(!d->imgb->fitToWidget() && !i.isNull() && i.width()/4.0 * i.height()/4.0 > min * min)
+    if(!d->imgb->scaleContents() && !i.isNull() && i.width()/4.0 * i.height()/4.0 > min * min)
         return i.size();
     return QSize(min, min);
 }
@@ -180,8 +184,12 @@ void QuImageWidget::execConfigDialog()
     update();
 }
 
-void QuImageWidget::setFitToWidget(bool fit) {
-    d->imgb->setFitToWidget(fit);
+bool QuImageWidget::scaleContents() const {
+    return  d->imgb->scaleContents();
+}
+
+void QuImageWidget::setScaleContents(bool fit) {
+    d->imgb->setScaleContents(fit);
     updateGeometry();
     qDebug() << __PRETTY_FUNCTION__ << fit << geometry() << "BEFORE adjustSize";
     adjustSize();

@@ -8,6 +8,7 @@
 #include <quimgconfdialog.h>
 #include <quimgpainter.h>
 #include <quimgzoomer.h>
+#include <quimgmousetracker.h>
 
 class ImageMouseEventInterface;
 class ExternalScaleWidget;
@@ -19,7 +20,7 @@ class QWheelEvent;
 
 class QuImageBaseListener {
 public:
-    virtual void onZoom(const QRect& zoom_r) = 0;
+    virtual void onZoom(const QRect& from_zr, const QRect& to_zr) = 0;
 };
 
 class QuImageBasePrivate
@@ -27,18 +28,26 @@ class QuImageBasePrivate
 public:
 
     QuImageBasePrivate(CumbiaPool *cu_p, const CuControlsFactoryPool &fpoo)
-        : cu_pool(cu_p),
+        : isOpenGL(false),
+          error(false),
+          scale_contents(true),
+          cu_pool(cu_p),
           fpool(fpoo),
-          zoomer(new QuImgZoomer(true, this)) { }
+          zoomer(new QuImgZoomer(!scale_contents, this)),
+          mouse_t(new QuImgMouseTracker(this, zoomer)) {
 
-    QImage image, errorImage, noise;
-    int isOpenGL;
+    }
+
+    ~QuImageBasePrivate() {
+        delete zoomer;
+        delete mouse_t;
+    }
+
+    QImage image, cached_img, errorImage, noise;
+    bool isOpenGL;
     bool error;
-    bool fit_to_w; // fit to widget
+    bool scale_contents; // fit to widget
     QString errorMessage;
-    ImageMouseEventInterface *mouseEventIf;
-    bool leftButton;
-    QPoint mP1, mP2;
     QWidget *widget;
     QVector<QRgb> colorTable;
 
@@ -49,6 +58,13 @@ public:
     QuImgPainter painter;
     // zoomer
     QuImgZoomer *zoomer;
+    // mouse events
+    QuImgMouseTracker *mouse_t;
+
+    QPoint mapToImg(const QPoint &p) const;
+    QRect mapToImg(const QRect &r) const;
+    QPoint mapFromImg(const QPoint &p) const;
+    QRect mapFromImg(const QRect &r) const;
 };
 
 class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
@@ -67,8 +83,8 @@ public:
 
     void setImageMouseEventInterface(ImageMouseEventInterface* ifa);
 
-    void setFitToWidget(bool fit);
-    bool fitToWidget() const;
+    void setScaleContents(bool fit);
+    bool scaleContents() const;
 
     bool error() const;
     void setError(bool error);
@@ -85,6 +101,8 @@ public:
     float zoomLevel() const;
 
     bool isOpenGL() const;
+
+    void setImageMouseEventInterface(QuImageMouseEventIf *ifa);
     void mouseMove(QMouseEvent *e);
     void mousePress(QMouseEvent *e);
     void mouseRelease(QMouseEvent *e);
@@ -103,6 +121,8 @@ public:
     QRect mapFromImg(const QRect &p)const;
 
     void setImageBaseListener(QuImageBaseListener *li);
+
+    void setPainterDirty(bool di);
 
     // QuImgConfDialogListener interface
 public:

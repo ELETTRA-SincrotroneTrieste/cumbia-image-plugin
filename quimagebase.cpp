@@ -6,7 +6,7 @@
 #include <QtDebug>
 #include <cumacros.h>
 #include <elettracolors.h>
-#include "eimagemouseeventinterface.h"
+#include "quimagemouseeventif.h"
 #include <math.h>
 #include <QSettings>
 #include <QtDebug>
@@ -15,13 +15,35 @@
 #include "colortablemap.h"
 #include "quimgpainter.h"
 
+/*! \brief maps point p in widget coordinates to the corresponding pixel in the image
+ *  \param p a point on the widget
+ *  \return p mapped to image coords
+ */
+QPoint QuImageBasePrivate::mapToImg(const QPoint &p)const {
+    const QSize &s = image.size()/* * (d->zoom/100.0)*/;
+    const QSize& ws = widget->size();
+    return QPoint(s.width() * p.x() / ws.width(), s.height() * p.y() / ws.height());
+}
+
+QRect QuImageBasePrivate::mapToImg(const QRect &r) const {
+    return QRect(mapToImg(r.topLeft()), mapToImg(r.bottomRight()));
+}
+
+QPoint QuImageBasePrivate::mapFromImg(const QPoint &p) const {
+    const QSize &s = image.size()/* * (d->zoom/100.0)*/;
+    const QSize& ws = widget->size();
+    return QPoint(ws.width() * p.x() / s.width(), ws.height() * p.y() / s.height());
+}
+
+QRect QuImageBasePrivate::mapFromImg(const QRect &r)const  {
+    return QRect(mapFromImg(r.topLeft()), mapFromImg(r.bottomRight()));
+}
+
 QuImageBase::QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const CuControlsFactoryPool &fpoo)
 {
-    d = new QuImageBasePrivate(cu_p, fpoo);
-    d->widget = widget;
+    d = new QuImageBasePrivate(cu_p, fpoo); // creates zoomer
     d->isOpenGL = isOpenGL;
-    d->error = false;
-    d->mouseEventIf = NULL;
+    d->widget = widget;
     d->image = QImage();
     d->colorTable = ColorTableMap()["c"];
     d->errorImage.load(":/artwork/okguy.png");
@@ -29,10 +51,8 @@ QuImageBase::QuImageBase(QWidget *widget, bool isOpenGL, CumbiaPool *cu_p, const
     d->listener = nullptr;
 }
 
-QuImageBase::~QuImageBase()
-{
-    delete d->zoomer;
-    delete d;
+QuImageBase::~QuImageBase() {
+    delete d; // deletes zoomer
 }
 
 QWidget *QuImageBase::asWidget() const {
@@ -44,6 +64,7 @@ QImage &QuImageBase::image() const {
 }
 
 void QuImageBase::setImage(const QImage &img) {
+    d->painter.dirty = true;
     d->image = img;
 }
 
@@ -68,8 +89,7 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
     QImage& img = image();
     bool changed = img.size() != QSize(data.nrows(), data.ncols());
     //    qDebug() << __PRETTY_FUNCTION__ << image() << "size " << img.size() << " data " << data.nrows() << "x" << data.ncols();
-    if(changed)
-    {
+    if(changed) {
         QVector<QRgb> &colorT = colorTable();
         QImage newImage = QImage(data.nrows(), data.ncols(), QImage::Format_Indexed8);
         newImage.setColorTable(colorT);
@@ -113,6 +133,8 @@ bool QuImageBase::zoomEnabled() const {
 
 void QuImageBase::setZoomEnabled(bool en) {
     d->zoomer->setEnabled(en);
+    d->painter.dirty = true;
+    d->widget->update();
 }
 
 float QuImageBase::zoomLevel() const {
@@ -121,6 +143,8 @@ float QuImageBase::zoomLevel() const {
 
 void QuImageBase::setZoomLevel(float f) {
     d->zoomer->setLevel(f);
+    d->painter.dirty = true;
+    d->widget->update();
 }
 
 bool QuImageBase::isOpenGL() const { return d->isOpenGL; }
@@ -138,56 +162,33 @@ QVector<QRgb> &QuImageBase::colorTable() const {
 }
 
 void QuImageBase::mouseMove(QMouseEvent *ev) {
-    if(!d->mP1.isNull())
-        d->mP2= ev->pos();
-    if(d->mouseEventIf)
-        d->mouseEventIf->imageMouseMoveEvent(ev->pos(), ev->button());
-    const QPoint &p = mapToImg(ev->pos());
-    printf("QuImageBase:mouseMove: [%d,%d] --> [%d,%d] (img)\n",
-           ev->pos().rx(), ev->pos().ry(), p.x(), p.y());
+    d->mouse_t->mouseMove(ev);
     d->widget->update();
 }
 
 void QuImageBase::mousePress(QMouseEvent *ev)
 {
-    d->mP1 = ev->pos();
-    d->leftButton = (ev->button() == Qt::LeftButton);
-    if(d->mouseEventIf)
-        d->mouseEventIf->imageMousePressEvent(ev->pos(), ev->button());
+    d->mouse_t->mousePress(ev);
     d->widget->update();
 }
 
 void QuImageBase::mouseRelease(QMouseEvent *ev)
 {
-    /* call the release method only if the button was pressed inside the label
-     */
-    QRect r(QPoint(0,0), d->widget->geometry().size());
-    if(d->mouseEventIf && !d->mP1.isNull() && r.contains(ev->pos()))
-        d->mouseEventIf->imageMouseReleaseEvent(ev->pos(), ev->button());
-    else if(!d->mP1.isNull() && ev->button() == Qt::LeftButton) {  // use rect to zoom
-        QRect zr = d->zoomer->zoom(mapToImg(QRect(d->mP1, d->mP2)));
-        if(d->listener) d->listener->onZoom(zr);
-    }
-    else if(!d->mouseEventIf && ev->button() == Qt::MiddleButton) {
-        QRect zr = d->zoomer->unzoom();
-        if(d->listener) d->listener->onZoom(zr);
-    }
-    d->mP1 = QPoint();
-    d->mP2 = QPoint();
+    d->mouse_t->mouseRelease(ev);
     d->widget->update();
 }
 
 void QuImageBase::wheelEvent(QWheelEvent *event) {
-    if(d->mouseEventIf)
-        d->mouseEventIf->imageMouseWheelEvent(event);
+    d->mouse_t->wheelEvent(event);
+    d->widget->update();
 }
 
 void QuImageBase::paint(QPaintEvent *e, QWidget *) {
     d->painter.paint(e, d);
 }
 
-void QuImageBase::setImageMouseEventInterface(ImageMouseEventInterface* ifa) {
-    d->mouseEventIf = ifa;
+void QuImageBase::setImageMouseEventInterface(QuImageMouseEventIf* ifa) {
+    d->mouse_t->setMouseEventInterface(ifa);
 }
 
 bool QuImageBase::error() const {
@@ -226,36 +227,38 @@ void QuImageBase::unsetSource() {
  *  \return p mapped to image coords
  */
 QPoint QuImageBase::mapToImg(const QPoint &p)const {
-    const QSize &s = d->image.size()/* * (d->zoom/100.0)*/;
-    const QSize& ws = d->widget->size();
-    return QPoint(s.width() * p.x() / ws.width(), s.height() * p.y() / ws.height());
+    return d->mapToImg(p);
 }
 
 QRect QuImageBase::mapToImg(const QRect &r) const {
-    return QRect(mapToImg(r.topLeft()), mapToImg(r.bottomRight()));
+    return d->mapToImg(r);
 }
 
 QPoint QuImageBase::mapFromImg(const QPoint &p) const {
-    const QSize &s = d->image.size()/* * (d->zoom/100.0)*/;
-    const QSize& ws = d->widget->size();
-    return QPoint(ws.width() * p.x() / s.width(), ws.height() * p.y() / s.height());
+    return d->mapFromImg(p);
 }
 
 QRect QuImageBase::mapFromImg(const QRect &r)const  {
-    return QRect(mapFromImg(r.topLeft()), mapFromImg(r.bottomRight()));
+    return d->mapFromImg(r);
 }
 
 void QuImageBase::setImageBaseListener(QuImageBaseListener *li) {
     d->listener = li;
 }
 
-void QuImageBase::setFitToWidget(bool fit) {
-    d->fit_to_w = fit;
+void QuImageBase::setPainterDirty(bool di) {
+    d->painter.dirty = di;
+}
+
+void QuImageBase::setScaleContents(bool fit) {
+    d->scale_contents = fit;
+    d->zoomer->setEnabled(!fit);
+    d->painter.dirty = true;
     d->widget->update();
 }
 
-bool QuImageBase::fitToWidget() const {
-    return d->fit_to_w;
+bool QuImageBase::scaleContents() const {
+    return d->scale_contents;
 }
 
 void QuImageBase::execConfigDialog() {

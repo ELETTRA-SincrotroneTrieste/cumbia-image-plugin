@@ -17,7 +17,7 @@ class QStringList;
 class CuData;
 class CuContext;
 class CuVariant;
-class ImageMouseEventInterface;
+class QuImageMouseEventIf;
 
 class QuImageBaseI {
 public:
@@ -31,6 +31,9 @@ public:
     virtual void setImage(const QImage& img) = 0;
     virtual QImage& image() const = 0;
 
+    virtual void setScaleContents(bool scale) = 0;
+    virtual bool scaleContents() const = 0;
+
     // error methods
     virtual bool error() const = 0;
     virtual void setErrorImage(const QImage& i) = 0;
@@ -42,7 +45,7 @@ public:
     virtual void setColorTable(const QVector<QRgb> &rgb) = 0;
     virtual QVector<QRgb>& colorTable() const = 0;
 
-    virtual void setImageMouseEventInterface(ImageMouseEventInterface* ifa) = 0;
+    virtual void setImageMouseEventInterface(QuImageMouseEventIf* ifa) = 0;
 
     virtual  bool isOpenGL() const = 0;
 

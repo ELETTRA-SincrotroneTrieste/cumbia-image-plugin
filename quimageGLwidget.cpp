@@ -31,6 +31,14 @@ void QuImageGLWidget::setImage(const QImage& img)
     update();
 }
 
+bool QuImageGLWidget::scaleContents() const {
+    return d->imgb->scaleContents();
+}
+
+void QuImageGLWidget::setScaleContents(bool scale) {
+    d->imgb->setScaleContents(scale);
+}
+
 void QuImageGLWidget::mousePressEvent(QMouseEvent *ev)
 {
     d->imgb->mousePress(ev);
@@ -99,7 +107,7 @@ QVector<QRgb> &QuImageGLWidget::colorTable() const {
     return d->imgb->colorTable();
 }
 
-void QuImageGLWidget::setImageMouseEventInterface(ImageMouseEventInterface *ifa)
+void QuImageGLWidget::setImageMouseEventInterface(QuImageMouseEventIf *ifa)
 {
     d->imgb->setImageMouseEventInterface(ifa);
 }

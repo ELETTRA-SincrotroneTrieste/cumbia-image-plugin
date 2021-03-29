@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>PM5544.png</file>
+        <file>seoyeji.png</file>
     </qresource>
 </RCC>

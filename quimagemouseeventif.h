@@ -1,13 +1,13 @@
-#ifndef IMAGEMOUSEEVENTINTERFACE_H
-#define IMAGEMOUSEEVENTINTERFACE_H
+#ifndef QUIMAGEMOUSEEVENTIF_H
+#define QUIMAGEMOUSEEVENTIF_H
 
 class QPoint;
 #include <QMouseEvent>
 
-class ImageMouseEventInterface
+class QuImageMouseEventIf
 {
 public:
-    ImageMouseEventInterface();
+    QuImageMouseEventIf();
 
     virtual void imageMousePressEvent(const QPoint& pos, int button) = 0;
     virtual void imageMouseReleaseEvent(const QPoint& pos, int button) = 0;

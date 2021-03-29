@@ -47,7 +47,7 @@ QRect QuImgZoomer::unzoom() {
         d->zoom_stack.takeLast(); // remove current from stack
         m_zoom(d->zoom_stack.last()); // restore previous zoom rect
     }
-    return d->zoom_stack.size() > 0 ? d->zoom_stack.first() : QRect();
+    return d->zoom_stack.size() > 0 ? d->zoom_stack.last() : QRect();
 }
 
 /*!
