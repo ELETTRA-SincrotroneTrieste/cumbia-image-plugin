@@ -150,6 +150,10 @@ float QuImageWidget::zoomLevel() const {
     return d->imgb->zoomLevel();
 }
 
+QString QuImageWidget::source() const {
+    return d->imgb->source();
+}
+
 void QuImageWidget::setSource(const QString &src) {
     d->imgb->setSource(src);
 }

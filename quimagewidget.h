@@ -79,6 +79,7 @@ public:
     void setZoomEnabled(bool en);
     float zoomLevel() const;
 
+    QString source() const;
     void setSource(const QString& src);
     void unsetSource();
 

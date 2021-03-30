@@ -18,10 +18,17 @@ class CuData;
 class CuContext;
 class CuVariant;
 class QuImageMouseEventIf;
+class QScrollArea;
+class QuImgScrollAreaI;
 
+/*!
+ * \brief Interface to the cumbia widget to display images
+ *
+ *
+ */
 class QuImageBaseI {
 public:
-    virtual ~QuImageBaseI() {};
+    virtual ~QuImageBaseI() {}
 
     // set image methods
     virtual void setImage(const CuMatrix<double> &image) = 0;
@@ -64,15 +71,39 @@ public:
     virtual QWidget *asWidget() const = 0;
 
     // cumbia engine
+    virtual QString source() const = 0;
     virtual void setSource(const QString& src) = 0;
     virtual void unsetSource() = 0;
 
 };
 
 /*!
- * \mainpage Add some cumbia image to simple Qt widgets
+ * \mainpage Plugin to read images with cumbia and display them on a Qt widget
  *
- * \section Introduction
+ * The plugin offers an interface to display images on a Qt widget using cumbia to get data from any supported engine.
+ * If the image is not connected to the cumbia engine, it scales down to a simple viewer at the cost of a single pointer to an
+ * unused object.
+ *
+ * The image can be drawn
+ * \li *scaled* to the widget dimensions
+ * \li within a *scroll area*, where either the entire or only a portion of an image can be drawn according to the widget dimensions.
+ *
+ * \par Scaled images
+ * The image size adapts to the widget geometry and its *size hint* within a *layout*. In this configuration, zooming
+ * is not possible.
+ *
+ * \par Images in a scroll area
+ * In this case, the image can be zoomed either selecting an area with the mouse or programmatically.
+ * The layout will affect the scroll area size and leave the image size unaffected.
+ *
+ * \image html seoyeji.png "Image in a scroll area"
+ *
+ * \par Zooming
+ * The user can zoom the image drawing the desired rectangle with the mouse only if the
+ * *scaleContents* property is disabled (default) and no QuImageMouseEventIf is installed through QuImageBaseI::setImageMouseEventInterface
+ *
+ * \par Loading the plugin
+ * The plugin is loaded with the following few lines of code:
  *
  * \code
    #include <QuImagePluginInterface.h>
@@ -85,7 +116,88 @@ public:
     }
  * \endcode
  *
+ * Once the plugin has been successfully loaded, an interface to an image (namely QuImageBaseI) can be obtained with the new_image method.
+ * QuImageBase offers a rich interface to control the behaviour of the image. The plugin implementation can either instantiate a
+ * QuImageWidget or a QuImageGLWidget (incomplete at the moment). They are QWidget instances so their *signals and slots* can be exploited
+ * if deemed convenient. To obtain a reference to them *as qwidgets*, use QuImageBaseI::asWidget.
+ * For example:
+ *
+ * \code
+ * QuImageBaseI *ii = plugin_i->new_image(this);
+ * connect(ii->asWidget(), SIGNAL(zoomRectChanged(QRect,QRect)), this, SLOT(onZoomRectChanged(QRect,QRect)));
+ * ii->asWidget()->setProperty("scaleContents", false);
  * \endcode
+ *
+ * If you want to enclose the image in a scroll area, a convenience implementation of QScrollArea is provided by the plugin, and a new
+ * instance can be obtained with the method new_scroll_area
+ * The plugin implementation of the scroll area is offered by the QuImgScrollArea class, which adheres to the QuImgScrollAreaI interface.
+ *
+ * Embedding a QuImageBaseI into a QuImgScrollAreaI is useful because zooming is automatically integrated with scrolling:
+ *
+ * \code
+ MyimageApp(QWidget *parent, CumbiaPool * cu_p, const CuControlsFactoryPool& fpoo) : QWidget (parent) {
+    // ...
+    // initialize plugin as above
+    //
+    if(!plugin_i)
+        perr("MyimageApp: failed to load plugin \"%s\"", qstoc(QuImagePluginInterface::file_name()));
+    else {
+        QHBoxLayout *lo = new QHBoxLayout(this); // layout
+        QuImgScrollAreaI *sa = plugin_i->new_scroll_area(this);
+        QuImageBaseI *ii = plugin_i->new_image(this);
+        ii->setImage(QImage(":/seoyeji.png"));
+        sa->setImage(d->ii);
+        lo->addWidget(sa->scrollArea());
+    }
+ * \endcode
+ *
+ * \par Connecting the image to cumbia
+ *
+ * To connect a QuImageBaseI to cumbia, you have to call first the QuImagePluginInterface::init method on the plugin interface
+ * and then connect the image to the source:
+ *
+ * \code
+    MyimageApp(QWidget *parent, CumbiaPool * cu_p, const CuControlsFactoryPool& fpoo) : QWidget (parent) {
+          // plugin initialization..
+          QuImageBaseI *ii = plugin_i->new_image(this);
+          plugin_i->init(cumbia_pool, m_ctrl_factory_pool);   // 1
+          ii->setSource("$1/uchar_image");                    // 2
+          // ...
+    }
+ * \endcode
+ *
+ * Here, cumbia_pool and m_ctrl_factory_pool are a pointer to a CumbiaPool instance and a const reference to CuControlsFactoryPool respectively.
+ * You will identificate them easily in the application if either it has been generated with *cumbia new project* or, more generally, if
+ * the cumbia engine is already supported. Refer to the *cumbia* documentation if in doubt.
+ *
+ * \par Designer integration
+ * Since there is no Qt Designer integration (yet) offering a ready to use widget, this is the quickest way to add images to an *UI*:
+ *
+ * In the Qt Designer form editor:
+ *
+ * \li add a base *QWidget* to the Qt Designer *form* and include it properly in a *layout* as you would for any other widget
+ * \li give the widget an appropriate *objectName*, for example ("img1")
+ * \note
+ * Do not add a layout to *img1* and do not place any child widget within
+ *
+ * In the *cpp implementation* file, a one liner does the job (1):
+ *
+ * \code
+   MyimageApp(QWidget *parent, CumbiaPool * cu_p, const CuControlsFactoryPool& fpoo) : QWidget (parent) {
+          // plugin initialization..
+          QuImageBaseI *ii = plugin_i->new_image(this);
+          // insert the image into a QHBoxLayout automatically added to *ui->img1*
+          plugin_i->layout(ii, ui->img1); // (1) layout ii into ui->img1
+          // ...
+   }
+ * \endcode
+ *
+ * \par Further reading
+ * The QuImageWidget and its incomplete counterpart QuImageGLWidget are QWidget and QOpenGLWidget implementing QuImageBaseI.
+ * The QuImageBaseI::asWidget allows signal/slot connections to them as well as access to Qt properties.
+ * QuImgScrollArea implements QuImgScrollAreaI
+ *
+ * See also QuImgScrollAreaI, QuImageBaseI, QuImageWidget, QuImgScrollArea.
  *
  *
  */
@@ -120,6 +232,26 @@ public:
      */
     virtual QuImageBaseI *new_image(QWidget* parent, bool opengl = false) const = 0;
 
+    virtual QuImgScrollAreaI *new_scroll_area(QWidget *parent) const = 0;
+
+    /*!
+     * \brief convenience method to layout an image into a container (that has no layout yet)
+     * \param ii an image as QuImageBaseI
+     * \param container the widget that will contain the image (QHBoxLayout will be used)
+     *
+     * If you are embedding an image into a QuImgScrollAreaI, consider using the convenience method below
+     *
+     * @see layout(QuImgScrollAreaI *scroll_a, QWidget* container)
+     */
+    virtual void layout(QuImageBaseI *ii, QWidget* container) = 0;
+
+    /*!
+     * \brief the same method as the above *layout* pertaining to a scroll area instead of an image
+     *
+     * @see layout(QuImageBaseI *ii, QWidget* container)
+     */
+    virtual void layout(QuImgScrollAreaI *scroll_a, QWidget* container) = 0;
+
     // convenience method to get the plugin instance
     /*!
      * \brief QuImagePluginInterface::get_instance returns a new instance of the plugin
@@ -145,6 +277,15 @@ public:
     }
 
     static QString file_name() { return "libcumbia-image-plugin.so"; }
+};
+
+class QuImgScrollAreaI {
+public:
+    virtual ~QuImgScrollAreaI() {}
+
+    virtual QScrollArea *scrollArea() = 0;
+    virtual void setImage(QuImageBaseI *ii) = 0;
+    virtual void setScaleContents(bool scale) = 0;
 };
 
 #define QuImagePluginInterface_iid "eu.elettra.qutils.QuImagePluginInterface"

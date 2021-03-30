@@ -55,6 +55,7 @@ public:
     void setImage(const CuMatrix<unsigned short> &image);
     void setImage(const CuMatrix<unsigned char> &image);
 
+    QString source() const;
     void setSource(const QString &src);
     void unsetSource();
 

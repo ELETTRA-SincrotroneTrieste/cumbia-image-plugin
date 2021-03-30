@@ -53,6 +53,9 @@ private:
     // QuImagePluginInterface interface
 public:
     QuImageBaseI *new_image(QWidget *parent, bool opengl) const;
+    QuImgScrollAreaI *new_scroll_area(QWidget *parent) const;
+    virtual void layout(QuImageBaseI *ii, QWidget* container);
+    virtual void layout(QuImgScrollAreaI *sa, QWidget* container);
 };
 
 #endif // QUIMAGEPLUGIN_H

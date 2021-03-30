@@ -4,6 +4,7 @@
 #include <cudata.h>
 #include <QTimer>
 #include <QMap>
+#include <QHBoxLayout>
 #include <QtDebug>
 #include <cucontrolsreader_abs.h>
 #include <qwidget.h>
@@ -13,6 +14,7 @@
 #include <QRegularExpression>
 #include <quimagewidget.h>
 #include <quimageGLwidget.h>
+#include "quimgscrollarea.h"
 
 class CuImagePluginPrivate {
 public:
@@ -30,7 +32,6 @@ CuImagePlugin::CuImagePlugin(QObject *parent) : QObject(parent)
 CuImagePlugin::~CuImagePlugin() {
     delete d;
 }
-
 
 void CuImagePlugin::init(CumbiaPool *cumbia_pool, const CuControlsFactoryPool &fpool) {
     d->cu_pool = cumbia_pool;
@@ -50,6 +51,19 @@ QuImageBaseI *CuImagePlugin::new_image(QWidget *parent, bool opengl) const {
     else return new QuImageGLWidget(parent, d->cu_pool, d->fpoo);
 }
 
+QuImgScrollAreaI *CuImagePlugin::new_scroll_area(QWidget *parent) const {
+    return new QuImgScrollArea(parent);
+}
+
+void CuImagePlugin::layout(QuImageBaseI *ii, QWidget *container) {
+    QHBoxLayout *lo = new QHBoxLayout(container);
+    lo->addWidget(ii->asWidget());
+}
+
+void CuImagePlugin::layout(QuImgScrollAreaI *sa, QWidget *container){
+    QHBoxLayout *lo = new QHBoxLayout(container);
+    lo->addWidget(sa->scrollArea());
+}
 
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(cumbia-image, CuImage)

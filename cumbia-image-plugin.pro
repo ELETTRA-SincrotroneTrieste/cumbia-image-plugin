@@ -86,7 +86,7 @@ inc.path = $${INC_DIR}
 # defined in cumbia-qtcontrols.pri, by default $${INSTALL_ROOT}/include/cumbia-qtcontrols
 #
 iface_inc.path = $${CUMBIA_QTCONTROLS_INCLUDES}
-iface_inc.files = quimageplugininterface.h
+iface_inc.files = quimageplugininterface.h quimage.h
 
 # installation
 
@@ -114,6 +114,7 @@ SOURCES += \
     quimageplugin.cpp \
     quimgmousetracker.cpp \
     quimgpainter.cpp \
+    quimgscrollarea.cpp \
     quimgzoomer.cpp
 
 HEADERS += \
@@ -127,7 +128,9 @@ HEADERS += \
     quimageplugin.h \
     quimgmousetracker.h \
     quimgpainter.h \
-    quimgzoomer.h
+    quimgscrollarea.h \
+	quimgzoomer.h \
+	quimage.h
 
 DISTFILES +=  \
     cumbia-image.json \

@@ -112,6 +112,7 @@ public:
 
     void execConfigDialog();
 
+    QString source() const;
     void setSource(const QString &src);
     void unsetSource();
 

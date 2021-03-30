@@ -201,6 +201,11 @@ void QuImageBase::setError(bool error) {
 
 void QuImageBase::setErrorMessage(const QString &msg) { d->errorMessage = msg; }
 
+QString QuImageBase::source() const {
+    QuWatcher *w = d->widget->findChild<QuWatcher *>();
+    return w != nullptr ? w->source() : QString();
+}
+
 void QuImageBase::setSource(const QString &src) {
     if(d->cu_pool) {
         QuWatcher *w = d->widget->findChild<QuWatcher *>();

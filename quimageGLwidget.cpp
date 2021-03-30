@@ -66,6 +66,10 @@ void QuImageGLWidget::setImage(const CuMatrix<unsigned char> &image) {
     d->imgb->setImage(image);
 }
 
+QString QuImageGLWidget::source() const {
+    return d->imgb->source();
+}
+
 void QuImageGLWidget::setSource(const QString &src) {
     d->imgb->setSource(src);
 }
