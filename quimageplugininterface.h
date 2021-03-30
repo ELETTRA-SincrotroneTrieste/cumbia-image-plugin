@@ -92,6 +92,8 @@ public:
  * The image size adapts to the widget geometry and its *size hint* within a *layout*. In this configuration, zooming
  * is not possible.
  *
+ * \image html seoyeji-scaled.png "Scaled image"
+ *
  * \par Images in a scroll area
  * In this case, the image can be zoomed either selecting an area with the mouse or programmatically.
  * The layout will affect the scroll area size and leave the image size unaffected.
@@ -101,6 +103,10 @@ public:
  * \par Zooming
  * The user can zoom the image drawing the desired rectangle with the mouse only if the
  * *scaleContents* property is disabled (default) and no QuImageMouseEventIf is installed through QuImageBaseI::setImageMouseEventInterface
+ *
+ * \image html seoyeji-zoom.png "Zooming in *non scaled* mode"
+ *
+ * Unzoom is accomplished clicking with the mouse mid button. Each click goes back one step in the zoom stack.
  *
  * \par Loading the plugin
  * The plugin is loaded with the following few lines of code:
@@ -170,7 +176,10 @@ public:
  * You will identificate them easily in the application if either it has been generated with *cumbia new project* or, more generally, if
  * the cumbia engine is already supported. Refer to the *cumbia* documentation if in doubt.
  *
+ * \image html tg_image "Reading TangoTest double_image attribute"
+ *
  * \par Designer integration
+ *
  * Since there is no Qt Designer integration (yet) offering a ready to use widget, this is the quickest way to add images to an *UI*:
  *
  * In the Qt Designer form editor:

@@ -46,7 +46,7 @@ CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
         QCheckBox *cb = new QCheckBox("Fit to window", this);
         connect(cb, SIGNAL(toggled(bool)), sa->scrollArea(), SLOT(setScaleContents(bool)));
         qDebug() << __PRETTY_FUNCTION__ << "setting fitToWindow false";
-        //      iw->setSource(qApp->arguments().at(1));
+             iw->setSource(qApp->arguments().at(1));
         glo->addWidget(label, 0, 0, 1, 5);
         glo->addWidget(sa->scrollArea(), 1, 0, 5, 5);
         glo->addWidget(cb, glo->rowCount(), 0, 1 , glo->columnCount());
