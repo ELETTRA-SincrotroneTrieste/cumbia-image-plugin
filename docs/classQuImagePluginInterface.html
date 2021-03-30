@@ -75,6 +75,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7e6f19fac657f62779a20b08a1ad9643"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78d729986dddd6516974f53fe5747af7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImagePluginInterface.html#a78d729986dddd6516974f53fe5747af7">new_scroll_area</a> (QWidget *parent) const =0</td></tr>
 <tr class="separator:a78d729986dddd6516974f53fe5747af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83ea51add94f23612aaf02dce4887b6b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImagePluginInterface.html#a83ea51add94f23612aaf02dce4887b6b">layout</a> (<a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *ii, QWidget *container)=0</td></tr>
+<tr class="memdesc:a83ea51add94f23612aaf02dce4887b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">convenience method to layout an image into a container (that has no layout yet)  <a href="classQuImagePluginInterface.html#a83ea51add94f23612aaf02dce4887b6b">More...</a><br /></td></tr>
+<tr class="separator:a83ea51add94f23612aaf02dce4887b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81a20082f4b5f6ba899b238a776bd15c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImagePluginInterface.html#a81a20082f4b5f6ba899b238a776bd15c">layout</a> (<a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *scroll_a, QWidget *container)=0</td></tr>
+<tr class="memdesc:a81a20082f4b5f6ba899b238a776bd15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">the same method as the above <em>layout</em> pertaining to a scroll area instead of an image  <a href="classQuImagePluginInterface.html#a81a20082f4b5f6ba899b238a776bd15c">More...</a><br /></td></tr>
+<tr class="separator:a81a20082f4b5f6ba899b238a776bd15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -266,6 +272,92 @@ Static Public Member Functions</h2></td></tr>
 <p>Implemented in <a class="el" href="classCuImagePlugin.html#a534ee86f92aa64ef0292336059646fcf">CuImagePlugin</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="classQuImagePluginInterface.html#ab91876309fbfc745519952fa9509447d">get_instance()</a>, and <a class="el" href="classQuImage.html#a6c9ab031aa7501b3af491db0bdb01229">QuImage::QuImage()</a>.</p>
+
+</div>
+</div>
+<a id="a83ea51add94f23612aaf02dce4887b6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83ea51add94f23612aaf02dce4887b6b">&#9670;&nbsp;</a></span>layout() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void QuImagePluginInterface::layout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *&#160;</td>
+          <td class="paramname"><em>ii</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>container</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ii</td><td>an image as <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> </td></tr>
+    <tr><td class="paramname">container</td><td>the widget that will contain the image (QHBoxLayout will be used)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If you are embedding an image into a <a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a>, consider using the convenience method below</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classQuImagePluginInterface.html#a83ea51add94f23612aaf02dce4887b6b" title="convenience method to layout an image into a container (that has no layout yet)">layout</a>(<a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> <em>scroll_a, QWidget</em> container) </dd></dl>
+
+<p>Implemented in <a class="el" href="classCuImagePlugin.html#aa64b81233b39db3118f309eb3e4a0b69">CuImagePlugin</a>.</p>
+
+</div>
+</div>
+<a id="a81a20082f4b5f6ba899b238a776bd15c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81a20082f4b5f6ba899b238a776bd15c">&#9670;&nbsp;</a></span>layout() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void QuImagePluginInterface::layout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *&#160;</td>
+          <td class="paramname"><em>scroll_a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>container</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classQuImagePluginInterface.html#a83ea51add94f23612aaf02dce4887b6b" title="convenience method to layout an image into a container (that has no layout yet)">layout</a>(<a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> <em>ii, QWidget</em> container) </dd></dl>
+
+<p>Implemented in <a class="el" href="classCuImagePlugin.html#a1d41df1324d876e47767eacbd200274e">CuImagePlugin</a>.</p>
 
 </div>
 </div>
