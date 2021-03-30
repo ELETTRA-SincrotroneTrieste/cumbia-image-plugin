@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>cumbia-image plugin: Add some cumbia image to simple Qt widgets</title>
+<title>cumbia-image plugin: Plugin to read images with cumbia and display them on a Qt widget</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -41,11 +41,18 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Add some cumbia image to simple Qt widgets </div>  </div>
+<div class="title">Plugin to read images with cumbia and display them on a Qt widget </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="Introduction"></a>
-Introduction</h1>
+<div class="textblock"><p>The plugin offers an interface to display images on a Qt widget using cumbia to get data from any supported engine. If the image is not connected to the cumbia engine, it scales down to a simple viewer at the cost of a single pointer to an unused object.</p>
+<p>The image can be drawn </p><ul>
+<li><em>scaled</em> to the widget dimensions </li>
+<li>within a <em>scroll area</em>, where either the entire or only a portion of an image can be drawn according to the widget dimensions.</li>
+</ul>
+<dl class="section user"><dt>Scaled images</dt><dd>The image size adapts to the widget geometry and its <em>size hint</em> within a <em>layout</em>. In this configuration, zooming is not possible.</dd></dl>
+<dl class="section user"><dt>Images in a scroll area</dt><dd>In this case, the image can be zoomed either selecting an area with the mouse or programmatically. The layout will affect the scroll area size and leave the image size unaffected.</dd></dl>
+<dl class="section user"><dt>Zooming</dt><dd>The user can zoom the image drawing the desired rectangle with the mouse only if the <em>scaleContents</em> property is disabled (default) and no <a class="el" href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a> is installed through <a class="el" href="classQuImageBaseI.html#a32740c63fcc065d3aed8cbb8785df7f7">QuImageBaseI::setImageMouseEventInterface</a></dd></dl>
+<dl class="section user"><dt>Loading the plugin</dt><dd>The plugin is loaded with the following few lines of code:</dd></dl>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;QuImagePluginInterface.h&gt;</span></div>
 <div class="line"><span class="comment">// load image plugin</span></div>
 <div class="line">QObject *image_plo;</div>
@@ -54,10 +61,50 @@ Introduction</h1>
 <div class="line">     perr(<span class="stringliteral">&quot;MyimageApp: failed to load plugin \&quot;%s\&quot;&quot;</span>, qstoc(<a class="code" href="classQuImagePluginInterface.html#a714c3c24932a72612145b65a8d413a84">QuImagePluginInterface::file_name</a>()));</div>
 <div class="line"> <span class="keywordflow">else</span> { <span class="comment">// image here</span></div>
 <div class="line"> }</div>
-<div class="ttc" id="aclassQuImagePluginInterface_html"><div class="ttname"><a href="classQuImagePluginInterface.html">QuImagePluginInterface</a></div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:100</div></div>
-<div class="ttc" id="aclassQuImagePluginInterface_html_a714c3c24932a72612145b65a8d413a84"><div class="ttname"><a href="classQuImagePluginInterface.html#a714c3c24932a72612145b65a8d413a84">QuImagePluginInterface::file_name</a></div><div class="ttdeci">static QString file_name()</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:156</div></div>
-<div class="ttc" id="aclassQuImagePluginInterface_html_ab91876309fbfc745519952fa9509447d"><div class="ttname"><a href="classQuImagePluginInterface.html#ab91876309fbfc745519952fa9509447d">QuImagePluginInterface::get_instance</a></div><div class="ttdeci">static QuImagePluginInterface * get_instance(CumbiaPool *cu_poo, const CuControlsFactoryPool &amp;fpoo, QObject **plugin_qob)</div><div class="ttdoc">QuImagePluginInterface::get_instance returns a new instance of the plugin.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:143</div></div>
-</div><!-- fragment --></div></div><!-- PageDoc -->
+<div class="ttc" id="aclassQuImagePluginInterface_html"><div class="ttname"><a href="classQuImagePluginInterface.html">QuImagePluginInterface</a></div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:175</div></div>
+<div class="ttc" id="aclassQuImagePluginInterface_html_a714c3c24932a72612145b65a8d413a84"><div class="ttname"><a href="classQuImagePluginInterface.html#a714c3c24932a72612145b65a8d413a84">QuImagePluginInterface::file_name</a></div><div class="ttdeci">static QString file_name()</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:231</div></div>
+<div class="ttc" id="aclassQuImagePluginInterface_html_ab91876309fbfc745519952fa9509447d"><div class="ttname"><a href="classQuImagePluginInterface.html#ab91876309fbfc745519952fa9509447d">QuImagePluginInterface::get_instance</a></div><div class="ttdeci">static QuImagePluginInterface * get_instance(CumbiaPool *cu_poo, const CuControlsFactoryPool &amp;fpoo, QObject **plugin_qob)</div><div class="ttdoc">QuImagePluginInterface::get_instance returns a new instance of the plugin.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:218</div></div>
+</div><!-- fragment --><p>Once the plugin has been successfully loaded, an interface to an image (namely <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a>) can be obtained with the new_image method. <a class="el" href="classQuImageBase.html">QuImageBase</a> offers a rich interface to control the behaviour of the image. The plugin implementation can either instantiate a <a class="el" href="classQuImageWidget.html">QuImageWidget</a> or a <a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> (incomplete at the moment). They are QWidget instances so their <em>signals and slots</em> can be exploited if deemed convenient. To obtain a reference to them <em>as qwidgets</em>, use <a class="el" href="classQuImageBaseI.html#a306670865415bdf05547c938173661bb">QuImageBaseI::asWidget</a>. For example:</p>
+<div class="fragment"><div class="line"><a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii = plugin_i-&gt;<a class="code" href="classQuImagePluginInterface.html#a7e6f19fac657f62779a20b08a1ad9643">new_image</a>(<span class="keyword">this</span>);</div>
+<div class="line">connect(ii-&gt;<a class="code" href="classQuImageBaseI.html#a306670865415bdf05547c938173661bb">asWidget</a>(), SIGNAL(zoomRectChanged(QRect,QRect)), <span class="keyword">this</span>, SLOT(onZoomRectChanged(QRect,QRect)));</div>
+<div class="line">ii-&gt;<a class="code" href="classQuImageBaseI.html#a306670865415bdf05547c938173661bb">asWidget</a>()-&gt;setProperty(<span class="stringliteral">&quot;scaleContents&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="ttc" id="aclassQuImageBaseI_html"><div class="ttname"><a href="classQuImageBaseI.html">QuImageBaseI</a></div><div class="ttdoc">Interface to the cumbia widget to display images.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:29</div></div>
+<div class="ttc" id="aclassQuImageBaseI_html_a306670865415bdf05547c938173661bb"><div class="ttname"><a href="classQuImageBaseI.html#a306670865415bdf05547c938173661bb">QuImageBaseI::asWidget</a></div><div class="ttdeci">virtual QWidget * asWidget() const =0</div></div>
+<div class="ttc" id="aclassQuImagePluginInterface_html_a7e6f19fac657f62779a20b08a1ad9643"><div class="ttname"><a href="classQuImagePluginInterface.html#a7e6f19fac657f62779a20b08a1ad9643">QuImagePluginInterface::new_image</a></div><div class="ttdeci">virtual QuImageBaseI * new_image(QWidget *parent, bool opengl=false) const =0</div><div class="ttdoc">get_image returns a new QuImageI object with parent the given QObject</div></div>
+</div><!-- fragment --><p>If you want to enclose the image in a scroll area, a convenience implementation of QScrollArea is provided by the plugin, and a new instance can be obtained with the method <a class="el" href="classQuImagePluginInterface.html#a78d729986dddd6516974f53fe5747af7">QuImagePluginInterface::new_scroll_area</a> The plugin implementation of the scroll area is offered by the <a class="el" href="classQuImgScrollArea.html">QuImgScrollArea</a> class, which adheres to the <a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> interface.</p>
+<p>Embedding a <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> into a <a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> is useful because zooming is automatically integrated with scrolling:</p>
+<div class="fragment"><div class="line">MyimageApp(QWidget *parent, CumbiaPool * cu_p, <span class="keyword">const</span> CuControlsFactoryPool&amp; fpoo) : QWidget (parent) {</div>
+<div class="line">   <span class="comment">// ...</span></div>
+<div class="line">   <span class="comment">// initialize plugin as above</span></div>
+<div class="line">   <span class="comment">//</span></div>
+<div class="line">   <span class="keywordflow">if</span>(!plugin_i)</div>
+<div class="line">       perr(<span class="stringliteral">&quot;MyimageApp: failed to load plugin \&quot;%s\&quot;&quot;</span>, qstoc(<a class="code" href="classQuImagePluginInterface.html#a714c3c24932a72612145b65a8d413a84">QuImagePluginInterface::file_name</a>()));</div>
+<div class="line">   <span class="keywordflow">else</span> {</div>
+<div class="line">       QHBoxLayout *lo = <span class="keyword">new</span> QHBoxLayout(<span class="keyword">this</span>); <span class="comment">// layout</span></div>
+<div class="line">       <a class="code" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *sa = plugin_i-&gt;<a class="code" href="classQuImagePluginInterface.html#a78d729986dddd6516974f53fe5747af7">new_scroll_area</a>(<span class="keyword">this</span>);</div>
+<div class="line">       <a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii = plugin_i-&gt;<a class="code" href="classQuImagePluginInterface.html#a7e6f19fac657f62779a20b08a1ad9643">new_image</a>(<span class="keyword">this</span>);</div>
+<div class="line">       ii-&gt;<a class="code" href="classQuImageBaseI.html#adcbbfc691c6a9d0d3e5322b52183c9de">setImage</a>(QImage(<span class="stringliteral">&quot;:/seoyeji.png&quot;</span>));</div>
+<div class="line">       sa-&gt;<a class="code" href="classQuImgScrollAreaI.html#a5fbd382d42652e7dba59432f306f2a54">setImage</a>(d-&gt;ii);</div>
+<div class="line">       lo-&gt;addWidget(sa-&gt;<a class="code" href="classQuImgScrollAreaI.html#ad37f4faca7534c8da088d51e3909d57e">scrollArea</a>());</div>
+<div class="line">   }</div>
+<div class="ttc" id="aclassQuImageBaseI_html_adcbbfc691c6a9d0d3e5322b52183c9de"><div class="ttname"><a href="classQuImageBaseI.html#adcbbfc691c6a9d0d3e5322b52183c9de">QuImageBaseI::setImage</a></div><div class="ttdeci">virtual void setImage(const CuMatrix&lt; double &gt; &amp;image)=0</div></div>
+<div class="ttc" id="aclassQuImagePluginInterface_html_a78d729986dddd6516974f53fe5747af7"><div class="ttname"><a href="classQuImagePluginInterface.html#a78d729986dddd6516974f53fe5747af7">QuImagePluginInterface::new_scroll_area</a></div><div class="ttdeci">virtual QuImgScrollAreaI * new_scroll_area(QWidget *parent) const =0</div></div>
+<div class="ttc" id="aclassQuImgScrollAreaI_html"><div class="ttname"><a href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:234</div></div>
+<div class="ttc" id="aclassQuImgScrollAreaI_html_a5fbd382d42652e7dba59432f306f2a54"><div class="ttname"><a href="classQuImgScrollAreaI.html#a5fbd382d42652e7dba59432f306f2a54">QuImgScrollAreaI::setImage</a></div><div class="ttdeci">virtual void setImage(QuImageBaseI *ii)=0</div></div>
+<div class="ttc" id="aclassQuImgScrollAreaI_html_ad37f4faca7534c8da088d51e3909d57e"><div class="ttname"><a href="classQuImgScrollAreaI.html#ad37f4faca7534c8da088d51e3909d57e">QuImgScrollAreaI::scrollArea</a></div><div class="ttdeci">virtual QScrollArea * scrollArea()=0</div></div>
+</div><!-- fragment --><dl class="section user"><dt>Connecting the image to cumbia</dt><dd></dd></dl>
+<p>To connect a <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> to cumbia, you have to call first the <a class="el" href="classQuImagePluginInterface.html#a04d259196b535e4c2132feef002882c3" title="Initialise the multi reader with mixed engine mode and the read mode.">QuImagePluginInterface::init</a> method on the plugin interface and then connect the image to the source:</p>
+<div class="fragment"><div class="line">MyimageApp(QWidget *parent, CumbiaPool * cu_p, <span class="keyword">const</span> CuControlsFactoryPool&amp; fpoo) : QWidget (parent) {</div>
+<div class="line">      <span class="comment">// plugin initialization..</span></div>
+<div class="line">      <a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii = plugin_i-&gt;<a class="code" href="classQuImagePluginInterface.html#a7e6f19fac657f62779a20b08a1ad9643">new_image</a>(<span class="keyword">this</span>);</div>
+<div class="line">      plugin_i-&gt;<a class="code" href="classQuImagePluginInterface.html#a04d259196b535e4c2132feef002882c3">init</a>(cumbia_pool, m_ctrl_factory_pool);   <span class="comment">// 1</span></div>
+<div class="line">      ii-&gt;<a class="code" href="classQuImageBaseI.html#a1448e1b071075d0fb95fb5054cbbc752">setSource</a>(<span class="stringliteral">&quot;$1/uchar_image&quot;</span>);                    <span class="comment">// 2</span></div>
+<div class="line">      <span class="comment">// ...</span></div>
+<div class="line">}</div>
+<div class="ttc" id="aclassQuImageBaseI_html_a1448e1b071075d0fb95fb5054cbbc752"><div class="ttname"><a href="classQuImageBaseI.html#a1448e1b071075d0fb95fb5054cbbc752">QuImageBaseI::setSource</a></div><div class="ttdeci">virtual void setSource(const QString &amp;src)=0</div></div>
+<div class="ttc" id="aclassQuImagePluginInterface_html_a04d259196b535e4c2132feef002882c3"><div class="ttname"><a href="classQuImagePluginInterface.html#a04d259196b535e4c2132feef002882c3">QuImagePluginInterface::init</a></div><div class="ttdeci">virtual void init(CumbiaPool *cumbia_pool, const CuControlsFactoryPool &amp;fpool)=0</div><div class="ttdoc">Initialise the multi reader with mixed engine mode and the read mode.</div></div>
+</div><!-- fragment --><p>Here, cumbia_pool and m_ctrl_factory_pool are a pointer to a CumbiaPool instance and a const reference to CuControlsFactoryPool. You will find them easily in the application if either it has been generated with <em>cumbia new project</em> or, more generally, if it already supports the cumbia engine. Refer to the <em>cumbia</em> documentation if in doubt. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
