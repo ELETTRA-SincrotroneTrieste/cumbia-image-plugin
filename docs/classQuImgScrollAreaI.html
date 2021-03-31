@@ -48,6 +48,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>A QScrollArea dedicated to hosting a <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a>.  
+ <a href="classQuImgScrollAreaI.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="quimageplugininterface_8h_source.html">quimageplugininterface.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for QuImgScrollAreaI:</div>
@@ -70,7 +73,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac2dc2dac838608e0399fb2e2ad14423c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImgScrollAreaI.html#ac2dc2dac838608e0399fb2e2ad14423c">setScaleContents</a> (bool scale)=0</td></tr>
 <tr class="separator:ac2dc2dac838608e0399fb2e2ad14423c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>You can get a new instance of <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> through <a class="el" href="classQuImagePluginInterface.html#a78d729986dddd6516974f53fe5747af7" title="new_scroll_area returns a new instance of QuImgScrollAreaI">QuImagePluginInterface::new_scroll_area</a>, use setImage to set a <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> on the scroll area and finally add the scroll area to a layout, either manually or through <a class="el" href="classQuImagePluginInterface.html#a83ea51add94f23612aaf02dce4887b6b" title="convenience method to layout an image into a container (that has no layout yet)">QuImagePluginInterface::layout</a>(<a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> <em>scroll_a, QWidget</em> container).</p>
+<p>The scrollArea method returns this object <em>as</em> a QScrollArea. The setScaleContents called with a true parameter disables scrolling and scales the image according to the changes in the area geometry. Scroll bars can be used to move the image in the view otherwise. Remember that zooming is possible only if scale contents is false.</p>
+<p>An example is provided in the introduction. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aefab74a981b9206b837febcdd27839e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aefab74a981b9206b837febcdd27839e1">&#9670;&nbsp;</a></span>~QuImgScrollAreaI()</h2>
 
