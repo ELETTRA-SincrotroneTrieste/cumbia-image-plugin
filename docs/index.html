@@ -60,7 +60,7 @@ Scaled image</div></div>
 <img src="seoyeji.png" alt=""/>
 <div class="caption">
 Image in a scroll area</div></div>
-<dl class="section user"><dt>Zooming</dt><dd>The user can zoom the image drawing the desired rectangle with the mouse only if the <em>scaleContents</em> property is disabled (default) and no QuImageMouseEventIf is installed through QuImageBaseI::setImageMouseEventInterface</dd></dl>
+<dl class="section user"><dt>Zooming</dt><dd>The user can zoom the image drawing the desired rectangle with the mouse only if the <em>scaleContents</em> property is disabled (default) and no QuImageMouseEventIf is installed through <a class="el" href="classQuImageBaseI.html#a32740c63fcc065d3aed8cbb8785df7f7" title="install a custom mouse event handler">QuImageBaseI::setImageMouseEventInterface</a></dd></dl>
 <div class="image">
 <img src="seoyeji-zoom.png" alt=""/>
 <div class="caption">
@@ -79,7 +79,7 @@ Zooming in *non scaled* mode</div></div>
 <div class="fragment"><div class="line"><a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii = plugin_i-&gt;new_image(<span class="keyword">this</span>);</div>
 <div class="line">connect(ii-&gt;asWidget(), SIGNAL(zoomRectChanged(QRect,QRect)), <span class="keyword">this</span>, SLOT(onZoomRectChanged(QRect,QRect)));</div>
 <div class="line">ii-&gt;asWidget()-&gt;setProperty(<span class="stringliteral">&quot;scaleContents&quot;</span>, <span class="keyword">false</span>);</div>
-<div class="ttc" id="aclassQuImageBaseI_html"><div class="ttname"><a href="classQuImageBaseI.html">QuImageBaseI</a></div><div class="ttdoc">Interface to the cumbia widget to display images.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:73</div></div>
+<div class="ttc" id="aclassQuImageBaseI_html"><div class="ttname"><a href="classQuImageBaseI.html">QuImageBaseI</a></div><div class="ttdoc">Interface to the cumbia widget to display images.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:80</div></div>
 </div><!-- fragment --><p>If you want to enclose the image in a scroll area, a convenience implementation of QScrollArea is provided by the plugin, and a new instance can be obtained with the method new_scroll_area The plugin implementation of the scroll area is offered by the QuImgScrollArea class, which adheres to the <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> interface.</p>
 <p>Embedding a <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> into a <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> is useful because zooming is automatically integrated with scrolling:</p>
 <div class="fragment"><div class="line">MyimageApp(QWidget *parent, CumbiaPool * cu_p, <span class="keyword">const</span> CuControlsFactoryPool&amp; fpoo) : QWidget (parent) {</div>
@@ -92,11 +92,12 @@ Zooming in *non scaled* mode</div></div>
 <div class="line">       QHBoxLayout *lo = <span class="keyword">new</span> QHBoxLayout(<span class="keyword">this</span>); <span class="comment">// layout</span></div>
 <div class="line">       <a class="code" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *sa = plugin_i-&gt;new_scroll_area(<span class="keyword">this</span>);</div>
 <div class="line">       <a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii = plugin_i-&gt;new_image(<span class="keyword">this</span>);</div>
-<div class="line">       ii-&gt;setImage(QImage(<span class="stringliteral">&quot;:/seoyeji.png&quot;</span>));</div>
+<div class="line">       ii-&gt;<a class="code" href="classQuImageBaseI.html#adcbbfc691c6a9d0d3e5322b52183c9de">setImage</a>(QImage(<span class="stringliteral">&quot;:/seoyeji.png&quot;</span>));</div>
 <div class="line">       sa-&gt;setImage(d-&gt;ii);</div>
 <div class="line">       lo-&gt;addWidget(sa-&gt;scrollArea());</div>
 <div class="line">   }</div>
-<div class="ttc" id="aclassQuImgScrollAreaI_html"><div class="ttname"><a href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div><div class="ttdoc">A QScrollArea dedicated to hosting a QuImageBaseI.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:407</div></div>
+<div class="ttc" id="aclassQuImageBaseI_html_adcbbfc691c6a9d0d3e5322b52183c9de"><div class="ttname"><a href="classQuImageBaseI.html#adcbbfc691c6a9d0d3e5322b52183c9de">QuImageBaseI::setImage</a></div><div class="ttdeci">virtual void setImage(const CuMatrix&lt; double &gt; &amp;image)=0</div><div class="ttdoc">setImage double data type version</div></div>
+<div class="ttc" id="aclassQuImgScrollAreaI_html"><div class="ttname"><a href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div><div class="ttdoc">A QScrollArea dedicated to hosting a QuImageBaseI.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:496</div></div>
 </div><!-- fragment --><dl class="section user"><dt>Connecting the image to cumbia</dt><dd></dd></dl>
 <p>To connect a <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> to cumbia, you have to call first the QuImagePluginInterface::init method on the plugin interface and then connect the image to the source:</p>
 <div class="fragment"><div class="line">MyimageApp(QWidget *parent, CumbiaPool * cu_p, <span class="keyword">const</span> CuControlsFactoryPool&amp; fpoo) : QWidget (parent) {</div>
