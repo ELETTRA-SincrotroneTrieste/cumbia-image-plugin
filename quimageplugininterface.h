@@ -68,6 +68,13 @@ class QuImgScrollAreaI;
  * The source method returns the source of data in use.
  * In order for connections to work, QuImagePluginInterface::init shall be called beforehand
  *
+ * \par Supported engine data types
+ *
+ * Supported data types from the cumbia engine are:
+ * \li double
+ * \li unsigned char
+ * \li unsigned short
+ * There is a setImage method version for each of them
  *
  */
 class QuImageBaseI {
@@ -75,48 +82,221 @@ public:
     virtual ~QuImageBaseI() {}
 
     // set image methods
+    /*!
+     * \brief setImage double data type version
+     * \param image CuMatrix of double
+     */
     virtual void setImage(const CuMatrix<double> &image) = 0;
+
+    /*!
+     * \brief setImage unsigned short data type version
+     * \param image CuMatrix of unsigned short
+     */
     virtual void setImage(const CuMatrix<unsigned short> &image) = 0;
+
+    /*!
+     * \brief setImage unsigned char data type version
+     * \param image CuMatrix of unsigned char
+     */
     virtual void setImage(const CuMatrix<unsigned char> &image) = 0;
 
+    /*!
+     * \brief setImage from QImage
+     * \param img a QImage
+     */
     virtual void setImage(const QImage& img) = 0;
+
+    /*!
+     * \brief image returns the currently displayed image as QImage
+     * \return a *reference* to the current image in use
+     */
     virtual QImage& image() const = 0;
 
+    /*!
+     * \brief setScaleContents: if true the image scales with the widget's geometry
+     *
+     * \param scale true: the image scales proportionally to the widget geometry. Zoom not possible.
+     * \param scale false: the image will not scale when the widget geometry changes. Zoom is enabled by default.
+     *        Suitable to be inserted into a scroll area
+     */
     virtual void setScaleContents(bool scale) = 0;
+
+    /*!
+     * \brief scaleContents returns the value of the scaleContents property
+     * \see setScaleContents
+     */
     virtual bool scaleContents() const = 0;
 
     // error methods
+    /*!
+     * \brief error returns the error condition
+     * \return true if either an error occurred from the connected source or setError has been called explicitly
+     */
     virtual bool error() const = 0;
+
+    /*!
+     * \brief setErrorImage set the image to be used in case of error
+     * \param i const reference to QImage
+     */
     virtual void setErrorImage(const QImage& i) = 0;
+
+    /*!
+     * \brief errorImage returns the image displayed in case of error condition
+     * \return QImage used in case of error
+     */
     virtual QImage errorImage() const = 0;
+
+    /*!
+     * \brief setError manually set (or clear) an error condition
+     * \param error true: error condition
+     * \param error false: no error condition
+     */
     virtual void setError(bool error) = 0;
+
+    /*!
+     * \brief set a specific message to display in case of error condition
+     * \param msg a QString
+     */
     virtual void setErrorMessage(const QString& msg) = 0;
 
     // color methods
+
+    /*!
+     * \brief apply the given color table to the image
+     * \param rgb a QVector of QRgb values
+     */
     virtual void setColorTable(const QVector<QRgb> &rgb) = 0;
+
+    /*!
+     * \brief colorTable returns the color table currently in use
+     * \return QVector<QRgb>&
+     */
     virtual QVector<QRgb>& colorTable() const = 0;
 
+    /*!
+     * \brief install a custom mouse event handler
+     * \param ifa an implementation of QuImageMouseEventIf.
+     *
+     * \note
+     * Mouse events are sent to the interface without local processing
+     */
     virtual void setImageMouseEventInterface(QuImageMouseEventIf* ifa) = 0;
 
+    /*!
+     * \brief isOpenGL shall return true if the implementation of QuImageBaseI is a QOpenGLWidget
+     * \return true if the implementation of QuImageBaseI is a QOpenGLWidget
+     * \return false if the implementation of QuImageBaseI is a QWidget
+     */
     virtual  bool isOpenGL() const = 0;
 
     // image -> widget geometry mappings
+
+    /*!
+     * \brief map the point p from widget to image coordinates
+     * \param p a QPoint in widget coordinates
+     * \return a QPoint in the *image coordinates*
+     *
+     */
     virtual QPoint mapToImg(const QPoint& p) const = 0;
-    virtual QRect mapToImg(const QRect& p) const = 0;
+
+    /*!
+     * \brief map the QRect r from widget to image coordinates
+     * \param r a QRect in widget coordinates
+     * \return a QRect in the *image coordinates*
+     *
+     */
+    virtual QRect mapToImg(const QRect& r) const = 0;
+
+    /*!
+     * \brief map the point p from image to widget coordinates
+     * \param p a QPoint in image coordinates
+     * \return a QPoint in the *widget coordinates*
+     *
+     */
     virtual QPoint mapFromImg(const QPoint& p) const = 0;
-    virtual QRect mapFromImg(const QRect& p) const = 0;
+
+    /*!
+     * \brief map the rect r from image to widget coordinates
+     * \param r a QRect in image coordinates
+     * \return a QRect in the *widget coordinates*
+     *
+     */
+    virtual QRect mapFromImg(const QRect& r) const = 0;
 
     // zoom methods
+    /*!
+     * \brief returns true if the zoom is enabled
+     *
+     * \return true the zoom is enabled
+     *
+     * \note this function may return true while the zoom still is unavailable because
+     * scaleContents is enabled.
+     */
     virtual bool zoomEnabled() const = 0;
+
+    /*!
+     * \brief enable or disable the zoom
+     * \param en true zoom enabled.
+     *
+     * \note scale contents property must be false
+     */
     virtual void setZoomEnabled(bool en) = 0;
+
+    /*!
+     * \brief returns the current zoom level
+     * \return the zoom level, from 0 to 100
+     */
     virtual float zoomLevel() const = 0;
+
+    /*!
+     * \brief programmatically set a zoom level
+     * \param l the zoom level from 0 to 100 (percent)
+     *
+     * \note
+     * Usually zooming is accomplished mouse-selecting a rectangular region on the image
+     *
+     * \note scale contents must be false in order for zoom to operate
+     */
     virtual void setZoomLevel(float l) = 0;
 
+    /*!
+     * \brief return this object *as QWidget*, to exploit Qt properties and signal/slots
+     * \return this object as QWidget
+     *
+     * \note properties can be set and signal slots from implementations can be used if convenient, even though
+     * only QuImageBaseI interface is available to the clients of the plugin.
+     *
+     * @see QuImageWidget
+     * @see QuImageGLWidget
+     */
     virtual QWidget *asWidget() const = 0;
 
     // cumbia engine
+
+    /*!
+     * \brief returns the source of the connection
+     * \return a QString
+     *
+     * Refer to cumbia documentation for supported engines and source syntax (which depends on the engine)
+     *
+     * \see setSource
+     * \see unsetSource
+     */
     virtual QString source() const = 0;
+
+    /*!
+     * \brief set a source for the cumbia connection
+     * \param src the source name, depending on the control system in use.
+     *
+     * See cumbia documentation for details on modules and supported engines.
+     */
     virtual void setSource(const QString& src) = 0;
+
+    /*!
+     * \brief stop reading from the engine source to update the image
+     *
+     * Removes the connection to a previously specified source
+     */
     virtual void unsetSource() = 0;
 
 };

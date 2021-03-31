@@ -26,9 +26,13 @@ public:
 };
 
 
-/*!
+/*! \brief QuImagePluginInterface implementation
  *
- * This plugin provides
+ * This plugin implements QuImagePluginInterface.
+ * If you need a pointer to this implementation as QObject, use the get_qobject method.
+ *
+ * The QuImagePluginInterface shall be used to control the plugin.
+ *
  */
 class CuImagePlugin : public QObject, public QuImagePluginInterface
 {

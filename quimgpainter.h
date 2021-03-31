@@ -4,10 +4,6 @@
 class QPaintEvent;
 class QuImageBasePrivate;
 
-
-/*!
- * \internal
- */
 class QuImgPainter
 {
 public:

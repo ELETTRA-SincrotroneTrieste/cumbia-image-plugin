@@ -18,17 +18,11 @@ class QWidget;
 class QMouseEvent;
 class QWheelEvent;
 
-/*!
- * \internal
- */
 class QuImageBaseListener {
 public:
     virtual void onZoom(const QRect& from_zr, const QRect& to_zr) = 0;
 };
 
-/*!
- * \internal
- */
 class QuImageBasePrivate
 {
 public:
@@ -73,9 +67,6 @@ public:
     QRect mapFromImg(const QRect &r) const;
 };
 
-/*!
- * \internal
- */
 class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
 {
 public:

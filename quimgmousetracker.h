@@ -9,10 +9,6 @@ class QuImgZoomer;
 
 #include <QPoint>
 
-
-/*!
- * \internal
- */
 class QuImgMouseTracker
 {
 public:

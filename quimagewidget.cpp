@@ -48,10 +48,18 @@ bool QuImageWidget::error() const {
     return d->imgb->error();
 }
 
+/*!
+ * \brief clear the error flag
+ * \param equivalent to setError( !ok )
+ */
 void QuImageWidget::setOk(bool ok) {
     setError(!ok);
 }
 
+/*!
+ * \brief slot version of QuImageBaseI::setImage(const QImage& img)
+ * \param img a QImage
+ */
 void QuImageWidget::setImage(const QImage& img) {
     d->imgb->setImage(img);
     if(!d->imgb->scaleContents()) {
@@ -62,6 +70,10 @@ void QuImageWidget::setImage(const QImage& img) {
     update();
 }
 
+/*!
+ * \brief slot version of QuImageBaseI::setErrorImage
+ * \param img a QImage to be displayed in case of error
+ */
 void QuImageWidget::setErrorImage(const QImage &img) {
     d->imgb->setErrorImage(img);
 }
@@ -89,7 +101,10 @@ void QuImageWidget::wheelEvent(QWheelEvent *we)
     QWidget::wheelEvent(we);
 }
 
-void QuImageWidget::contextMenuEvent(QContextMenuEvent *e)
+/*!
+ * \brief execute an image configuration menu
+ */
+void QuImageWidget::contextMenuEvent(QContextMenuEvent *)
 {
     QMenu *menu = new QMenu(this);
     menu->addAction("Change Color Map...", this, SLOT(execConfigDialog()));
@@ -204,6 +219,18 @@ QWidget *QuImageWidget::asWidget() const {
     return d->imgb->asWidget();
 }
 
+/*!
+ * \brief slot executed to update the image with the new data
+ * \param da CuData
+ *
+ * The supported types are those declared in the setImage methods of QuImageBaseI
+ *
+ * Supported data types:
+ * \li double
+ * \li unsigned char
+ * \li unsigned short
+ * \li int (converted to unsigned char)
+ */
 void QuImageWidget::onNewData(const CuData &da) {
     if(da["err"].toBool()) {
 

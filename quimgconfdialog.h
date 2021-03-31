@@ -6,26 +6,15 @@
 #include <QRgb>
 #include <QMap>
 
-
-/*!
- * \internal
- */
 namespace Ui {
 class QuImgConfDialog;
 }
 
-/*!
- * \internal
- */
 class QuImgConfDialogListener {
 public:
     virtual void onApply(const QMap<QString, QVariant> &conf) = 0;
 };
 
-
-/*!
- * \internal
- */
 class QuImgConfDialog : public QDialog
 {
     Q_OBJECT

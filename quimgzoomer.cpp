@@ -1,5 +1,6 @@
 #include "quimgzoomer.h"
 #include "quimagebase.h"
+#include <QtDebug>
 
 class QuImgZoomerPrivate {
 public:

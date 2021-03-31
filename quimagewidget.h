@@ -14,12 +14,21 @@ class QMenu;
 class QuImageWidgetPrivate;
 class CuData;
 
+/*! \brief QWidget implementing QuImageBaseI
+ *
+ *  This object is controlled through QuImageBaseI interface only.
+ *  QuImageBaseI::asQWidget returns this *as QWidget* so that properties, signals and slots can be used
+ *  if more convenient.
+ *
+ */
 class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseListener
 {
     Q_OBJECT
 
     Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
+    Q_PROPERTY(bool error READ error WRITE setError  DESIGNABLE true)
+    Q_PROPERTY(QString errorMessage READ errorMessage WRITE setErrorMessage  DESIGNABLE true)
 
 public:
     explicit QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
@@ -29,6 +38,11 @@ public:
     QImage errorImage() const;
 
 signals:
+    /*!
+     * \brief zoomRectChanged is emitted when the zoom rect changes from from_z to to_z, in image coordinates
+     * \param from_z previous zoom rect, in image coordinates
+     * \param to_z current zoom rect, in image cooridinates
+     */
     void zoomRectChanged(const QRect& from_z, const QRect& to_z);
     
 public slots:
