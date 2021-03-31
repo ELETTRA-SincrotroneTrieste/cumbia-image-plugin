@@ -27,8 +27,6 @@ class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseLis
 
     Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
-    Q_PROPERTY(bool error READ error WRITE setError  DESIGNABLE true)
-    Q_PROPERTY(QString errorMessage READ errorMessage WRITE setErrorMessage  DESIGNABLE true)
 
 public:
     explicit QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
