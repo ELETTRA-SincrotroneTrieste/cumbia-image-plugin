@@ -108,7 +108,6 @@ SOURCES += \
     colortablemap.cpp \
 	quimageGLwidget.cpp \
 	quimagebase.cpp \
-	quimagereadevent.cpp \
 	quimagewidget.cpp \
 	quimgconfdialog.cpp \
     quimageplugin.cpp \
@@ -122,15 +121,13 @@ HEADERS += \
 	quimageGLwidget.h \
 	quimagebase.h \
     quimagemouseeventif.h \
-	quimagereadevent.h \
 	quimagewidget.h \
 	quimgconfdialog.h \
     quimageplugin.h \
     quimgmousetracker.h \
     quimgpainter.h \
     quimgscrollarea.h \
-	quimgzoomer.h \
-	quimage.h
+	quimgzoomer.h
 
 DISTFILES +=  \
     cumbia-image.json \

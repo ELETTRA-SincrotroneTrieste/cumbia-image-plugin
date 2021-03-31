@@ -15,12 +15,12 @@ HEADERS += \
     src/cudisplay.h
 
 # cuuimake runs uic
-# FORMS    = src/magicdemo.ui
+# FORMS    = src/cudisplay.ui
 # but we need to include ui_xxxx.h file amongst the headers
 # in order to be recompiled when it changes
 #
 #HEADERS += \
-#    ui/ui_magicdemo.h
+#    ui/ui_cudisplay.h
 
 # - ui: where to find cuuimake ui_*.h files
 #   since FORMS is not used
@@ -38,27 +38,7 @@ TARGET = cudisplay
     TARGET = wasm/$${TARGET}
 }
 
-#
-# make install works if INSTALL_DIR is given to qmake
-#
-!isEmpty(INSTALL_DIR) {
-    wasm-emscripten {
-        inst.files = wasm/*
-    } else {
-        inst.files = $${TARGET}
-    }
-    inst.path = $${INSTALL_DIR}
-    INSTALLS += inst
-    message("-")
-    message("INSTALLATION")
-    message("       execute `make install` to install 'magicdemo' under $${INSTALL_DIR} ")
-    message("-")
-} else {
-    message("-")
-    message("INSTALLATION")
-    message("       call qmake INSTALL_DIR=/usr/local/bin to install magicdemo later with `make install` ")
-    message("-")
-}
+
 
 # unix:LIBS += -L. -lmylib
 
@@ -76,3 +56,27 @@ message("-")
 
 RESOURCES += \
     src/cudisplay.qrc
+
+#
+# make install works if INSTALL_PREFIX is given to qmake
+#
+!isEmpty(INSTALL_PREFIX) {
+    wasm-emscripten {
+	    inst.files = wasm/*
+		} else {
+		inst.files = $${TARGET}
+		}
+	inst.path = $${INSTALL_PREFIX}/bin
+	INSTALLS += inst
+	message("-")
+	message("INSTALLATION")
+	message("       execute `make install` to install 'cudisplay' under $${INSTALL_PREFIX}/bin ")
+	message("-")
+} else {
+    message(" ")
+	message(" ----------------------------------------  INSTALLATION ---------------------------------------- ")
+	message(" call qmake INSTALL_PREFIX=$${CUMBIA_ROOT} to install cudisplay later with `make install` ")
+	message(" ----------------------------------------  ------------ ---------------------------------------- ")
+	message(" ")
+	message(" ")
+}

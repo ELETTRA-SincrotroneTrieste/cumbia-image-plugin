@@ -10,6 +10,10 @@ class QRect;
 
 class QuImgZoomerPrivate;
 
+
+/*!
+ * \internal
+ */
 class QuImgZoomer
 {
 public:

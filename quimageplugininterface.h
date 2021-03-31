@@ -22,7 +22,51 @@ class QScrollArea;
 class QuImgScrollAreaI;
 
 /*!
- * \brief Interface to the cumbia widget to display images
+ * \brief Interface to the cumbia widget to display images.
+ *
+ * QuImageBaseI defines an interface for clients of the plugin to control the behaviour of the cumbia image display
+ * widget implementations, namely QuImageWidget and QuImageGLWidget. These two implement QWidget and they can be
+ * accessed *as QWidget*s through the *asWidget* method. This allows the clients to use Qt properties and signal/slot
+ * connections. For the rest, QuImageWidget and QuImageGLWidget shall only be controlled through the QuImageBaseI interface.
+ *
+ * There are some setImage flavors to set an image on the widget. An image can be set manually as a QImage or using cumbia
+ * <a href="https://elettra-sincrotronetrieste.github.io/cumbia-libs/html/cumbia/html/classCuMatrix.html">CuMatrix</a> image container.
+ * For the basic automatic usage of this plugin described in the examples it is not necessary to deal with CuMatrix.
+ *
+ * The setScaleContents method controls whether the image scales or not when the widget geometry changes (for example within a layout).
+ * If scale contents is *false*, then the image can be zoom and placed in a scroll area to improve its management (see QuImgScrollAreaI).
+ *
+ * \par Error related methods
+ * A custom image can be set in case of error (setErrorImage). The error condition can be triggered manually with setError or set internally
+ * by the cumbia engine, if it has been enabled through QuImagePluginInterface::init and QuImageBaseI::setSource has been called.
+ * The same logic applies to setErrorMessage.
+ *
+ * \par Color tables
+ * The setColorTable allows changing the image color table. colorTable returns the one in use.
+ *
+ * \par Mouse events
+ * Mouse events (press, release, move, wheel) can be intercepted by implementations of QuImageMouseEventIf.
+ * setImageMouseEventInterface installs the mouse event interface. When a mouse interface is installed, the
+ * QuImageBaseI shall not process mouse events automatically (for example, zooming).
+ *
+ * \par Mapping image to widget geometry
+ * mapToImg functions map a point (or a rectangle) from widget coordinates to image coordinates.
+ * mapFromImg map a point (or QRect) from image coordinates to widget coordinates.
+ *
+ * \par Zoom
+ * Zooming is enabled by default if scaleContents is false. Zoom can be disabled with setZoomEnabled
+ * and the level can be changed with setZoomLevel. The level shall be given as a percentage.
+ *
+ * \par QuImageBaseI widget implementation
+ * QuImageBase is implemented by QuImageWidget and QuImageGLWidget, that are QWidget derived objects.
+ * The asWidget method, returns a pointer to QuImageBase *as QWidget*.
+ * Qt properties and signal/slot connections can be exploited.
+ *
+ * \par Connecting to cumbia
+ * The setSource method connects the image to a cumbia source. The supported engines rely on cumbia and
+ * application level configurations.
+ * The source method returns the source of data in use.
+ * In order for connections to work, QuImagePluginInterface::init shall be called beforehand
  *
  *
  */
@@ -84,6 +128,15 @@ public:
  * If the image is not connected to the cumbia engine, it scales down to a simple viewer at the cost of a single pointer to an
  * unused object.
  *
+ * \par Data types
+ * Image data types are integrated in cumbia libs *since version 1.2.5*.
+ * <a href="https://elettra-sincrotronetrieste.github.io/cumbia-libs/html/cumbia/html/classCuMatrix.html">CuMatrix</a>
+ * is the container for image data. *CuMatrices* are carried within
+ * <a href="https://elettra-sincrotronetrieste.github.io/cumbia-libs/html/cumbia/html/classCuVariant.html">CuVariant</a>s.
+ * The latter provide constructors and conversion methods for the supported types. CuMatrix is a template class.
+ * You may not need to know these low level details in order to use this plugin.
+ * Some flavours of setImage are provided to support a limited subset of data types.
+ *
  * The image can be drawn
  * \li *scaled* to the widget dimensions
  * \li within a *scroll area*, where either the entire or only a portion of an image can be drawn according to the widget dimensions.
@@ -115,7 +168,7 @@ public:
    #include <QuImagePluginInterface.h>
    // load image plugin
    QObject *image_plo;
-   QuImagePluginInterface *plugin_i = QuImagePluginInterface::get_instance(cumbia_pool, m_ctrl_factory_pool, image_plo);
+   QuImagePluginInterface *plugin_i = QuImagePluginInterface::get_instance(cumbia_pool, m_ctrl_factory_pool, &image_plo);
    if(!plugin_i)
         perr("MyimageApp: failed to load plugin \"%s\"", qstoc(QuImagePluginInterface::file_name()));
     else { // image here
@@ -176,7 +229,7 @@ public:
  * You will identificate them easily in the application if either it has been generated with *cumbia new project* or, more generally, if
  * the cumbia engine is already supported. Refer to the *cumbia* documentation if in doubt.
  *
- * \image html tg_image "Reading TangoTest double_image attribute"
+ * \image html tg_image.png "Reading TangoTest double_image attribute"
  *
  * \par Designer integration
  *
@@ -201,6 +254,8 @@ public:
    }
  * \endcode
  *
+ * The *examples* directory contains a project named *cudisplay-designer* realised with this technique.
+ *
  * \par Further reading
  * The QuImageWidget and its incomplete counterpart QuImageGLWidget are QWidget and QOpenGLWidget implementing QuImageBaseI.
  * The QuImageBaseI::asWidget allows signal/slot connections to them as well as access to Qt properties.
@@ -208,6 +263,16 @@ public:
  *
  * See also QuImgScrollAreaI, QuImageBaseI, QuImageWidget, QuImgScrollArea.
  *
+ * \par Examples
+ * The directory *examples/cudisplay* provides a working application to read images with cumbia:
+ *
+ * > cudisplay  test/device/1/double_image
+ *
+ * The cudisplay utility can be installed executing qmake with the *INSTALL_DIR* option:
+ *
+ * > qmake INSTALL_DIR=/usr/local/cumbia-libs/bin
+ *
+ * Under *examples*, the project *cudisplay-designer* is the equivalent realised with the Qt designer.
  *
  */
 class QuImagePluginInterface
@@ -216,31 +281,63 @@ public:
 
     virtual ~QuImagePluginInterface() { }
 
-    /** \brief Initialise the multi reader with mixed engine mode and the read mode.
+    /** \brief Initialise the image reader with mixed engine mode (CumbiaPool + CuControlsFactoryPool).
      *
-     * @param cumbia a reference to the CumbiaPool engine chooser
-     * @param r_fac the CuControlsFactoryPool factory chooser
+     * This call is necessary if you want to setSource on the image later and display an image from cumbia.
+     *
+     * @param cumbia_pool a reference to the CumbiaPool engine chooser
+     * @param fpool the CuControlsFactoryPool factory chooser
      *
      */
     virtual void init(CumbiaPool *cumbia_pool, const CuControlsFactoryPool &fpool) = 0;
 
-    /** \brief To provide the necessary signals aforementioned, the implementation must derive from
-     *         Qt QObject. This method returns the subclass as a QObject, so that the client can
-     *         connect to the multi reader signals.
+    /** \brief Get a pointer to QuImagePlugin, that implements QuImagePluginInterface and *is* a QObject.
      *
-     * @return The object implementing QuImageI as a QObject.
+     *  Obtaining a reference to this plugin as QObject allows to use Qt properties and signal/slots.
+     *
+     * @return This plugin as QObject.
      */
     virtual const QObject* get_qobject() const = 0;
 
     /*!
-     * \brief get_image returns a new QuImageI object with parent the given QObject
+     * \brief get_image returns a new QuImageI object with the given parent
 
      * \return a *new* instance of an object implementing QuImageI interface
      *
-     * \see new_image_base
+     * \par Implementations
+     * QuImageBaseI is implemented by QuImageWidget, QuImageGLWidget and QuImageBase.
+     * The latter is a class used by QuImageWidget and QuImageGLWidget to implement common functionality. It shall
+     * not be used by the clients of this plugin.
+     * QuImageWidget and QuImageGLWidget are the plugin implementations and cannot be used by the clients of the
+     * library with the exception of *signal / slot* connections. Clients shall use QuImageBaseI interface to
+     * control QuImageWidget and QuImageGLWidget and, where convenient, QuImageWidget and QuImageGLWidget signals and
+     * slots.
+     *
+     * \see new_scroll_area
+     * \see QuImageWidget
+     * \see QuImageGLWidget
      */
     virtual QuImageBaseI *new_image(QWidget* parent, bool opengl = false) const = 0;
 
+    /*!
+     * \brief new_scroll_area returns a new instance of QuImgScrollAreaI
+     * \param parent the parent QWidget
+     * \return a QScrollArea that implements QuImgScrollAreaI and handles changes in the image geometry.
+     *
+     * \par Example
+     * \code
+        QGridLayout *lo = new QGridLayout(this); // layout
+        QuImgScrollAreaI *sa = plugin_i->new_scroll_area(this);
+        QuImageBaseI *ii = plugin_i->new_image(this);
+        ii->setImage(QImage(":/seoyeji.png"));
+        sa->setImage(d->ii);
+        lo->addWidget(sa->scrollArea(), 0, 0, 6, 6);
+     * \endcode
+     *
+     * @see QuImgScrollAreaI
+     * @see QuImgScrollAreaI::scrollArea
+     *
+     */
     virtual QuImgScrollAreaI *new_scroll_area(QWidget *parent) const = 0;
 
     /*!
@@ -285,9 +382,28 @@ public:
         return i;
     }
 
+    /*!
+     * \brief file_name returns this plugin's file name
+     * \return  the name of the plugin: *libcumbia-image-plugin.so*.
+     */
     static QString file_name() { return "libcumbia-image-plugin.so"; }
 };
 
+/*!
+ * \brief A QScrollArea dedicated to hosting a QuImageBaseI
+ *
+ * You can get a new instance of QuImgScrollAreaI through QuImagePluginInterface::new_scroll_area,
+ * use setImage to set a QuImageBaseI on the scroll area and finally add the scroll area to a
+ * layout, either manually or through QuImagePluginInterface::layout(QuImgScrollAreaI *scroll_a, QWidget* container).
+ *
+ * The scrollArea method returns this object *as* a QScrollArea.
+ * The setScaleContents called with a true parameter disables scrolling and scales the image according to the changes
+ * in the area geometry. Scroll bars can be used to move the image in the view otherwise. Remember that zooming is possible
+ * only if scale contents is false.
+ *
+ * An example is provided in the introduction.
+ *
+ */
 class QuImgScrollAreaI {
 public:
     virtual ~QuImgScrollAreaI() {}
