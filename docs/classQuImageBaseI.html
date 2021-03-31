@@ -52,8 +52,15 @@ $(function() {
  <a href="classQuImageBaseI.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="quimageplugininterface_8h_source.html">quimageplugininterface.h</a>&gt;</code></p>
-
-<p>Inherited by QuImageBase, QuImageGLWidget, and QuImageWidget.</p>
+<div class="dynheader">
+Inheritance diagram for QuImageBaseI:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classQuImageBaseI.png" usemap="#QuImageBaseI_map" alt=""/>
+  <map id="QuImageBaseI_map" name="QuImageBaseI_map">
+<area href="classQuImageWidget.html" title="QWidget implementing QuImageBaseI." alt="QuImageWidget" shape="rect" coords="0,56,100,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -143,7 +150,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>unsetSource</
 <tr class="separator:a3cbef6a93767353ddb52baf6924aec93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> defines an interface for clients of the plugin to control the behaviour of the cumbia image display widget implementations, namely QuImageWidget and QuImageGLWidget. These two implement QWidget and they can be accessed <em>as QWidget*s through the *asWidget</em> method. This allows the clients to use Qt properties and signal/slot connections. For the rest, QuImageWidget and QuImageGLWidget shall only be controlled through the <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> interface.</p>
+<div class="textblock"><p><a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> defines an interface for clients of the plugin to control the behaviour of the cumbia image display widget implementations, namely <a class="el" href="classQuImageWidget.html" title="QWidget implementing QuImageBaseI.">QuImageWidget</a> and QuImageGLWidget. These two implement QWidget and they can be accessed <em>as QWidget*s through the *asWidget</em> method. This allows the clients to use Qt properties and signal/slot connections. For the rest, <a class="el" href="classQuImageWidget.html" title="QWidget implementing QuImageBaseI.">QuImageWidget</a> and QuImageGLWidget shall only be controlled through the <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> interface.</p>
 <p>There are some setImage flavors to set an image on the widget. An image can be set manually as a QImage or using cumbia <a href="https://elettra-sincrotronetrieste.github.io/cumbia-libs/html/cumbia/html/classCuMatrix.html">CuMatrix</a> image container. For the basic automatic usage of this plugin described in the examples it is not necessary to deal with CuMatrix.</p>
 <p>The setScaleContents method controls whether the image scales or not when the widget geometry changes (for example within a layout). If scale contents is <em>false</em>, then the image can be zoom and placed in a scroll area to improve its management (see <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a>).</p>
 <dl class="section user"><dt>Error related methods</dt><dd>A custom image can be set in case of error (setErrorImage). The error condition can be triggered manually with setError or set internally by the cumbia engine, if it has been enabled through QuImagePluginInterface::init and QuImageBaseI::setSource has been called. The same logic applies to setErrorMessage.</dd></dl>
@@ -151,7 +158,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>unsetSource</
 <dl class="section user"><dt>Mouse events</dt><dd>Mouse events (press, release, move, wheel) can be intercepted by implementations of QuImageMouseEventIf. setImageMouseEventInterface installs the mouse event interface. When a mouse interface is installed, the <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> shall not process mouse events automatically (for example, zooming).</dd></dl>
 <dl class="section user"><dt>Mapping image to widget geometry</dt><dd>mapToImg functions map a point (or a rectangle) from widget coordinates to image coordinates. mapFromImg map a point (or QRect) from image coordinates to widget coordinates.</dd></dl>
 <dl class="section user"><dt>Zoom</dt><dd>Zooming is enabled by default if scaleContents is false. Zoom can be disabled with setZoomEnabled and the level can be changed with setZoomLevel. The level shall be given as a percentage.</dd></dl>
-<dl class="section user"><dt>QuImageBaseI widget implementation</dt><dd>QuImageBase is implemented by QuImageWidget and QuImageGLWidget, that are QWidget derived objects. The asWidget method, returns a pointer to QuImageBase <em>as QWidget</em>. Qt properties and signal/slot connections can be exploited.</dd></dl>
+<dl class="section user"><dt>QuImageBaseI widget implementation</dt><dd>QuImageBase is implemented by <a class="el" href="classQuImageWidget.html" title="QWidget implementing QuImageBaseI.">QuImageWidget</a> and QuImageGLWidget, that are QWidget derived objects. The asWidget method, returns a pointer to QuImageBase <em>as QWidget</em>. Qt properties and signal/slot connections can be exploited.</dd></dl>
 <dl class="section user"><dt>Connecting to cumbia</dt><dd>The setSource method connects the image to a cumbia source. The supported engines rely on cumbia and application level configurations. The source method returns the source of data in use. In order for connections to work, QuImagePluginInterface::init shall be called beforehand </dd></dl>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="quimageplugininterface_8h_source.html">quimageplugininterface.h</a></li>
