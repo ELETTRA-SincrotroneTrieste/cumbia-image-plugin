@@ -44,30 +44,24 @@ $(function() {
 <div class="title">quimagemouseeventif.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="quimagemouseeventif_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMAGEMOUSEEVENTIF_H</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMAGEMOUSEEVENTIF_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define QUIMAGEMOUSEEVENTIF_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">class </span>QPoint;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QMouseEvent&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classQuImageMouseEventIf.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>QuImageMouseEventIf</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classQuImageMouseEventIf.html#a04d26b89c358198fc15198f3e54b04a2">   10</a></span>&#160;    <a class="code" href="classQuImageMouseEventIf.html#a04d26b89c358198fc15198f3e54b04a2">QuImageMouseEventIf</a>();</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    QuImageMouseEventIf();</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classQuImageMouseEventIf.html#a0ebd07b1666c2255c849b79b8260465b">   12</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classQuImageMouseEventIf.html#a0ebd07b1666c2255c849b79b8260465b">imageMousePressEvent</a>(<span class="keyword">const</span> QPoint&amp; pos, <span class="keywordtype">int</span> button) = 0;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classQuImageMouseEventIf.html#a41be93b2da1598ff791a28fafb58015b">   13</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classQuImageMouseEventIf.html#a41be93b2da1598ff791a28fafb58015b">imageMouseReleaseEvent</a>(<span class="keyword">const</span> QPoint&amp; pos, <span class="keywordtype">int</span> button) = 0;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classQuImageMouseEventIf.html#a7b9bddcc00461de8508c5af54c4cdf7b">   14</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classQuImageMouseEventIf.html#a7b9bddcc00461de8508c5af54c4cdf7b">imageMouseMoveEvent</a>(<span class="keyword">const</span> QPoint&amp; pos, <span class="keywordtype">int</span> button) = 0;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classQuImageMouseEventIf.html#ab3ead40b581261dbe444c80b694eb7dd">   15</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classQuImageMouseEventIf.html#ab3ead40b581261dbe444c80b694eb7dd">imageMouseWheelEvent</a>(QWheelEvent *event) = 0 ;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> imageMousePressEvent(<span class="keyword">const</span> QPoint&amp; pos, <span class="keywordtype">int</span> button) = 0;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> imageMouseReleaseEvent(<span class="keyword">const</span> QPoint&amp; pos, <span class="keywordtype">int</span> button) = 0;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> imageMouseMoveEvent(<span class="keyword">const</span> QPoint&amp; pos, <span class="keywordtype">int</span> button) = 0;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> imageMouseWheelEvent(QWheelEvent *event) = 0 ;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;};</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// IMAGEMOUSEEVENTINTERFACE_H</span></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html"><div class="ttname"><a href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a></div><div class="ttdef"><b>Definition:</b> quimagemouseeventif.h:8</div></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html_a04d26b89c358198fc15198f3e54b04a2"><div class="ttname"><a href="classQuImageMouseEventIf.html#a04d26b89c358198fc15198f3e54b04a2">QuImageMouseEventIf::QuImageMouseEventIf</a></div><div class="ttdeci">QuImageMouseEventIf()</div></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html_a0ebd07b1666c2255c849b79b8260465b"><div class="ttname"><a href="classQuImageMouseEventIf.html#a0ebd07b1666c2255c849b79b8260465b">QuImageMouseEventIf::imageMousePressEvent</a></div><div class="ttdeci">virtual void imageMousePressEvent(const QPoint &amp;pos, int button)=0</div></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html_a41be93b2da1598ff791a28fafb58015b"><div class="ttname"><a href="classQuImageMouseEventIf.html#a41be93b2da1598ff791a28fafb58015b">QuImageMouseEventIf::imageMouseReleaseEvent</a></div><div class="ttdeci">virtual void imageMouseReleaseEvent(const QPoint &amp;pos, int button)=0</div></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html_a7b9bddcc00461de8508c5af54c4cdf7b"><div class="ttname"><a href="classQuImageMouseEventIf.html#a7b9bddcc00461de8508c5af54c4cdf7b">QuImageMouseEventIf::imageMouseMoveEvent</a></div><div class="ttdeci">virtual void imageMouseMoveEvent(const QPoint &amp;pos, int button)=0</div></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html_ab3ead40b581261dbe444c80b694eb7dd"><div class="ttname"><a href="classQuImageMouseEventIf.html#ab3ead40b581261dbe444c80b694eb7dd">QuImageMouseEventIf::imageMouseWheelEvent</a></div><div class="ttdeci">virtual void imageMouseWheelEvent(QWheelEvent *event)=0</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

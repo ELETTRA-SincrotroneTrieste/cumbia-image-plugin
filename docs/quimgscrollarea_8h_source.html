@@ -44,49 +44,39 @@ $(function() {
 <div class="title">quimgscrollarea.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="quimgscrollarea_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMGSCROLLAREA_H</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMGSCROLLAREA_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define QUIMGSCROLLAREA_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QScrollArea&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="quimageplugininterface_8h.html">quimageplugininterface.h</a>&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;quimageplugininterface.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span><a class="code" href="classQuImgScrollAreaPrivate.html">QuImgScrollAreaPrivate</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>QuImgScrollAreaPrivate;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classQuImgScrollArea.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="classQuImgScrollArea.html">QuImgScrollArea</a> : <span class="keyword">public</span> QScrollArea, <span class="keyword">public</span> <a class="code" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>QuImgScrollArea : <span class="keyword">public</span> QScrollArea, <span class="keyword">public</span> <a class="code" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    Q_OBJECT</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="classQuImgScrollArea.html#abd080794c1903ad615a5d26e16a7b198">QuImgScrollArea</a>(QWidget *parent);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classQuImgScrollArea.html#a7a2a691e44a0ea34db3193e76dde8319">~QuImgScrollArea</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    QuImgScrollArea(QWidget *parent);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ~QuImgScrollArea();</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classQuImgScrollArea.html#a966ece34cd1ac962859016381e87befa">scrollEnabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">bool</span> scrollEnabled() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">// QuImgScrollAreaI interface</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    QScrollArea *<a class="code" href="classQuImgScrollArea.html#a32e06eca9731af1d6b471a508e9032fb">scrollArea</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgScrollArea.html#a12db409f4602f9ed1c8941480a2a0957">setImage</a>(<a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    QScrollArea *scrollArea();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> setImage(<a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span> slots:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgScrollArea.html#a35caf1a275315b41f8e97622df8ac3b5">onZoomRectChanged</a>(<span class="keyword">const</span> QRect &amp;from, <span class="keyword">const</span> QRect &amp;to);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgScrollArea.html#a530d20b273b269a8c4c0e4564e2e14ee">setScaleContents</a>(<span class="keywordtype">bool</span> scale);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> onZoomRectChanged(<span class="keyword">const</span> QRect &amp;from, <span class="keyword">const</span> QRect &amp;to);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> setScaleContents(<span class="keywordtype">bool</span> scale);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classQuImgScrollAreaPrivate.html">QuImgScrollAreaPrivate</a> *d;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    QuImgScrollAreaPrivate *d;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// QUIMGSCROLLAREA_H</span></div>
 <div class="ttc" id="aclassQuImageBaseI_html"><div class="ttname"><a href="classQuImageBaseI.html">QuImageBaseI</a></div><div class="ttdoc">Interface to the cumbia widget to display images.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:73</div></div>
 <div class="ttc" id="aclassQuImgScrollAreaI_html"><div class="ttname"><a href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div><div class="ttdoc">A QScrollArea dedicated to hosting a QuImageBaseI.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:407</div></div>
-<div class="ttc" id="aclassQuImgScrollAreaPrivate_html"><div class="ttname"><a href="classQuImgScrollAreaPrivate.html">QuImgScrollAreaPrivate</a></div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:4</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html"><div class="ttname"><a href="classQuImgScrollArea.html">QuImgScrollArea</a></div><div class="ttdef"><b>Definition:</b> quimgscrollarea.h:10</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_a12db409f4602f9ed1c8941480a2a0957"><div class="ttname"><a href="classQuImgScrollArea.html#a12db409f4602f9ed1c8941480a2a0957">QuImgScrollArea::setImage</a></div><div class="ttdeci">void setImage(QuImageBaseI *ii)</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:32</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_a32e06eca9731af1d6b471a508e9032fb"><div class="ttname"><a href="classQuImgScrollArea.html#a32e06eca9731af1d6b471a508e9032fb">QuImgScrollArea::scrollArea</a></div><div class="ttdeci">QScrollArea * scrollArea()</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:28</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_a35caf1a275315b41f8e97622df8ac3b5"><div class="ttname"><a href="classQuImgScrollArea.html#a35caf1a275315b41f8e97622df8ac3b5">QuImgScrollArea::onZoomRectChanged</a></div><div class="ttdeci">void onZoomRectChanged(const QRect &amp;from, const QRect &amp;to)</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:41</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_a530d20b273b269a8c4c0e4564e2e14ee"><div class="ttname"><a href="classQuImgScrollArea.html#a530d20b273b269a8c4c0e4564e2e14ee">QuImgScrollArea::setScaleContents</a></div><div class="ttdeci">void setScaleContents(bool scale)</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:23</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_a7a2a691e44a0ea34db3193e76dde8319"><div class="ttname"><a href="classQuImgScrollArea.html#a7a2a691e44a0ea34db3193e76dde8319">QuImgScrollArea::~QuImgScrollArea</a></div><div class="ttdeci">~QuImgScrollArea()</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:15</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_a966ece34cd1ac962859016381e87befa"><div class="ttname"><a href="classQuImgScrollArea.html#a966ece34cd1ac962859016381e87befa">QuImgScrollArea::scrollEnabled</a></div><div class="ttdeci">bool scrollEnabled() const</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:19</div></div>
-<div class="ttc" id="aclassQuImgScrollArea_html_abd080794c1903ad615a5d26e16a7b198"><div class="ttname"><a href="classQuImgScrollArea.html#abd080794c1903ad615a5d26e16a7b198">QuImgScrollArea::QuImgScrollArea</a></div><div class="ttdeci">QuImgScrollArea(QWidget *parent)</div><div class="ttdef"><b>Definition:</b> quimgscrollarea.cpp:9</div></div>
-<div class="ttc" id="aquimageplugininterface_8h_html"><div class="ttname"><a href="quimageplugininterface_8h.html">quimageplugininterface.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

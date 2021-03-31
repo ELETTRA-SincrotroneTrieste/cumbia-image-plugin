@@ -44,53 +44,40 @@ $(function() {
 <div class="title">quimgmousetracker.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="quimgmousetracker_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMGMOUSETRACKER_H</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMGMOUSETRACKER_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define QUIMGMOUSETRACKER_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">class </span>QMouseEvent;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span>QWheelEvent;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">class </span><a class="code" href="classQuImageBasePrivate.html">QuImageBasePrivate</a>;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span><a class="code" href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a>;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span><a class="code" href="classQuImgZoomer.html">QuImgZoomer</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">class </span>QuImageBasePrivate;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>QuImageMouseEventIf;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span>QuImgZoomer;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QPoint&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classQuImgMouseTracker.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classQuImgMouseTracker.html">QuImgMouseTracker</a></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span>QuImgMouseTracker</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classQuImgMouseTracker.html#a13cb60084930759c810c5ed0d0f5cdaa">QuImgMouseTracker</a>(<a class="code" href="classQuImageBasePrivate.html">QuImageBasePrivate</a>* _img_d, <a class="code" href="classQuImgZoomer.html">QuImgZoomer</a> *z);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    QuImgMouseTracker(QuImageBasePrivate* _img_d, QuImgZoomer *z);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgMouseTracker.html#a7af22751635069c221e0190946884a42">mouseMove</a>(QMouseEvent *e);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgMouseTracker.html#a0d7ecda3856fd16888fd37bc60b47db3">mousePress</a>(QMouseEvent *e);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgMouseTracker.html#a0ef02ec2bff5492b80ebf6cee2ce63f0">mouseRelease</a>(QMouseEvent *e);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgMouseTracker.html#ad836afc5324f2da2f73ea603946da0c9">wheelEvent</a>(QWheelEvent * event);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> mouseMove(QMouseEvent *e);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> mousePress(QMouseEvent *e);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> mouseRelease(QMouseEvent *e);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> wheelEvent(QWheelEvent * event);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgMouseTracker.html#a796f144af155a59ab95f6b2e7704daac">setMouseEventInterface</a>(<a class="code" href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a> *i);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> setMouseEventInterface(QuImageMouseEventIf *i);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classQuImgMouseTracker.html#abadec9072b0e8b74d37b0ff055b3c7d8">   28</a></span>&#160;    QPoint <a class="code" href="classQuImgMouseTracker.html#abadec9072b0e8b74d37b0ff055b3c7d8">mP1</a>, <a class="code" href="classQuImgMouseTracker.html#a49b63ca56c9498a7fb751b6ef0d92065">mP2</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classQuImgMouseTracker.html#a33740491796bcdbbdffa1bfda38052cb">   29</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classQuImgMouseTracker.html#a33740491796bcdbbdffa1bfda38052cb">left_button</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    QPoint mP1, mP2;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">bool</span> left_button;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classQuImageBasePrivate.html">QuImageBasePrivate</a>* img_d;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a> *mou_if;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classQuImgZoomer.html">QuImgZoomer</a> *zoomer;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    QuImageBasePrivate* img_d;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    QuImageMouseEventIf *mou_if;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    QuImgZoomer *zoomer;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;};</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// QUIMGMOUSETRACKER_H</span></div>
-<div class="ttc" id="aclassQuImageBasePrivate_html"><div class="ttname"><a href="classQuImageBasePrivate.html">QuImageBasePrivate</a></div><div class="ttdef"><b>Definition:</b> quimagebase.h:33</div></div>
-<div class="ttc" id="aclassQuImageMouseEventIf_html"><div class="ttname"><a href="classQuImageMouseEventIf.html">QuImageMouseEventIf</a></div><div class="ttdef"><b>Definition:</b> quimagemouseeventif.h:8</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html"><div class="ttname"><a href="classQuImgMouseTracker.html">QuImgMouseTracker</a></div><div class="ttdef"><b>Definition:</b> quimgmousetracker.h:17</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a0d7ecda3856fd16888fd37bc60b47db3"><div class="ttname"><a href="classQuImgMouseTracker.html#a0d7ecda3856fd16888fd37bc60b47db3">QuImgMouseTracker::mousePress</a></div><div class="ttdeci">void mousePress(QMouseEvent *e)</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.cpp:25</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a0ef02ec2bff5492b80ebf6cee2ce63f0"><div class="ttname"><a href="classQuImgMouseTracker.html#a0ef02ec2bff5492b80ebf6cee2ce63f0">QuImgMouseTracker::mouseRelease</a></div><div class="ttdeci">void mouseRelease(QMouseEvent *e)</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.cpp:34</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a13cb60084930759c810c5ed0d0f5cdaa"><div class="ttname"><a href="classQuImgMouseTracker.html#a13cb60084930759c810c5ed0d0f5cdaa">QuImgMouseTracker::QuImgMouseTracker</a></div><div class="ttdeci">QuImgMouseTracker(QuImageBasePrivate *_img_d, QuImgZoomer *z)</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.cpp:8</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a33740491796bcdbbdffa1bfda38052cb"><div class="ttname"><a href="classQuImgMouseTracker.html#a33740491796bcdbbdffa1bfda38052cb">QuImgMouseTracker::left_button</a></div><div class="ttdeci">bool left_button</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.h:29</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a49b63ca56c9498a7fb751b6ef0d92065"><div class="ttname"><a href="classQuImgMouseTracker.html#a49b63ca56c9498a7fb751b6ef0d92065">QuImgMouseTracker::mP2</a></div><div class="ttdeci">QPoint mP2</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.h:28</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a796f144af155a59ab95f6b2e7704daac"><div class="ttname"><a href="classQuImgMouseTracker.html#a796f144af155a59ab95f6b2e7704daac">QuImgMouseTracker::setMouseEventInterface</a></div><div class="ttdeci">void setMouseEventInterface(QuImageMouseEventIf *i)</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.cpp:13</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_a7af22751635069c221e0190946884a42"><div class="ttname"><a href="classQuImgMouseTracker.html#a7af22751635069c221e0190946884a42">QuImgMouseTracker::mouseMove</a></div><div class="ttdeci">void mouseMove(QMouseEvent *e)</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.cpp:17</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_abadec9072b0e8b74d37b0ff055b3c7d8"><div class="ttname"><a href="classQuImgMouseTracker.html#abadec9072b0e8b74d37b0ff055b3c7d8">QuImgMouseTracker::mP1</a></div><div class="ttdeci">QPoint mP1</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.h:28</div></div>
-<div class="ttc" id="aclassQuImgMouseTracker_html_ad836afc5324f2da2f73ea603946da0c9"><div class="ttname"><a href="classQuImgMouseTracker.html#ad836afc5324f2da2f73ea603946da0c9">QuImgMouseTracker::wheelEvent</a></div><div class="ttdeci">void wheelEvent(QWheelEvent *event)</div><div class="ttdef"><b>Definition:</b> quimgmousetracker.cpp:58</div></div>
-<div class="ttc" id="aclassQuImgZoomer_html"><div class="ttname"><a href="classQuImgZoomer.html">QuImgZoomer</a></div><div class="ttdef"><b>Definition:</b> quimgzoomer.h:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

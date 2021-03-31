@@ -44,30 +44,23 @@ $(function() {
 <div class="title">colortablemap.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="colortablemap_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef COLORTABLESET_H</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef COLORTABLESET_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define COLORTABLESET_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QMap&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QRgb&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QVector&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classColorTableMap.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classColorTableMap.html">ColorTableMap</a> : <span class="keyword">public</span> QMap&lt;QString, QVector&lt;QRgb&gt; &gt;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>ColorTableMap : <span class="keyword">public</span> QMap&lt;QString, QVector&lt;QRgb&gt; &gt;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classColorTableMap.html#a0146ae3ce2f1e80afed2baa4ffc84286">ColorTableMap</a>();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    ColorTableMap();</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classColorTableMap.html#a528eed30815688da7b82f19c4dcc77c5">   16</a></span>&#160;    QVector&lt;QRgb&gt; <a class="code" href="classColorTableMap.html#aaa9d365b1db8d3f08c0fbbbb1fb4696f">mCPalette</a>, <a class="code" href="classColorTableMap.html#afe9ab7aeb226bb8b20f336e57bd23b66">mJetPalette</a>, <a class="code" href="classColorTableMap.html#a528eed30815688da7b82f19c4dcc77c5">mBWPalette</a>, <a class="code" href="classColorTableMap.html#a745c65ddc94c28c9b4f274bb59a9e287">mHotPalette</a>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classColorTableMap.html#aa9fc353a7c4521cd43ecea431d216d06">generateColorMap</a>();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    QVector&lt;QRgb&gt; mCPalette, mJetPalette, mBWPalette, mHotPalette;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> generateColorMap();</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;};</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// COLORTABLESET_H</span></div>
-<div class="ttc" id="aclassColorTableMap_html"><div class="ttname"><a href="classColorTableMap.html">ColorTableMap</a></div><div class="ttdef"><b>Definition:</b> colortablemap.h:12</div></div>
-<div class="ttc" id="aclassColorTableMap_html_a0146ae3ce2f1e80afed2baa4ffc84286"><div class="ttname"><a href="classColorTableMap.html#a0146ae3ce2f1e80afed2baa4ffc84286">ColorTableMap::ColorTableMap</a></div><div class="ttdeci">ColorTableMap()</div><div class="ttdef"><b>Definition:</b> colortablemap.cpp:6</div></div>
-<div class="ttc" id="aclassColorTableMap_html_a528eed30815688da7b82f19c4dcc77c5"><div class="ttname"><a href="classColorTableMap.html#a528eed30815688da7b82f19c4dcc77c5">ColorTableMap::mBWPalette</a></div><div class="ttdeci">QVector&lt; QRgb &gt; mBWPalette</div><div class="ttdef"><b>Definition:</b> colortablemap.h:16</div></div>
-<div class="ttc" id="aclassColorTableMap_html_a745c65ddc94c28c9b4f274bb59a9e287"><div class="ttname"><a href="classColorTableMap.html#a745c65ddc94c28c9b4f274bb59a9e287">ColorTableMap::mHotPalette</a></div><div class="ttdeci">QVector&lt; QRgb &gt; mHotPalette</div><div class="ttdef"><b>Definition:</b> colortablemap.h:16</div></div>
-<div class="ttc" id="aclassColorTableMap_html_aa9fc353a7c4521cd43ecea431d216d06"><div class="ttname"><a href="classColorTableMap.html#aa9fc353a7c4521cd43ecea431d216d06">ColorTableMap::generateColorMap</a></div><div class="ttdeci">void generateColorMap()</div><div class="ttdef"><b>Definition:</b> colortablemap.cpp:11</div></div>
-<div class="ttc" id="aclassColorTableMap_html_aaa9d365b1db8d3f08c0fbbbb1fb4696f"><div class="ttname"><a href="classColorTableMap.html#aaa9d365b1db8d3f08c0fbbbb1fb4696f">ColorTableMap::mCPalette</a></div><div class="ttdeci">QVector&lt; QRgb &gt; mCPalette</div><div class="ttdef"><b>Definition:</b> colortablemap.h:16</div></div>
-<div class="ttc" id="aclassColorTableMap_html_afe9ab7aeb226bb8b20f336e57bd23b66"><div class="ttname"><a href="classColorTableMap.html#afe9ab7aeb226bb8b20f336e57bd23b66">ColorTableMap::mJetPalette</a></div><div class="ttdeci">QVector&lt; QRgb &gt; mJetPalette</div><div class="ttdef"><b>Definition:</b> colortablemap.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

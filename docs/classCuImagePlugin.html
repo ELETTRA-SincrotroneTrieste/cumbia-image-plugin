@@ -49,366 +49,39 @@ $(function() {
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="quimageplugin_8h_source.html">quimageplugin.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for CuImagePlugin:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="classCuImagePlugin.png" usemap="#CuImagePlugin_map" alt=""/>
-  <map id="CuImagePlugin_map" name="CuImagePlugin_map">
-<area href="classQuImagePluginInterface.html" alt="QuImagePluginInterface" shape="rect" coords="157,0,304,24"/>
-  </map>
-</div></div>
+
+<p>Inherits QObject, and QuImagePluginInterface.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa65e58dfa0de6aa844797ebd7ef0657c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#aa65e58dfa0de6aa844797ebd7ef0657c">CuImagePlugin</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memitem:aa65e58dfa0de6aa844797ebd7ef0657c"><td class="memItemLeft" align="right" valign="top"><a id="aa65e58dfa0de6aa844797ebd7ef0657c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>CuImagePlugin</b> (QObject *parent=nullptr)</td></tr>
 <tr class="separator:aa65e58dfa0de6aa844797ebd7ef0657c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f7ce0029c345f954dbe405d475f148b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a0f7ce0029c345f954dbe405d475f148b">~CuImagePlugin</a> ()</td></tr>
-<tr class="separator:a0f7ce0029c345f954dbe405d475f148b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a534ee86f92aa64ef0292336059646fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a534ee86f92aa64ef0292336059646fcf">init</a> (CumbiaPool *cumbia_pool, const CuControlsFactoryPool &amp;fpool)</td></tr>
-<tr class="memdesc:a534ee86f92aa64ef0292336059646fcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the image reader with mixed engine mode (CumbiaPool + CuControlsFactoryPool).  <a href="classCuImagePlugin.html#a534ee86f92aa64ef0292336059646fcf">More...</a><br /></td></tr>
+<tr class="memitem:a534ee86f92aa64ef0292336059646fcf"><td class="memItemLeft" align="right" valign="top"><a id="a534ee86f92aa64ef0292336059646fcf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (CumbiaPool *cumbia_pool, const CuControlsFactoryPool &amp;fpool)</td></tr>
 <tr class="separator:a534ee86f92aa64ef0292336059646fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a089132619793c35d5c23f464ead3df33"><td class="memItemLeft" align="right" valign="top">const QObject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a089132619793c35d5c23f464ead3df33">get_qobject</a> () const</td></tr>
-<tr class="memdesc:a089132619793c35d5c23f464ead3df33"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a reference to this object, so that it can be used as a QObject to benefit from signal/slot connections.  <a href="classCuImagePlugin.html#a089132619793c35d5c23f464ead3df33">More...</a><br /></td></tr>
+<tr class="memitem:a089132619793c35d5c23f464ead3df33"><td class="memItemLeft" align="right" valign="top"><a id="a089132619793c35d5c23f464ead3df33"></a>
+const QObject *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a089132619793c35d5c23f464ead3df33">get_qobject</a> () const</td></tr>
+<tr class="memdesc:a089132619793c35d5c23f464ead3df33"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a reference to this object, so that it can be used as a QObject to benefit from signal/slot connections. <br /></td></tr>
 <tr class="separator:a089132619793c35d5c23f464ead3df33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a522ce1052e1f07680ee18021c99bae2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a522ce1052e1f07680ee18021c99bae2e">new_image</a> (QWidget *parent, bool opengl) const</td></tr>
-<tr class="memdesc:a522ce1052e1f07680ee18021c99bae2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">get_image returns a new QuImageI object with the given parent  <a href="classCuImagePlugin.html#a522ce1052e1f07680ee18021c99bae2e">More...</a><br /></td></tr>
+<tr class="memitem:a522ce1052e1f07680ee18021c99bae2e"><td class="memItemLeft" align="right" valign="top"><a id="a522ce1052e1f07680ee18021c99bae2e"></a>
+<a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>new_image</b> (QWidget *parent, bool opengl) const</td></tr>
 <tr class="separator:a522ce1052e1f07680ee18021c99bae2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a01224418bacd54963be051ed521c68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a5a01224418bacd54963be051ed521c68">new_scroll_area</a> (QWidget *parent) const</td></tr>
-<tr class="memdesc:a5a01224418bacd54963be051ed521c68"><td class="mdescLeft">&#160;</td><td class="mdescRight">new_scroll_area returns a new instance of <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a>  <a href="classCuImagePlugin.html#a5a01224418bacd54963be051ed521c68">More...</a><br /></td></tr>
+<tr class="memitem:a5a01224418bacd54963be051ed521c68"><td class="memItemLeft" align="right" valign="top"><a id="a5a01224418bacd54963be051ed521c68"></a>
+<a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>new_scroll_area</b> (QWidget *parent) const</td></tr>
 <tr class="separator:a5a01224418bacd54963be051ed521c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa64b81233b39db3118f309eb3e4a0b69"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#aa64b81233b39db3118f309eb3e4a0b69">layout</a> (<a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *ii, QWidget *container)</td></tr>
-<tr class="memdesc:aa64b81233b39db3118f309eb3e4a0b69"><td class="mdescLeft">&#160;</td><td class="mdescRight">convenience method to layout an image into a container (that has no layout yet)  <a href="classCuImagePlugin.html#aa64b81233b39db3118f309eb3e4a0b69">More...</a><br /></td></tr>
+<tr class="memitem:aa64b81233b39db3118f309eb3e4a0b69"><td class="memItemLeft" align="right" valign="top"><a id="aa64b81233b39db3118f309eb3e4a0b69"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>layout</b> (<a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *ii, QWidget *container)</td></tr>
 <tr class="separator:aa64b81233b39db3118f309eb3e4a0b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d41df1324d876e47767eacbd200274e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCuImagePlugin.html#a1d41df1324d876e47767eacbd200274e">layout</a> (<a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *sa, QWidget *container)</td></tr>
-<tr class="memdesc:a1d41df1324d876e47767eacbd200274e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the same method as the above <em>layout</em> pertaining to a scroll area instead of an image  <a href="classCuImagePlugin.html#a1d41df1324d876e47767eacbd200274e">More...</a><br /></td></tr>
+<tr class="memitem:a1d41df1324d876e47767eacbd200274e"><td class="memItemLeft" align="right" valign="top"><a id="a1d41df1324d876e47767eacbd200274e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>layout</b> (<a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *sa, QWidget *container)</td></tr>
 <tr class="separator:a1d41df1324d876e47767eacbd200274e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classQuImagePluginInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classQuImagePluginInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classQuImagePluginInterface.html">QuImagePluginInterface</a></td></tr>
-<tr class="memitem:abea599f0259b421dd825fd5391ebc836 inherit pub_methods_classQuImagePluginInterface"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImagePluginInterface.html#abea599f0259b421dd825fd5391ebc836">~QuImagePluginInterface</a> ()</td></tr>
-<tr class="separator:abea599f0259b421dd825fd5391ebc836 inherit pub_methods_classQuImagePluginInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_static_methods_classQuImagePluginInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classQuImagePluginInterface')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classQuImagePluginInterface.html">QuImagePluginInterface</a></td></tr>
-<tr class="memitem:ab91876309fbfc745519952fa9509447d inherit pub_static_methods_classQuImagePluginInterface"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classQuImagePluginInterface.html">QuImagePluginInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImagePluginInterface.html#ab91876309fbfc745519952fa9509447d">get_instance</a> (CumbiaPool *cu_poo, const CuControlsFactoryPool &amp;fpoo, QObject **plugin_qob)</td></tr>
-<tr class="memdesc:ab91876309fbfc745519952fa9509447d inherit pub_static_methods_classQuImagePluginInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classQuImagePluginInterface.html#ab91876309fbfc745519952fa9509447d" title="QuImagePluginInterface::get_instance returns a new instance of the plugin.">QuImagePluginInterface::get_instance</a> returns a new instance of the plugin.  <a href="classQuImagePluginInterface.html#ab91876309fbfc745519952fa9509447d">More...</a><br /></td></tr>
-<tr class="separator:ab91876309fbfc745519952fa9509447d inherit pub_static_methods_classQuImagePluginInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a714c3c24932a72612145b65a8d413a84 inherit pub_static_methods_classQuImagePluginInterface"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImagePluginInterface.html#a714c3c24932a72612145b65a8d413a84">file_name</a> ()</td></tr>
-<tr class="memdesc:a714c3c24932a72612145b65a8d413a84 inherit pub_static_methods_classQuImagePluginInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">file_name returns this plugin's file name  <a href="classQuImagePluginInterface.html#a714c3c24932a72612145b65a8d413a84">More...</a><br /></td></tr>
-<tr class="separator:a714c3c24932a72612145b65a8d413a84 inherit pub_static_methods_classQuImagePluginInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This plugin provides </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa65e58dfa0de6aa844797ebd7ef0657c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa65e58dfa0de6aa844797ebd7ef0657c">&#9670;&nbsp;</a></span>CuImagePlugin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CuImagePlugin::CuImagePlugin </td>
-          <td>(</td>
-          <td class="paramtype">QObject *&#160;</td>
-          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0f7ce0029c345f954dbe405d475f148b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f7ce0029c345f954dbe405d475f148b">&#9670;&nbsp;</a></span>~CuImagePlugin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">CuImagePlugin::~CuImagePlugin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a089132619793c35d5c23f464ead3df33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a089132619793c35d5c23f464ead3df33">&#9670;&nbsp;</a></span>get_qobject()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const QObject * CuImagePlugin::get_qobject </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="classQuImagePluginInterface.html#aef86343891ccfe53b65cd006c17fc5ac">QuImagePluginInterface</a>.</p>
-
-</div>
-</div>
-<a id="a534ee86f92aa64ef0292336059646fcf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a534ee86f92aa64ef0292336059646fcf">&#9670;&nbsp;</a></span>init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CuImagePlugin::init </td>
-          <td>(</td>
-          <td class="paramtype">CumbiaPool *&#160;</td>
-          <td class="paramname"><em>cumbia_pool</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const CuControlsFactoryPool &amp;&#160;</td>
-          <td class="paramname"><em>fpool</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This call is necessary if you want to setSource on the image later and display an image from cumbia.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cumbia_pool</td><td>a reference to the CumbiaPool engine chooser </td></tr>
-    <tr><td class="paramname">fpool</td><td>the CuControlsFactoryPool factory chooser </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="classQuImagePluginInterface.html#a04d259196b535e4c2132feef002882c3">QuImagePluginInterface</a>.</p>
-
-<p class="reference">References <a class="el" href="classCuImagePluginPrivate.html#a804e0b56cfb0bd9d86cdcc8ad9cbc1ca">CuImagePluginPrivate::cu_pool</a>, and <a class="el" href="classCuImagePluginPrivate.html#a30cfdf09a28c28ba88861426e11a664f">CuImagePluginPrivate::fpoo</a>.</p>
-
-</div>
-</div>
-<a id="aa64b81233b39db3118f309eb3e4a0b69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa64b81233b39db3118f309eb3e4a0b69">&#9670;&nbsp;</a></span>layout() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CuImagePlugin::layout </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> *&#160;</td>
-          <td class="paramname"><em>ii</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">QWidget *&#160;</td>
-          <td class="paramname"><em>container</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ii</td><td>an image as <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> </td></tr>
-    <tr><td class="paramname">container</td><td>the widget that will contain the image (QHBoxLayout will be used)</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>If you are embedding an image into a <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a>, consider using the convenience method below</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classCuImagePlugin.html#aa64b81233b39db3118f309eb3e4a0b69" title="convenience method to layout an image into a container (that has no layout yet)">layout</a>(<a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> <em>scroll_a, QWidget</em> container) </dd></dl>
-
-<p>Implements <a class="el" href="classQuImagePluginInterface.html#a83ea51add94f23612aaf02dce4887b6b">QuImagePluginInterface</a>.</p>
-
-<p class="reference">References <a class="el" href="classQuImageBaseI.html#a306670865415bdf05547c938173661bb">QuImageBaseI::asWidget()</a>.</p>
-
-</div>
-</div>
-<a id="a1d41df1324d876e47767eacbd200274e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d41df1324d876e47767eacbd200274e">&#9670;&nbsp;</a></span>layout() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CuImagePlugin::layout </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *&#160;</td>
-          <td class="paramname"><em>scroll_a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">QWidget *&#160;</td>
-          <td class="paramname"><em>container</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classCuImagePlugin.html#aa64b81233b39db3118f309eb3e4a0b69" title="convenience method to layout an image into a container (that has no layout yet)">layout</a>(<a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> <em>ii, QWidget</em> container) </dd></dl>
-
-<p>Implements <a class="el" href="classQuImagePluginInterface.html#a81a20082f4b5f6ba899b238a776bd15c">QuImagePluginInterface</a>.</p>
-
-<p class="reference">References <a class="el" href="classQuImgScrollAreaI.html#ad37f4faca7534c8da088d51e3909d57e">QuImgScrollAreaI::scrollArea()</a>.</p>
-
-</div>
-</div>
-<a id="a522ce1052e1f07680ee18021c99bae2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a522ce1052e1f07680ee18021c99bae2e">&#9670;&nbsp;</a></span>new_image()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classQuImageBaseI.html">QuImageBaseI</a> * CuImagePlugin::new_image </td>
-          <td>(</td>
-          <td class="paramtype">QWidget *&#160;</td>
-          <td class="paramname"><em>parent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>opengl</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>a <em>new</em> instance of an object implementing QuImageI interface</dd></dl>
-<dl class="section user"><dt>Implementations</dt><dd><a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> is implemented by <a class="el" href="classQuImageWidget.html">QuImageWidget</a>, <a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> and <a class="el" href="classQuImageBase.html">QuImageBase</a>. The latter is a class used by <a class="el" href="classQuImageWidget.html">QuImageWidget</a> and <a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> to implement common functionality. It shall not be used by the clients of this plugin. <a class="el" href="classQuImageWidget.html">QuImageWidget</a> and <a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> are the plugin implementations and cannot be used by the clients of the library with the exception of <em>signal / slot</em> connections. Clients shall use <a class="el" href="classQuImageBaseI.html" title="Interface to the cumbia widget to display images.">QuImageBaseI</a> interface to control <a class="el" href="classQuImageWidget.html">QuImageWidget</a> and <a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> and, where convenient, <a class="el" href="classQuImageWidget.html">QuImageWidget</a> and <a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> signals and slots.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classCuImagePlugin.html#a5a01224418bacd54963be051ed521c68" title="new_scroll_area returns a new instance of QuImgScrollAreaI">new_scroll_area</a> </dd>
-<dd>
-<a class="el" href="classQuImageWidget.html">QuImageWidget</a> </dd>
-<dd>
-<a class="el" href="classQuImageGLWidget.html">QuImageGLWidget</a> </dd></dl>
-
-<p>Implements <a class="el" href="classQuImagePluginInterface.html#a7e6f19fac657f62779a20b08a1ad9643">QuImagePluginInterface</a>.</p>
-
-<p class="reference">References <a class="el" href="classCuImagePluginPrivate.html#a804e0b56cfb0bd9d86cdcc8ad9cbc1ca">CuImagePluginPrivate::cu_pool</a>, and <a class="el" href="classCuImagePluginPrivate.html#a30cfdf09a28c28ba88861426e11a664f">CuImagePluginPrivate::fpoo</a>.</p>
-
-</div>
-</div>
-<a id="a5a01224418bacd54963be051ed521c68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a01224418bacd54963be051ed521c68">&#9670;&nbsp;</a></span>new_scroll_area()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> * CuImagePlugin::new_scroll_area </td>
-          <td>(</td>
-          <td class="paramtype">QWidget *&#160;</td>
-          <td class="paramname"><em>parent</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parent</td><td>the parent QWidget </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a QScrollArea that implements <a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> and handles changes in the image geometry.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">QGridLayout *lo = <span class="keyword">new</span> QGridLayout(<span class="keyword">this</span>); <span class="comment">// layout</span></div>
-<div class="line"><a class="code" href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a> *sa = plugin_i-&gt;new_scroll_area(<span class="keyword">this</span>);</div>
-<div class="line"><a class="code" href="classQuImageBaseI.html">QuImageBaseI</a> *ii = plugin_i-&gt;new_image(<span class="keyword">this</span>);</div>
-<div class="line">ii-&gt;<a class="code" href="classQuImageBaseI.html#adcbbfc691c6a9d0d3e5322b52183c9de">setImage</a>(QImage(<span class="stringliteral">&quot;:/seoyeji.png&quot;</span>));</div>
-<div class="line">sa-&gt;<a class="code" href="classQuImgScrollAreaI.html#a5fbd382d42652e7dba59432f306f2a54">setImage</a>(d-&gt;ii);</div>
-<div class="line">lo-&gt;addWidget(sa-&gt;<a class="code" href="classQuImgScrollAreaI.html#ad37f4faca7534c8da088d51e3909d57e">scrollArea</a>(), 0, 0, 6, 6);</div>
-<div class="ttc" id="aclassQuImageBaseI_html"><div class="ttname"><a href="classQuImageBaseI.html">QuImageBaseI</a></div><div class="ttdoc">Interface to the cumbia widget to display images.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:73</div></div>
-<div class="ttc" id="aclassQuImageBaseI_html_adcbbfc691c6a9d0d3e5322b52183c9de"><div class="ttname"><a href="classQuImageBaseI.html#adcbbfc691c6a9d0d3e5322b52183c9de">QuImageBaseI::setImage</a></div><div class="ttdeci">virtual void setImage(const CuMatrix&lt; double &gt; &amp;image)=0</div></div>
-<div class="ttc" id="aclassQuImgScrollAreaI_html"><div class="ttname"><a href="classQuImgScrollAreaI.html">QuImgScrollAreaI</a></div><div class="ttdoc">A QScrollArea dedicated to hosting a QuImageBaseI.</div><div class="ttdef"><b>Definition:</b> quimageplugininterface.h:407</div></div>
-<div class="ttc" id="aclassQuImgScrollAreaI_html_a5fbd382d42652e7dba59432f306f2a54"><div class="ttname"><a href="classQuImgScrollAreaI.html#a5fbd382d42652e7dba59432f306f2a54">QuImgScrollAreaI::setImage</a></div><div class="ttdeci">virtual void setImage(QuImageBaseI *ii)=0</div></div>
-<div class="ttc" id="aclassQuImgScrollAreaI_html_ad37f4faca7534c8da088d51e3909d57e"><div class="ttname"><a href="classQuImgScrollAreaI.html#ad37f4faca7534c8da088d51e3909d57e">QuImgScrollAreaI::scrollArea</a></div><div class="ttdeci">virtual QScrollArea * scrollArea()=0</div></div>
-</div><!-- fragment --></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classQuImgScrollAreaI.html" title="A QScrollArea dedicated to hosting a QuImageBaseI.">QuImgScrollAreaI</a> </dd>
-<dd>
-<a class="el" href="classQuImgScrollAreaI.html#ad37f4faca7534c8da088d51e3909d57e">QuImgScrollAreaI::scrollArea</a> </dd></dl>
-
-<p>Implements <a class="el" href="classQuImagePluginInterface.html#a78d729986dddd6516974f53fe5747af7">QuImagePluginInterface</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="quimageplugin_8h_source.html">quimageplugin.h</a></li>
-<li><a class="el" href="quimageplugin_8cpp.html">quimageplugin.cpp</a></li>
+<li>quimageplugin.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

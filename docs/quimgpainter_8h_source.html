@@ -44,29 +44,23 @@ $(function() {
 <div class="title">quimgpainter.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="quimgpainter_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMGPAINTER_H</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef QUIMGPAINTER_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define QUIMGPAINTER_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">class </span>QPaintEvent;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span><a class="code" href="classQuImageBasePrivate.html">QuImageBasePrivate</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span>QuImageBasePrivate;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classQuImgPainter.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classQuImgPainter.html">QuImgPainter</a></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>QuImgPainter</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classQuImgPainter.html#ac473101c87936e06807fca5014514964">QuImgPainter</a>();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classQuImgPainter.html#a730aab0efd33874b79e28bba8fcc63cc">~QuImgPainter</a>();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classQuImgPainter.html#a0e44cef7c48ef7ad65b316e471af6540">paint</a>(QPaintEvent *e, <a class="code" href="classQuImageBasePrivate.html">QuImageBasePrivate</a> *imgb);</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classQuImgPainter.html#ae3f1d4637a31dd3d4283c24154413e6f">   17</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classQuImgPainter.html#ae3f1d4637a31dd3d4283c24154413e6f">dirty</a>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    QuImgPainter();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> ~QuImgPainter();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">void</span> paint(QPaintEvent *e, QuImageBasePrivate *imgb);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">bool</span> dirty;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;};</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// QUIMGPAINTER_H</span></div>
-<div class="ttc" id="aclassQuImageBasePrivate_html"><div class="ttname"><a href="classQuImageBasePrivate.html">QuImageBasePrivate</a></div><div class="ttdef"><b>Definition:</b> quimagebase.h:33</div></div>
-<div class="ttc" id="aclassQuImgPainter_html"><div class="ttname"><a href="classQuImgPainter.html">QuImgPainter</a></div><div class="ttdef"><b>Definition:</b> quimgpainter.h:12</div></div>
-<div class="ttc" id="aclassQuImgPainter_html_a0e44cef7c48ef7ad65b316e471af6540"><div class="ttname"><a href="classQuImgPainter.html#a0e44cef7c48ef7ad65b316e471af6540">QuImgPainter::paint</a></div><div class="ttdeci">void paint(QPaintEvent *e, QuImageBasePrivate *imgb)</div><div class="ttdef"><b>Definition:</b> quimgpainter.cpp:20</div></div>
-<div class="ttc" id="aclassQuImgPainter_html_a730aab0efd33874b79e28bba8fcc63cc"><div class="ttname"><a href="classQuImgPainter.html#a730aab0efd33874b79e28bba8fcc63cc">QuImgPainter::~QuImgPainter</a></div><div class="ttdeci">virtual ~QuImgPainter()</div><div class="ttdef"><b>Definition:</b> quimgpainter.cpp:15</div></div>
-<div class="ttc" id="aclassQuImgPainter_html_ac473101c87936e06807fca5014514964"><div class="ttname"><a href="classQuImgPainter.html#ac473101c87936e06807fca5014514964">QuImgPainter::QuImgPainter</a></div><div class="ttdeci">QuImgPainter()</div><div class="ttdef"><b>Definition:</b> quimgpainter.cpp:11</div></div>
-<div class="ttc" id="aclassQuImgPainter_html_ae3f1d4637a31dd3d4283c24154413e6f"><div class="ttname"><a href="classQuImgPainter.html#ae3f1d4637a31dd3d4283c24154413e6f">QuImgPainter::dirty</a></div><div class="ttdeci">bool dirty</div><div class="ttdef"><b>Definition:</b> quimgpainter.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
