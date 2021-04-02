@@ -225,26 +225,35 @@ public:
 
     // zoom methods
     /*!
-     * \brief returns true if the zoom is enabled
+     * \brief returns true if the mouse zoom is enabled
      *
      * \return true the zoom is enabled
      *
      * \note this function may return true while the zoom still is unavailable because
      * scaleContents is enabled.
+     *
+     * \note calling setZoomLevel with a value different from 100 disables the mouse zoom
+     * and clears the zoom stack (the zoom history)
      */
-    virtual bool zoomEnabled() const = 0;
+    virtual bool mouseZoomEnabled() const = 0;
 
     /*!
      * \brief enable or disable the zoom
      * \param en true zoom enabled.
      *
      * \note scale contents property must be false
+     *
+     * \note calling this function with a true value resets zoomLevel to 100. On the other hand, calling
+     * setZoomLevel with a value different from 100 disables mouse zoom and clears the zoom stack
+     * (the zoom history). To enable mouse zoom again after setZoomLevel, call setMouseZoomEnabled again.
      */
-    virtual void setZoomEnabled(bool en) = 0;
+    virtual void setMouseZoomEnabled(bool en) = 0;
 
     /*!
      * \brief returns the current zoom level
      * \return the zoom level, from 0 to 100
+     *
+     * @see setZoomLevel
      */
     virtual float zoomLevel() const = 0;
 
@@ -256,6 +265,9 @@ public:
      * Usually zooming is accomplished mouse-selecting a rectangular region on the image
      *
      * \note scale contents must be false in order for zoom to operate
+     *
+     * \note calling this function with l different from 100 disables mouse zoom.
+     * To enable mouse zoom again after setZoomLevel, call setMouseZoomEnabled again.
      */
     virtual void setZoomLevel(float l) = 0;
 

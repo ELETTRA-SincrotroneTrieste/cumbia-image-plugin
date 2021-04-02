@@ -127,11 +127,11 @@ void QuImageBase::setColorTable(const  QVector<QRgb> &rgb)
     d->image.setColorTable(d->colorTable);
 }
 
-bool QuImageBase::zoomEnabled() const {
+bool QuImageBase::mouseZoomEnabled() const {
     return d->zoomer->enabled();
 }
 
-void QuImageBase::setZoomEnabled(bool en) {
+void QuImageBase::setMouseZoomEnabled(bool en) {
     d->zoomer->setEnabled(en);
     d->painter.dirty = true;
     d->widget->update();

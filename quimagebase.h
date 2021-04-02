@@ -96,8 +96,8 @@ public:
     QVector<QRgb>& colorTable() const;
 
     void setZoomLevel(float f);
-    void setZoomEnabled(bool en);
-    bool zoomEnabled() const;
+    void setMouseZoomEnabled(bool en);
+    bool mouseZoomEnabled() const;
     float zoomLevel() const;
 
     bool isOpenGL() const;

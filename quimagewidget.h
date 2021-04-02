@@ -17,7 +17,7 @@ class CuData;
 /*! \brief QWidget implementing QuImageBaseI
  *
  *  This object is controlled through QuImageBaseI interface only.
- *  QuImageBaseI::asQWidget returns this *as QWidget* so that properties, signals and slots can be used
+ *  QuImageBaseI::asWidget returns this *as QWidget* so that properties, signals and slots can be used
  *  if more convenient.
  *
  */
@@ -86,9 +86,9 @@ public:
     QVector<QRgb> &colorTable() const;
     void setImageMouseEventInterface(QuImageMouseEventIf *ifa);
     bool isOpenGL() const;
-    bool zoomEnabled() const;
+    bool mouseZoomEnabled() const;
     void setZoomLevel(float n);
-    void setZoomEnabled(bool en);
+    void setMouseZoomEnabled(bool en);
     float zoomLevel() const;
 
     QString source() const;

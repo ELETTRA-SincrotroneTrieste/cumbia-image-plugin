@@ -23,15 +23,21 @@ QuImgZoomer::~QuImgZoomer() {
 }
 
 void QuImgZoomer::setLevel(float n) {
+    if(n != 100) {
+        d->enabled = false;
+        d->zoom_stack.clear();
+    }
     d->level = n;
 }
 
 void QuImgZoomer::setEnabled(bool en) {
+    if(en) d->level = 100;
+    else d->zoom_stack.clear();
     d->enabled = en;
 }
 
 bool QuImgZoomer::enabled() const {
-    return d->enabled;
+    return d->enabled && d->level == 100;
 }
 
 float QuImgZoomer::level() const {
@@ -39,7 +45,7 @@ float QuImgZoomer::level() const {
 }
 
 QRect QuImgZoomer::unzoom() {
-    if(!d->enabled)
+    if(!d->enabled || d->level != 100)
         return QRect();
     qDebug() << __PRETTY_FUNCTION__ << "unzoom";
     foreach(const QRect& r, d->zoom_stack)
@@ -57,7 +63,7 @@ QRect QuImgZoomer::unzoom() {
  */
 QRect QuImgZoomer::zoom(const QRect &r)
 {
-    if(!d->enabled)
+    if(!d->enabled || d->level != 100)
         return QRect();
     m_zoom(r);
     d->zoom_stack << r;

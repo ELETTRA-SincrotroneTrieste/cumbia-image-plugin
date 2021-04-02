@@ -43,9 +43,9 @@ public:
     QVector<QRgb> &colorTable() const;
     void setImageMouseEventInterface(QuImageMouseEventIf *ifa);
     bool isOpenGL() const;
-    bool zoomEnabled() const;
+    bool mouseZoomEnabled() const;
     void setZoomLevel(float n);
-    void setZoomEnabled(bool en);
+    void setMouseZoomEnabled(bool en);
     float zoomLevel() const;
     QWidget *asWidget() const;
 

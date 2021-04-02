@@ -149,16 +149,16 @@ bool QuImageWidget::isOpenGL() const{
     return false;
 }
 
-bool QuImageWidget::zoomEnabled() const{
-    return d->imgb->zoomEnabled();
+bool QuImageWidget::mouseZoomEnabled() const{
+    return d->imgb->mouseZoomEnabled();
 }
 
 void QuImageWidget::setZoomLevel(float n){
     d->imgb->setZoomLevel(n);
 }
 
-void QuImageWidget::setZoomEnabled(bool en){
-    d->imgb->setZoomEnabled(en);
+void QuImageWidget::setMouseZoomEnabled(bool en){
+    d->imgb->setMouseZoomEnabled(en);
 }
 
 float QuImageWidget::zoomLevel() const {
