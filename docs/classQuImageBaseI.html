@@ -124,12 +124,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a382c896b7ee6acea179351e07452e804"><td class="memItemLeft" align="right" valign="top">virtual QRect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImageBaseI.html#a382c896b7ee6acea179351e07452e804">mapFromImg</a> (const QRect &amp;r) const =0</td></tr>
 <tr class="memdesc:a382c896b7ee6acea179351e07452e804"><td class="mdescLeft">&#160;</td><td class="mdescRight">map the rect r from image to widget coordinates  <a href="classQuImageBaseI.html#a382c896b7ee6acea179351e07452e804">More...</a><br /></td></tr>
 <tr class="separator:a382c896b7ee6acea179351e07452e804"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0430283c5d63b2d9472aff5d8c2222f4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImageBaseI.html#a0430283c5d63b2d9472aff5d8c2222f4">zoomEnabled</a> () const =0</td></tr>
-<tr class="memdesc:a0430283c5d63b2d9472aff5d8c2222f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if the zoom is enabled  <a href="classQuImageBaseI.html#a0430283c5d63b2d9472aff5d8c2222f4">More...</a><br /></td></tr>
-<tr class="separator:a0430283c5d63b2d9472aff5d8c2222f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9016773a64db3b9a4890fa8ecb88ce7a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImageBaseI.html#a9016773a64db3b9a4890fa8ecb88ce7a">setZoomEnabled</a> (bool en)=0</td></tr>
-<tr class="memdesc:a9016773a64db3b9a4890fa8ecb88ce7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">enable or disable the zoom  <a href="classQuImageBaseI.html#a9016773a64db3b9a4890fa8ecb88ce7a">More...</a><br /></td></tr>
-<tr class="separator:a9016773a64db3b9a4890fa8ecb88ce7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac71c8c4d3066285964fec78d2f4d1812"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImageBaseI.html#ac71c8c4d3066285964fec78d2f4d1812">mouseZoomEnabled</a> () const =0</td></tr>
+<tr class="memdesc:ac71c8c4d3066285964fec78d2f4d1812"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if the mouse zoom is enabled  <a href="classQuImageBaseI.html#ac71c8c4d3066285964fec78d2f4d1812">More...</a><br /></td></tr>
+<tr class="separator:ac71c8c4d3066285964fec78d2f4d1812"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aede37e825254e995213977f3e938f3d1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImageBaseI.html#aede37e825254e995213977f3e938f3d1">setMouseZoomEnabled</a> (bool en)=0</td></tr>
+<tr class="memdesc:aede37e825254e995213977f3e938f3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">enable or disable the zoom  <a href="classQuImageBaseI.html#aede37e825254e995213977f3e938f3d1">More...</a><br /></td></tr>
+<tr class="separator:aede37e825254e995213977f3e938f3d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae172aacbca9bd9b85e0faa86d72f60fe"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQuImageBaseI.html#ae172aacbca9bd9b85e0faa86d72f60fe">zoomLevel</a> () const =0</td></tr>
 <tr class="memdesc:ae172aacbca9bd9b85e0faa86d72f60fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the current zoom level  <a href="classQuImageBaseI.html#ae172aacbca9bd9b85e0faa86d72f60fe">More...</a><br /></td></tr>
 <tr class="separator:ae172aacbca9bd9b85e0faa86d72f60fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -477,6 +477,37 @@ false if the implementation of <a class="el" href="classQuImageBaseI.html" title
 
 </div>
 </div>
+<a id="ac71c8c4d3066285964fec78d2f4d1812"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac71c8c4d3066285964fec78d2f4d1812">&#9670;&nbsp;</a></span>mouseZoomEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool QuImageBaseI::mouseZoomEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>true the zoom is enabled</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>this function may return true while the zoom still is unavailable because scaleContents is enabled.</dd>
+<dd>
+calling setZoomLevel with a value different from 100 disables the mouse zoom and clears the zoom stack (the zoom history) </dd></dl>
+
+<p>Implemented in <a class="el" href="classQuImageWidget.html#a566d3088b88f914de559f984c016bf4f">QuImageWidget</a>.</p>
+
+</div>
+</div>
 <a id="a582aec84928af5ad564e374b9eed5978"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a582aec84928af5ad564e374b9eed5978">&#9670;&nbsp;</a></span>scaleContents()</h2>
 
@@ -805,6 +836,43 @@ false if the implementation of <a class="el" href="classQuImageBaseI.html" title
 
 </div>
 </div>
+<a id="aede37e825254e995213977f3e938f3d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aede37e825254e995213977f3e938f3d1">&#9670;&nbsp;</a></span>setMouseZoomEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void QuImageBaseI::setMouseZoomEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>en</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">en</td><td>true zoom enabled.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>scale contents property must be false</dd>
+<dd>
+calling this function with a true value resets zoomLevel to 100. On the other hand, calling setZoomLevel with a value different from 100 disables mouse zoom and clears the zoom stack (the zoom history). To enable mouse zoom again after setZoomLevel, call setMouseZoomEnabled again. </dd></dl>
+
+<p>Implemented in <a class="el" href="classQuImageWidget.html#a69cca1d5affe4c3d3c38080846b18f9c">QuImageWidget</a>.</p>
+
+</div>
+</div>
 <a id="afd86a4da139f23e4d9a8a5a0fd79aa67"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd86a4da139f23e4d9a8a5a0fd79aa67">&#9670;&nbsp;</a></span>setScaleContents()</h2>
 
@@ -873,41 +941,6 @@ false if the implementation of <a class="el" href="classQuImageBaseI.html" title
 
 </div>
 </div>
-<a id="a9016773a64db3b9a4890fa8ecb88ce7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9016773a64db3b9a4890fa8ecb88ce7a">&#9670;&nbsp;</a></span>setZoomEnabled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void QuImageBaseI::setZoomEnabled </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>en</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">en</td><td>true zoom enabled.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>scale contents property must be false </dd></dl>
-
-<p>Implemented in <a class="el" href="classQuImageWidget.html#ab93f7f3417e2b08e33dcbe2d2753f564">QuImageWidget</a>.</p>
-
-</div>
-</div>
 <a id="ad2bd0190e2fdf309cac3d1b82de27a0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2bd0190e2fdf309cac3d1b82de27a0a">&#9670;&nbsp;</a></span>setZoomLevel()</h2>
 
@@ -939,7 +972,9 @@ false if the implementation of <a class="el" href="classQuImageBaseI.html" title
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Usually zooming is accomplished mouse-selecting a rectangular region on the image</dd>
 <dd>
-scale contents must be false in order for zoom to operate </dd></dl>
+scale contents must be false in order for zoom to operate</dd>
+<dd>
+calling this function with l different from 100 disables mouse zoom. To enable mouse zoom again after setZoomLevel, call setMouseZoomEnabled again. </dd></dl>
 
 <p>Implemented in <a class="el" href="classQuImageWidget.html#ae09f6c3edb31abccd386973570ce450e">QuImageWidget</a>.</p>
 
@@ -1005,35 +1040,6 @@ scale contents must be false in order for zoom to operate </dd></dl>
 
 </div>
 </div>
-<a id="a0430283c5d63b2d9472aff5d8c2222f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0430283c5d63b2d9472aff5d8c2222f4">&#9670;&nbsp;</a></span>zoomEnabled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool QuImageBaseI::zoomEnabled </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>true the zoom is enabled</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>this function may return true while the zoom still is unavailable because scaleContents is enabled. </dd></dl>
-
-<p>Implemented in <a class="el" href="classQuImageWidget.html#a573490427805991109c3571c206433fa">QuImageWidget</a>.</p>
-
-</div>
-</div>
 <a id="ae172aacbca9bd9b85e0faa86d72f60fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae172aacbca9bd9b85e0faa86d72f60fe">&#9670;&nbsp;</a></span>zoomLevel()</h2>
 
@@ -1056,7 +1062,8 @@ scale contents must be false in order for zoom to operate </dd></dl>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the zoom level, from 0 to 100 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the zoom level, from 0 to 100</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classQuImageBaseI.html#ad2bd0190e2fdf309cac3d1b82de27a0a" title="programmatically set a zoom level">setZoomLevel</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="classQuImageWidget.html#af1fd07ada2f22990449db01f3eaf2345">QuImageWidget</a>.</p>
 
