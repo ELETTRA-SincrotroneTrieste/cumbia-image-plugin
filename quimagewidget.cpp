@@ -171,6 +171,7 @@ QString QuImageWidget::source() const {
 
 void QuImageWidget::setSource(const QString &src) {
     d->imgb->setSource(src);
+    printf("QuImageWidget::setSource: %s\n", qstoc(d->imgb->source()));
 }
 
 void QuImageWidget::unsetSource() {
@@ -232,6 +233,7 @@ QWidget *QuImageWidget::asWidget() const {
  * \li int (converted to unsigned char)
  */
 void QuImageWidget::onNewData(const CuData &da) {
+    printf("\e[1;32mQuImageWidget::onNewData: %s\e[0m\n", datos(da));
     if(da["err"].toBool()) {
 
     } else {

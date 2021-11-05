@@ -25,6 +25,7 @@ class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseLis
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString source READ source WRITE setSource DESIGNABLE true)
     Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
 
@@ -45,6 +46,8 @@ signals:
     
 public slots:
 
+    void setSource(const QString& src);
+
     void setImage(const QImage& image);
     void setErrorImage(const QImage& img);
     void setErrorMessage(const QString &msg);
@@ -58,6 +61,13 @@ public slots:
     QWidget *asWidget() const;
 
     void onNewData(const CuData& da);
+
+    void setZoomLevel(float n);
+    void setMouseZoomEnabled(bool en);
+
+    void setImage(const CuMatrix<double> &image);
+    void setImage(const CuMatrix<unsigned short> &image);
+    void setImage(const CuMatrix<unsigned char> &image);
 
 protected:
 
@@ -78,21 +88,15 @@ private:
 
     // QuImageBaseI interface
 public:
-    void setImage(const CuMatrix<double> &image);
-    void setImage(const CuMatrix<unsigned short> &image);
-    void setImage(const CuMatrix<unsigned char> &image);
     QImage &image() const;
     void setColorTable(const QVector<QRgb> &rgb);
     QVector<QRgb> &colorTable() const;
     void setImageMouseEventInterface(QuImageMouseEventIf *ifa);
     bool isOpenGL() const;
     bool mouseZoomEnabled() const;
-    void setZoomLevel(float n);
-    void setMouseZoomEnabled(bool en);
     float zoomLevel() const;
 
     QString source() const;
-    void setSource(const QString& src);
     void unsetSource();
 
 

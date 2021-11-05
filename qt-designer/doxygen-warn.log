@@ -1,0 +1,24 @@
+/home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cumbia-image-plugin-designer.cpp:349: warning: no matching file member found for 
+int QT_RCC_MANGLE_NAMESPACE
+Possible candidates:
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 324 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cumbia-image-plugin-designer.cpp
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 3449 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cutangoqtcontrolsplugin.cpp
+
+/home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cumbia-image-plugin-designer.cpp:358: warning: no matching file member found for 
+int QT_RCC_MANGLE_NAMESPACE
+Possible candidates:
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 324 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cumbia-image-plugin-designer.cpp
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 3449 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cutangoqtcontrolsplugin.cpp
+
+/home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cutangoqtcontrolsplugin.cpp:3464: warning: no matching file member found for 
+int QT_RCC_MANGLE_NAMESPACE
+Possible candidates:
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 324 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cumbia-image-plugin-designer.cpp
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 3449 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cutangoqtcontrolsplugin.cpp
+
+/home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cutangoqtcontrolsplugin.cpp:3473: warning: no matching file member found for 
+int QT_RCC_MANGLE_NAMESPACE
+Possible candidates:
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 324 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cumbia-image-plugin-designer.cpp
+ '#define QT_RCC_MANGLE_NAMESPACE(name)' at line 3449 of file /home/giacomo/devel/utils/git/cppqtclients/cumbia-image-plugin/qt-designer/qrc_cutangoqtcontrolsplugin.cpp
+
