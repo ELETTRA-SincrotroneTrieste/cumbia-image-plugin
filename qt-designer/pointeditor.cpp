@@ -42,8 +42,8 @@ PointEditor::PointEditor(QWidget *parent, const QString &defaultTxt) : QDialog(p
     lo->addWidget(pb, 3, 3, 1, 1);
     lo->addWidget(pbCancel, 3, 4, 1, 1);
 
-    /* by default, place a wildcard (first argument, "$1") */
-    comboChanged(1);
+    /* by default, place a wildcard (first argument, "$1"), if defaultTxt is empty */
+    comboChanged(defaultTxt.isEmpty() ? 1 : 0);
 }
 
 void PointEditor::accept()

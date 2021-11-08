@@ -5,7 +5,7 @@
 class QuImgZoomerPrivate {
 public:
     float level;
-    bool enabled;
+    bool mouse_enab;
     QList<QRect> zoom_stack;
     QuImageBasePrivate *img_d;
 };
@@ -15,7 +15,7 @@ QuImgZoomer::QuImgZoomer(bool enable, QuImageBasePrivate* img_d)
     d = new QuImgZoomerPrivate;
     d->img_d = img_d;
     d->level = 100;
-    d->enabled = enable;
+    d->mouse_enab = enable;
 }
 
 QuImgZoomer::~QuImgZoomer() {
@@ -24,20 +24,20 @@ QuImgZoomer::~QuImgZoomer() {
 
 void QuImgZoomer::setLevel(float n) {
     if(n != 100) {
-        d->enabled = false;
+        d->mouse_enab = false;
         d->zoom_stack.clear();
-    }
+     }
     d->level = n;
 }
 
-void QuImgZoomer::setEnabled(bool en) {
+void QuImgZoomer::setMouseEnabled(bool en) {
     if(en) d->level = 100;
     else d->zoom_stack.clear();
-    d->enabled = en;
+    d->mouse_enab = en;
 }
 
-bool QuImgZoomer::enabled() const {
-    return d->enabled && d->level == 100;
+bool QuImgZoomer::mouseEnabled() const {
+    return d->mouse_enab;
 }
 
 float QuImgZoomer::level() const {
@@ -45,9 +45,8 @@ float QuImgZoomer::level() const {
 }
 
 QRect QuImgZoomer::unzoom() {
-    if(!d->enabled || d->level != 100)
+    if(!d->mouse_enab)
         return QRect();
-    qDebug() << __PRETTY_FUNCTION__ << "unzoom";
     foreach(const QRect& r, d->zoom_stack)
         qDebug() << "-" << r;
     if(d->zoom_stack.size() > 1) {
@@ -63,7 +62,7 @@ QRect QuImgZoomer::unzoom() {
  */
 QRect QuImgZoomer::zoom(const QRect &r)
 {
-    if(!d->enabled || d->level != 100)
+    if(!d->mouse_enab)
         return QRect();
     m_zoom(r);
     d->zoom_stack << r;
@@ -74,12 +73,13 @@ QList<QRect> QuImgZoomer::zoomStack() const {
     return d->zoom_stack;
 }
 void QuImgZoomer::m_zoom(const QRect &r) {
+    if(!r.isValid())
+        return;
     if(d->zoom_stack.isEmpty())
-        d->zoom_stack << d->img_d->widget->geometry();
+        d->zoom_stack << d->img_d->image.rect();
     const QRect& g0 =  d->zoom_stack[0];
     const QRect geom = d->img_d->widget->geometry();
     QRect sel = r.intersected(d->img_d->image.rect());
-//    QRect visibleR = d->img_d->widget->visibleRegion().boundingRect();
     const float &rw = g0.width()/(float) sel.width();
     const float &rh = g0.height()/(float) sel.height();
     float factor = qMin(rw, rh); // min ratio
@@ -87,6 +87,4 @@ void QuImgZoomer::m_zoom(const QRect &r) {
     QRect nr = QRect(QPoint(g0.x(), g0.y()), g0.size() * factor);
     d->img_d->widget->setGeometry(nr);
     d->img_d->widget->updateGeometry();
-    qDebug() << __PRETTY_FUNCTION__ << "zoom rect in img coords" << r << "img rect" << d->img_d->image.rect() << "selection " << sel
-             <<  "geom before " << geom << "after " << d->img_d->widget->geometry() << "zoom lee" << d->level << "factor " << factor;
 }

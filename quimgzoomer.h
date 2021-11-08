@@ -17,8 +17,8 @@ public:
     virtual ~QuImgZoomer();
     void setLevel(float n);
     float level() const;
-    void setEnabled(bool en);
-    bool enabled() const;
+    void setMouseEnabled(bool en);
+    bool mouseEnabled() const;
 
     QRect unzoom();
     QRect zoom(const QRect& r);

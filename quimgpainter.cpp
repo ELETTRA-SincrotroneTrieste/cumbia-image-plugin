@@ -29,29 +29,21 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
     imgRect.setSize(imgb_d->image.size() * (imgb_d->zoomer->level()/100.0));
     if(imgb_d->scale_contents) imgRect.setSize(e->rect().size());
     else imgRect.setSize(imgb_d->image.size() * (imgb_d->zoomer->level()/100.0));
-    //    qDebug() << __FUNCTION__ << "zoom: " << imgb->zoom << "imgRect" << imgRect << " paint device geom " << paintDevice->geometry() <<
-    //                " paint rect " << e->rect();
     const float &irw = static_cast<float>(imgRect.width());
     const float &irh = static_cast<float>(imgRect.height());
 
     if(dirty &&  fabs(irh / imgb_d->image.height() - irw / imgb_d->image.width()) > 0.01) {
-        printf("\e[1;34mQuImgPainter.paint: scaling image - dirty flag %d \e[0m\n", dirty);
         imgb_d->cached_img = imgb_d->image.scaled(imgRect.width(), imgRect.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         p.drawImage(imgb_d->cached_img.rect(), imgb_d->cached_img, imgb_d->cached_img.rect());
     } else if(dirty) {
-        printf("\e[1;36mQuImgPainter.paint: drawing image without rescaling (dirty %d)\e[0m\n", dirty);
         imgb_d->cached_img = imgb_d->image;
     }
-    else if(!dirty)
-        printf("\e[1;32mQuImgPainter.paint: reusing cached image \e[0m\n");
     if(dirty)
         dirty = false;
     if(imgb_d->scale_contents)
         p.drawImage(imgb_d->cached_img.rect(), imgb_d->cached_img, imgb_d->cached_img.rect());
     else
         p.drawImage(imgRect, imgb_d->cached_img, imgb_d->cached_img.rect());
-
-
     //
     // p.drawImage(0, 0, imgb->image);
     if(!imgb_d->mouse_t->mP1.isNull() && !imgb_d->mouse_t->mP2.isNull())

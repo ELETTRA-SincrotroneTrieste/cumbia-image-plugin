@@ -27,6 +27,7 @@ class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseLis
 
     Q_PROPERTY(QString source READ source WRITE setSource DESIGNABLE true)
     Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
+    Q_PROPERTY(bool mouseZoomEnabled READ mouseZoomEnabled WRITE setMouseZoomEnabled DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
 
 public:

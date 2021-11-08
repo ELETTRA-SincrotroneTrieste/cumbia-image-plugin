@@ -128,19 +128,36 @@ void QuImageBase::setColorTable(const  QVector<QRgb> &rgb)
 }
 
 bool QuImageBase::mouseZoomEnabled() const {
-    return d->zoomer->enabled();
+    return d->zoomer->mouseEnabled();
 }
 
+/*!
+ * \brief enable zooming with the mouse
+ * \param en true: enables zoom mouse event.
+ *
+ * \note zoom level is reset to 100
+ */
 void QuImageBase::setMouseZoomEnabled(bool en) {
-    d->zoomer->setEnabled(en);
+    qDebug() << __PRETTY_FUNCTION__ << en;
+    d->zoomer->setMouseEnabled(en);
     d->painter.dirty = true;
     d->widget->update();
 }
 
+/*!
+ * \brief Returns the current zoom level
+ * \return the current zoom level. 100: original size
+ */
 float QuImageBase::zoomLevel() const {
     return d->zoomer->level();
 }
 
+/*!
+ * \brief set manually a zoom level
+ * \param f the level of zoom: 100 (percentage): original image size
+ *
+ * \note Disables mouse zoom
+ */
 void QuImageBase::setZoomLevel(float f) {
     d->zoomer->setLevel(f);
     d->painter.dirty = true;
@@ -256,8 +273,9 @@ void QuImageBase::setPainterDirty(bool di) {
 }
 
 void QuImageBase::setScaleContents(bool fit) {
+    qDebug() << __PRETTY_FUNCTION__ << fit;
     d->scale_contents = fit;
-    d->zoomer->setEnabled(!fit);
+    d->zoomer->setMouseEnabled(!fit);
     d->painter.dirty = true;
     d->widget->update();
 }

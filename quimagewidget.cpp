@@ -113,7 +113,6 @@ void QuImageWidget::contextMenuEvent(QContextMenuEvent *)
 
 void QuImageWidget::resizeEvent(QResizeEvent *re) {
     d->imgb->setPainterDirty(true);
-    qDebug() << __PRETTY_FUNCTION__ << "calling QWidget::resizeEvent" << re->oldSize() << re->size();
     QWidget::resizeEvent(re);
 }
 
@@ -171,7 +170,6 @@ QString QuImageWidget::source() const {
 
 void QuImageWidget::setSource(const QString &src) {
     d->imgb->setSource(src);
-    printf("QuImageWidget::setSource: %s\n", qstoc(d->imgb->source()));
 }
 
 void QuImageWidget::unsetSource() {
@@ -211,9 +209,7 @@ bool QuImageWidget::scaleContents() const {
 void QuImageWidget::setScaleContents(bool fit) {
     d->imgb->setScaleContents(fit);
     updateGeometry();
-    qDebug() << __PRETTY_FUNCTION__ << fit << geometry() << "BEFORE adjustSize";
     adjustSize();
-    qDebug() << __PRETTY_FUNCTION__ << fit << geometry() << "AFTER adjustSize";
 }
 
 QWidget *QuImageWidget::asWidget() const {
@@ -233,10 +229,9 @@ QWidget *QuImageWidget::asWidget() const {
  * \li int (converted to unsigned char)
  */
 void QuImageWidget::onNewData(const CuData &da) {
-    printf("\e[1;32mQuImageWidget::onNewData: %s\e[0m\n", datos(da));
-    if(da["err"].toBool()) {
-
-    } else {
+    bool err = da["err"].toBool();
+    std::string msg = da["msg"].toString();
+    if(!err) {
         const CuVariant &v = da["value"];
         if(v.getFormat() == CuVariant::Matrix) {
             switch(v.getType()) {
@@ -256,15 +251,26 @@ void QuImageWidget::onNewData(const CuData &da) {
                 d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
             }  break;
             default:
+                err = true;
+                msg = "QuImageWidget: data type " + v.dataTypeStr(v.getType()) + " unsupported";
                 perr("QuImageWidget.onNewData: data type %d [%s] is not supported", v.getType(), v.dataTypeStr(v.getType()).c_str());
                 break;
             }
         }
+        else
+            msg = "QuImageWidget: data format " + v.dataFormatStr(v.getFormat()) + " unsupported";
     }
+    if(err) {
+        d->imgb->errorImage().isNull() ?
+                    d->imgb->setImage(d->imgb->image().convertToFormat(QImage::Format_Grayscale8)) :
+                    d->imgb->setImage(d->imgb->errorImage());
+    }
+
+    d->imgb->asWidget()->setToolTip(msg.c_str());
 }
 
 QPoint QuImageWidget::mapToImg(const QPoint& p) const {
-   return d->imgb->mapToImg(p);
+    return d->imgb->mapToImg(p);
 }
 
 QRect QuImageWidget::mapToImg(const QRect& r) const{

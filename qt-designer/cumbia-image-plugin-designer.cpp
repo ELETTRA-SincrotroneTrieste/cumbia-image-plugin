@@ -209,7 +209,6 @@ QObject *TaskMenuFactory::createExtension(QObject *object, const QString &iid, Q
         return 0;
     qDebug() << __PRETTY_FUNCTION__ << object << iid << "parent" << parent;
     return new TaskMenuExtension((QWidget*) object, parent);
-//    return QExtensionFactory::createExtension(object, iid, parent);
 }
 /* */
 
@@ -238,11 +237,17 @@ void TaskMenuExtension::editConnection() {
     if (!m_pointEditor)
         m_pointEditor = new PointEditor(nullptr, src);
     if (m_pointEditor->exec() == QDialog::Accepted) {
-        QDesignerFormWindowInterface *formWindow = 0;
-        formWindow = QDesignerFormWindowInterface::findFormWindow(d_image);
-        qDebug() <<__PRETTY_FUNCTION__ << "formWindow of image " << d_image << " is " << formWindow <<
-                   "cursor is " << formWindow->cursor();
-        formWindow->cursor()->setProperty("source", m_pointEditor->point());
+        if(qobject_cast<QScrollArea *>(d_image)) {
+            d_image->findChild<QWidget *>()->setProperty("source", m_pointEditor->point());
+            qDebug() << __PRETTY_FUNCTION__ << "scroll area case" <<   d_image->findChild<QWidget *>();
+        }
+        else
+            d_image->setProperty("source", m_pointEditor->point());
+//        QDesignerFormWindowInterface *formWindow = 0;
+//        formWindow = QDesignerFormWindowInterface::findFormWindow(d_image);
+//        qDebug() <<__PRETTY_FUNCTION__ << "formWindow of image " << d_image << " is " << formWindow <<
+//                   "cursor is " << formWindow->cursor();
+//        formWindow->cursor()->setProperty("source", m_pointEditor->point());
     }
 }
 
@@ -278,8 +283,6 @@ QWidget* QuImageWidgetInterface::createWidget(QWidget* parent)
         QuImageBaseI *ii = plugin_i->new_image(parent);
         ii->setImage(QImage(":/jetpalette.png"));
         ii->setScaleContents(false);
-        // insert the image into a QHBoxLayout automatically added to *ui->img1*
-//        plugin_i->layout(scrolla, parent); // (1) layout ii into parent
         DropEventFilter *dropEventFilter = new DropEventFilter(ii->asWidget());
         ii->asWidget()->installEventFilter(dropEventFilter);
         return ii->asWidget();
@@ -320,8 +323,6 @@ QWidget* QuImageScrollAreaInterface::createWidget(QWidget* parent)
         ii->setImage(QImage(":/jetpalette.png"));
         ii->setScaleContents(false);
         scrolla->setImage(ii);
-        // insert the image into a QHBoxLayout automatically added to *ui->img1*
-//        plugin_i->layout(scrolla, parent); // (1) layout ii into parent
         DropEventFilter *dropEventFilter = new DropEventFilter(ii->asWidget());
         ii->asWidget()->installEventFilter(dropEventFilter);
         return scrolla->scrollArea();
