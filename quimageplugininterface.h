@@ -603,6 +603,17 @@ public:
     virtual QScrollArea *scrollArea() = 0;
     virtual void setImage(QuImageBaseI *ii) = 0;
     virtual void setScaleContents(bool scale) = 0;
+    virtual void setImage(const QImage& img) = 0;
+    virtual void setErrorImage(const QImage &eimg) = 0;
+    virtual void setMouseZoomEnabled(bool e) = 0;
+
+    virtual bool mouseZoomEnabled() const = 0;
+    virtual QImage image() const = 0;
+    virtual QImage errorImage() const = 0;
+    virtual QString source() const = 0;
+    virtual void setSource(const QString &s) = 0;
+    virtual QWidget *imageWidget() const = 0;
+    virtual QuImageBaseI *imageBase() const = 0;
 };
 
 #define QuImagePluginInterface_iid "eu.elettra.qutils.QuImagePluginInterface"

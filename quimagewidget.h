@@ -44,7 +44,8 @@ signals:
      * \param to_z current zoom rect, in image cooridinates
      */
     void zoomRectChanged(const QRect& from_z, const QRect& to_z);
-    
+    void newData(const CuData& data);
+
 public slots:
 
     void setSource(const QString& src);

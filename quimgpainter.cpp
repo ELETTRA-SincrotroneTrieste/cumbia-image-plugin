@@ -12,16 +12,14 @@ QuImgPainter::QuImgPainter() : dirty(true) {
 
 }
 
-QuImgPainter::~QuImgPainter()
-{
+QuImgPainter::~QuImgPainter() {
 
 }
 
-void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
-{
+void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d) {
     if(imgb_d->error)
         imgb_d->image = imgb_d->errorImage;
-    else if(imgb_d->image.isNull())
+    if(imgb_d->image.isNull()) // no image and no errorImage: use noise
         imgb_d->image = (imgb_d->noise);
 
     QPainter p(imgb_d->widget);
@@ -40,22 +38,15 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
     }
     if(dirty)
         dirty = false;
-    if(imgb_d->scale_contents)
-        p.drawImage(imgb_d->cached_img.rect(), imgb_d->cached_img, imgb_d->cached_img.rect());
-    else
-        p.drawImage(imgRect, imgb_d->cached_img, imgb_d->cached_img.rect());
-    //
-    // p.drawImage(0, 0, imgb->image);
-    if(!imgb_d->mouse_t->mP1.isNull() && !imgb_d->mouse_t->mP2.isNull())
-    {
+    const QRect pRect(imgb_d->scale_contents ? imgb_d->cached_img.rect() : imgRect);
+    p.drawImage(pRect, imgb_d->cached_img, imgb_d->cached_img.rect());
+
+    // draw selection rect
+    if(!imgb_d->mouse_t->mP1.isNull() && !imgb_d->mouse_t->mP2.isNull() && imgb_d->zoomer->mouseEnabled())  {
         QPen pen = p.pen();
         pen.setWidthF(2.0);
         QRect r(QPoint(0,0), imgb_d->widget->geometry().size());
-        if(!r.contains(imgb_d->mouse_t->mP2))
-            pen.setColor(Qt::red);
-        else
-            pen.setColor(Qt::green);
-
+        !r.contains(imgb_d->mouse_t->mP2) ? pen.setColor(Qt::red) : pen.setColor(Qt::green);
         p.setPen(pen);
 
         int p1x = imgb_d->mouse_t->mP1.x() * 100 / imgb_d->zoomer->level();
@@ -71,8 +62,7 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
         QColor bg = Qt::white;
         bg.setAlpha(184);
 
-        if(!imgb_d->mouse_t->left_button)
-        {
+        if(!imgb_d->mouse_t->left_button) {
             float fl = sqrt(pow(p2x - p1x, 2) + pow(p2y - p1y, 2));
             QString val = QString("%1").arg(fl, 0, 'f', 2);
             p.fillRect(QRectF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y(), fm.width(val), fm.height()), bg);
@@ -82,9 +72,7 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
             pen.setColor(Qt::black);
             p.setPen(pen);
             p.drawText(QPointF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y() + fm.height()), val);
-        }
-        else
-        {
+        } else  {
             p.drawRect(QRect(imgb_d->mouse_t->mP1, imgb_d->mouse_t->mP2));
             p.setPen(bg);
             p.fillRect(QRect(imgb_d->mouse_t->mP1, imgb_d->mouse_t->mP2), bg);
@@ -96,35 +84,5 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d)
             p.setPen(pen);
             p.drawText(QPointF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y() + fm.height()), val);
         }
-    }
-    if(imgb_d->error)
-    {
-        QPen errPen(Qt::red);
-        errPen.setWidth(5);
-        p.setPen(errPen);
-        /* draw a cross on the figure */
-        if(imgb_d->errorImage.isNull())
-        {
-            p.drawLine(e->rect().topLeft(), e->rect().bottomRight());
-            p.drawLine(e->rect().bottomLeft(), e->rect().topRight());
-        }
-        else /* yeah! draw ok guy! */
-        {
-            if(imgb_d->errorImage.size() != e->rect().size())
-                imgb_d->errorImage = imgb_d->errorImage.scaled(e->rect().size(), Qt::KeepAspectRatio);
-            p.drawImage(e->rect(), imgb_d->errorImage);
-        }
-
-        QRect txtRect = e->rect();
-        QColor bgColor = Qt::white;
-        bgColor.setAlpha(180);
-        p.fillRect(txtRect, bgColor);
-        /* draw the error message */
-        QFont f = p.font();
-        f.setPointSize(10);
-        f.setBold(true);
-        p.setFont(f);
-        qDebug() << __FUNCTION__ << "drawing error message";
-        p.drawText(txtRect, imgb_d->errorMessage);
     }
 }

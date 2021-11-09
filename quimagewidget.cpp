@@ -231,9 +231,13 @@ QWidget *QuImageWidget::asWidget() const {
 void QuImageWidget::onNewData(const CuData &da) {
     bool err = da["err"].toBool();
     std::string msg = da["msg"].toString();
+    const CuVariant &v = da["value"];
     if(!err) {
-        const CuVariant &v = da["value"];
-        if(v.getFormat() == CuVariant::Matrix) {
+        if(da.has("qs", "invalid")) {
+            err = true;
+            msg = "QuImageWidget: data quality invalid" + (msg.length() > 0 ? " : " + msg : "");
+        }
+        else if(v.getFormat() == CuVariant::Matrix) {
             switch(v.getType()) {
             case CuVariant::Double:
                 d->imgb->setImage(v.toMatrix<double>());
@@ -253,20 +257,25 @@ void QuImageWidget::onNewData(const CuData &da) {
             default:
                 err = true;
                 msg = "QuImageWidget: data type " + v.dataTypeStr(v.getType()) + " unsupported";
-                perr("QuImageWidget.onNewData: data type %d [%s] is not supported", v.getType(), v.dataTypeStr(v.getType()).c_str());
                 break;
             }
         }
-        else
+        else {
+            err = true;
             msg = "QuImageWidget: data format " + v.dataFormatStr(v.getFormat()) + " unsupported";
+        }
     }
+    d->imgb->setError(err);
     if(err) {
+        d->imgb->setErrorMessage(msg.c_str());
         d->imgb->errorImage().isNull() ?
                     d->imgb->setImage(d->imgb->image().convertToFormat(QImage::Format_Grayscale8)) :
                     d->imgb->setImage(d->imgb->errorImage());
+        d->imgb->asWidget()->updateGeometry();
     }
-
     d->imgb->asWidget()->setToolTip(msg.c_str());
+
+    emit newData(da);
 }
 
 QPoint QuImageWidget::mapToImg(const QPoint& p) const {

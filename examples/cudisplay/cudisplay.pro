@@ -5,7 +5,7 @@ include($${CUMBIA_ROOT}/include/quapps/quapps.pri)
 
 # CONFIG += debug | release
 
-DEFINES -= QT_NO_DEBUG_OUTPUT
+DEFINES -=  QT_NO_DEBUG_OUTPUT
 
 
 SOURCES += src/main.cpp \

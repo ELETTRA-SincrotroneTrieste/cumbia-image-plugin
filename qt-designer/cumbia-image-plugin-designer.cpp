@@ -237,17 +237,17 @@ void TaskMenuExtension::editConnection() {
     if (!m_pointEditor)
         m_pointEditor = new PointEditor(nullptr, src);
     if (m_pointEditor->exec() == QDialog::Accepted) {
-        if(qobject_cast<QScrollArea *>(d_image)) {
-            d_image->findChild<QWidget *>()->setProperty("source", m_pointEditor->point());
-            qDebug() << __PRETTY_FUNCTION__ << "scroll area case" <<   d_image->findChild<QWidget *>();
-        }
-        else
-            d_image->setProperty("source", m_pointEditor->point());
-//        QDesignerFormWindowInterface *formWindow = 0;
-//        formWindow = QDesignerFormWindowInterface::findFormWindow(d_image);
-//        qDebug() <<__PRETTY_FUNCTION__ << "formWindow of image " << d_image << " is " << formWindow <<
-//                   "cursor is " << formWindow->cursor();
-//        formWindow->cursor()->setProperty("source", m_pointEditor->point());
+//        if(qobject_cast<QScrollArea *>(d_image)) {
+//            d_image->findChild<QWidget *>()->setProperty("source", m_pointEditor->point());
+//            qDebug() << __PRETTY_FUNCTION__ << "scroll area case" <<   d_image->findChild<QWidget *>();
+//        }
+//        else
+//            d_image->setProperty("source", m_pointEditor->point());
+        QDesignerFormWindowInterface *formWindow = 0;
+        formWindow = QDesignerFormWindowInterface::findFormWindow(d_image);
+        qDebug() <<__PRETTY_FUNCTION__ << "formWindow of image " << d_image << " is " << formWindow <<
+                   "cursor is " << formWindow->cursor();
+        formWindow->cursor()->setProperty("source", m_pointEditor->point());
     }
 }
 

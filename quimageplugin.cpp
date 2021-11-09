@@ -52,7 +52,7 @@ QuImageBaseI *CuImagePlugin::new_image(QWidget *parent, bool opengl) const {
 }
 
 QuImgScrollAreaI *CuImagePlugin::new_scroll_area(QWidget *parent) const {
-    return new QuImgScrollArea(parent);
+    return new QuImgScrollArea(parent, d->cu_pool, d->fpoo);
 }
 
 void CuImagePlugin::layout(QuImageBaseI *ii, QWidget *container) {
