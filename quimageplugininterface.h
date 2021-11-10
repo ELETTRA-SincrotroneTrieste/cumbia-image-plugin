@@ -311,6 +311,15 @@ public:
      */
     virtual void unsetSource() = 0;
 
+
+    virtual bool autoScale() const = 0;
+    virtual double lowerBound() const = 0;
+    virtual double upperBound() const = 0;
+
+    virtual void setAutoScale(bool au) = 0;
+    virtual void setLowerBound(double lb) = 0;
+    virtual void setUpperBound(double ub) = 0;
+
 };
 
 /*!
@@ -602,12 +611,19 @@ public:
 
     virtual QScrollArea *scrollArea() = 0;
     virtual void setImage(QuImageBaseI *ii) = 0;
+    virtual void setAutoScale(bool au) = 0;
+    virtual void setLowerBound(double lb) = 0;
+    virtual void setUpperBound(double ub) = 0;
+    void setBounds(double l, double u);
     virtual void setScaleContents(bool scale) = 0;
     virtual void setImage(const QImage& img) = 0;
     virtual void setErrorImage(const QImage &eimg) = 0;
     virtual void setMouseZoomEnabled(bool e) = 0;
 
     virtual bool mouseZoomEnabled() const = 0;
+    virtual bool autoScale() const = 0;
+    virtual double lowerBound() const = 0;
+    virtual double upperBound() const = 0;
     virtual QImage image() const = 0;
     virtual QImage errorImage() const = 0;
     virtual QString source() const = 0;

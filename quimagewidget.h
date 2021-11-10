@@ -29,11 +29,17 @@ class QuImageWidget : public QWidget, public QuImageBaseI, public QuImageBaseLis
     Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
     Q_PROPERTY(bool mouseZoomEnabled READ mouseZoomEnabled WRITE setMouseZoomEnabled DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
+    Q_PROPERTY(bool autoScale READ autoScale WRITE setAutoScale DESIGNABLE true)
+    Q_PROPERTY(double  lowerBound READ lowerBound WRITE setLowerBound DESIGNABLE true)
+    Q_PROPERTY(double  upperBound READ upperBound WRITE setUpperBound DESIGNABLE true)
 
 public:
     explicit QuImageWidget(QWidget *parent, CumbiaPool *cu_p, const CuControlsFactoryPool& fpoo);
     virtual ~QuImageWidget();
 
+    bool autoScale() const;
+    double upperBound() const;
+    double lowerBound() const;
     bool scaleContents() const;
     QImage errorImage() const;
 
@@ -45,10 +51,16 @@ signals:
      */
     void zoomRectChanged(const QRect& from_z, const QRect& to_z);
     void newData(const CuData& data);
+    void upperBoundChanged(double ub);
+    void lowerBoundChanged(double lb);
 
 public slots:
 
     void setSource(const QString& src);
+
+    void setAutoScale(bool a);
+    void setLowerBound(double lb);
+    void setUpperBound(double ub);
 
     void setImage(const QImage& image);
     void setErrorImage(const QImage& img);
@@ -113,6 +125,7 @@ public:
     // QuImageBaseListener interface
 public:
     void onZoom(const QRect& from_z, const QRect& to_z);
+    void onBoundsChanged(double lower, double upper);
 };
 
 #endif // IMAGE_H

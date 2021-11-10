@@ -21,6 +21,7 @@ class QWheelEvent;
 class QuImageBaseListener {
 public:
     virtual void onZoom(const QRect& from_zr, const QRect& to_zr) = 0;
+    virtual void onBoundsChanged(double lower, double upper) = 0;
 };
 
 class QuImageBasePrivate
@@ -31,6 +32,8 @@ public:
         : isOpenGL(false),
           error(false),
           scale_contents(true),
+          autoscale(false),
+          lower(0.0), upper(0.0),
           cu_pool(cu_p),
           fpool(fpoo),
           zoomer(new QuImgZoomer(!scale_contents, this)),
@@ -47,6 +50,8 @@ public:
     bool isOpenGL;
     bool error;
     bool scale_contents; // fit to widget
+    bool autoscale; // scale the colormap
+    double lower, upper;
     QString errorMessage;
     QWidget *widget;
     QVector<QRgb> colorTable;
@@ -65,6 +70,8 @@ public:
     QRect mapToImg(const QRect &r) const;
     QPoint mapFromImg(const QPoint &p) const;
     QRect mapFromImg(const QRect &r) const;
+
+    CuMatrix<unsigned char> raw_data;
 };
 
 class QuImageBase : public QuImageBaseI, public QuImgConfDialogListener
@@ -83,6 +90,11 @@ public:
 
     void setImageMouseEventInterface(ImageMouseEventInterface* ifa);
 
+    void setAutoScale(bool as);
+    void setLowerBound(double lb);
+    void setUpperBound(double ub);
+    void setBounds(double l, double u);
+
     void setScaleContents(bool fit);
     bool scaleContents() const;
 
@@ -99,6 +111,9 @@ public:
     void setMouseZoomEnabled(bool en);
     bool mouseZoomEnabled() const;
     float zoomLevel() const;
+    bool autoScale() const;
+    double lowerBound() const;
+    double upperBound() const;
 
     bool isOpenGL() const;
 
@@ -130,6 +145,7 @@ public:
     void onApply(const QMap<QString, QVariant> &conf);
 private:
     void m_set_image(const CuMatrix<unsigned char> &data);
+    void m_save_raw_data();
     QuImageBasePrivate *d;
 };
 

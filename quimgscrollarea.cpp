@@ -30,6 +30,18 @@ void QuImgScrollArea::setScaleContents(bool scale) {
     d->ii->setScaleContents(scale);
 }
 
+void QuImgScrollArea::setAutoScale(bool as) {
+    d->ii->setAutoScale(as);
+}
+
+void QuImgScrollArea::setLowerBound(double lb) {
+    d->ii->setLowerBound(lb);
+}
+
+void QuImgScrollArea::setUpperBound(double ub) {
+    d->ii->setUpperBound(ub);
+}
+
 QScrollArea *QuImgScrollArea::scrollArea() {
     return this;
 }
@@ -46,6 +58,18 @@ void QuImgScrollArea::setImage(QuImageBaseI *ii) {
 
 bool QuImgScrollArea::scaleContents() const {
     return d->ii->scaleContents();
+}
+
+bool QuImgScrollArea::autoScale() const {
+    return d->ii->autoScale();
+}
+
+double QuImgScrollArea::upperBound() const {
+    return d->ii->upperBound();
+}
+
+double QuImgScrollArea::lowerBound() const {
+    return d->ii->lowerBound();
 }
 
 // r in image coordinates

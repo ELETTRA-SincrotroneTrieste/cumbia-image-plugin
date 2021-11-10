@@ -12,6 +12,7 @@ class QuImgScrollArea : public QScrollArea, public QuImgScrollAreaI
     Q_PROPERTY(QString source READ source WRITE setSource DESIGNABLE true)
     Q_PROPERTY(bool mouseZoomEnabled READ mouseZoomEnabled WRITE setMouseZoomEnabled DESIGNABLE true)
     Q_PROPERTY(bool scaleContents READ scaleContents WRITE setScaleContents DESIGNABLE true)
+    Q_PROPERTY(bool autoScale READ autoScale WRITE setAutoScale DESIGNABLE true)
     Q_PROPERTY(QImage errorImage READ errorImage WRITE setErrorImage  DESIGNABLE true)
     Q_PROPERTY(QImage image READ image WRITE setImage  DESIGNABLE true)
 
@@ -27,6 +28,9 @@ public:
     void setImage(QuImageBaseI *ii);
 
     bool scaleContents() const;
+    bool autoScale() const;
+    double upperBound() const;
+    double lowerBound() const;
     bool mouseZoomEnabled() const;
     QImage image() const;
     QImage errorImage() const;
@@ -41,6 +45,9 @@ public slots:
     void setMouseZoomEnabled(bool e);
     void onZoomRectChanged(const QRect &from, const QRect &to);
     void setScaleContents(bool scale);
+    void setAutoScale(bool as);
+    void setLowerBound(double lb);
+    void setUpperBound(double ub);
 
 private:
     QuImgScrollAreaPrivate *d;

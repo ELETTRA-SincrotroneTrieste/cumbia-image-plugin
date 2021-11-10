@@ -32,6 +32,19 @@ QuImageWidget::~QuImageWidget()
     delete d;
 }
 
+bool QuImageWidget::autoScale() const {
+    return d->imgb->autoScale();
+}
+
+double QuImageWidget::upperBound() const {
+    return d->imgb->upperBound();
+}
+
+double QuImageWidget::lowerBound() const {
+    return d->imgb->lowerBound();
+}
+
+
 QImage QuImageWidget::errorImage() const {
     return d->imgb->errorImage();
 }
@@ -172,12 +185,30 @@ void QuImageWidget::setSource(const QString &src) {
     d->imgb->setSource(src);
 }
 
+void QuImageWidget::setAutoScale(bool a) {
+    d->imgb->setAutoScale( a );
+    update();
+}
+
+void QuImageWidget::setLowerBound(double lb) {
+    d->imgb->setLowerBound(lb);
+}
+
+void QuImageWidget::setUpperBound(double ub) {
+    d->imgb->setUpperBound(ub);
+}
+
 void QuImageWidget::unsetSource() {
     d->imgb->unsetSource();
 }
 
 void QuImageWidget::onZoom(const QRect &from_z, const QRect &to_z) {
     emit zoomRectChanged(from_z, to_z);
+}
+
+void QuImageWidget::onBoundsChanged(double lower, double upper) {
+    emit lowerBoundChanged(lower);
+    emit upperBoundChanged(upper);
 }
 
 QSize QuImageWidget::minimumSizeHint() const
@@ -251,6 +282,12 @@ void QuImageWidget::onNewData(const CuData &da) {
             case CuVariant::Int: {
                 CuMatrix<int> mi = v.toMatrix<int>();
                 const std::vector<int> iv =  mi.data();
+                const std::vector<unsigned char> ucv(iv.begin(), iv.end());
+                d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
+            }  break;
+            case CuVariant::LongInt: {
+                CuMatrix<long int> mi = v.toMatrix<long int>();
+                const std::vector<long int> iv =  mi.data();
                 const std::vector<unsigned char> ucv(iv.begin(), iv.end());
                 d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
             }  break;

@@ -86,16 +86,43 @@ void QuImageBase::setImage(const CuMatrix<unsigned char> &data) {
 
 void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
 {
+    // after auto scale or bound are changed, raw data must be saved
+    // so that image updates upon further bounds change can be shown
+    // immediately
+    if(d->raw_data.isValid()) {
+        d->raw_data = data;
+    }
     QImage& img = image();
     bool changed = img.size() != QSize(data.nrows(), data.ncols());
-    //    qDebug() << __PRETTY_FUNCTION__ << image() << "size " << img.size() << " data " << data.nrows() << "x" << data.ncols();
+    unsigned int factor = 1, lower = 0;
+    if(d->autoscale) {
+        double m = 0, M = 0.0;
+        for(size_t i = 0; i < data.nrows(); i++)  {
+            for(size_t j = 0; j < data.ncols(); j++) {
+                const double& d = data[i][j];
+                if(i == 0 && j == 0) {
+                    M = m = d;
+                }
+                else {
+                    if(M < d) M = d;
+                    if(m > d) m = d;
+                }
+            }
+        }
+        lower = d->lower = m;
+        d->upper = M;
+        if(d->lower < d->upper)
+            factor = 255.0/(M-m);
+    }
     if(changed) {
         QVector<QRgb> &colorT = colorTable();
         QImage newImage = QImage(data.nrows(), data.ncols(), QImage::Format_Indexed8);
         newImage.setColorTable(colorT);
         for(size_t i = 0; i < data.nrows(); i++)  {
-            for(size_t j = 0; j < data.ncols(); j++)
-                newImage.setPixel(i, j, data[i][j]);
+            for(size_t j = 0; j < data.ncols(); j++) {
+                const double &v = (data[i][j] - lower) * factor;
+                newImage.setPixel(i, j, v);
+            }
         }
         /* newImage without colorTable. setImage will save current color table from current image
          * and then restore it
@@ -106,9 +133,10 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
     else  {/* no resize needed */
         for(size_t i = 0; i < data.nrows(); i++) {
             for(size_t j = 0; j < data.ncols(); j++)  {
-                if(img.pixel(i, j) != data[i][j]) {
+                const double &v = (data[i][j] - lower) * factor;
+                if(img.pixel(i, j) != v) {
                     changed = true;
-                    img.setPixel(i, j, data[i][j]);
+                    img.setPixel(i, j, v);
                 }
             }
         }
@@ -118,6 +146,17 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
         setImage(img);
         if(changed)
             d->widget->update();
+    }
+}
+
+void QuImageBase::m_save_raw_data() {
+    if(!d->image.isNull() && !d->raw_data.isValid()) {
+        std::vector<unsigned char> vc;
+        for(int i = 0; i < d->image.width(); i++)
+            for(int j = 0; j < d->image.height(); j++)
+                vc.push_back(d->image.pixelIndex(i, j));
+
+        d->raw_data = CuMatrix<unsigned char>(vc, d->image.width(), d->image.height());
     }
 }
 
@@ -150,6 +189,18 @@ void QuImageBase::setMouseZoomEnabled(bool en) {
  */
 float QuImageBase::zoomLevel() const {
     return d->zoomer->level();
+}
+
+bool QuImageBase::autoScale() const {
+    return d->autoscale;
+}
+
+double QuImageBase::lowerBound() const {
+    return d->lower;
+}
+
+double QuImageBase::upperBound() const {
+    return d->upper;
 }
 
 /*!
@@ -206,6 +257,44 @@ void QuImageBase::paint(QPaintEvent *e, QWidget *) {
 
 void QuImageBase::setImageMouseEventInterface(QuImageMouseEventIf* ifa) {
     d->mouse_t->setMouseEventInterface(ifa);
+}
+
+void QuImageBase::setAutoScale(bool as) {
+    m_save_raw_data();
+    d->autoscale = as;
+    m_set_image(d->raw_data);
+    d->widget->update();
+}
+
+void QuImageBase::setLowerBound(double lb) {
+    m_save_raw_data();
+    d->autoscale = false;
+    if(d->lower != lb) {
+        d->lower = lb;
+        m_set_image(d->raw_data);
+        d->widget->update();
+    }
+}
+
+void QuImageBase::setUpperBound(double ub) {
+    m_save_raw_data();
+    d->autoscale = false;
+    if(d->upper != ub) {
+        d->upper = ub;
+        m_set_image(d->raw_data);
+        d->widget->update();
+    }
+}
+
+void QuImageBase::setBounds(double l, double u) {
+    m_save_raw_data();
+    d->autoscale = false;
+    if(l != d->lower || u != d->upper) {
+        d->upper = u;
+        d->lower = l;
+        m_set_image(d->raw_data);
+        d->widget->update();
+    }
 }
 
 bool QuImageBase::error() const {
@@ -273,7 +362,6 @@ void QuImageBase::setPainterDirty(bool di) {
 }
 
 void QuImageBase::setScaleContents(bool fit) {
-    qDebug() << __PRETTY_FUNCTION__ << fit;
     d->scale_contents = fit;
     d->zoomer->setMouseEnabled(!fit);
     d->painter.dirty = true;

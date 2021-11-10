@@ -31,12 +31,36 @@ void QuImageGLWidget::setImage(const QImage& img)
     update();
 }
 
+bool QuImageGLWidget::autoScale() const {
+    return d->imgb->autoScale();
+}
+
+double QuImageGLWidget::upperBound() const {
+    return d->imgb->upperBound();
+}
+
+double QuImageGLWidget::lowerBound() const {
+    return d->imgb->lowerBound();
+}
+
 bool QuImageGLWidget::scaleContents() const {
     return d->imgb->scaleContents();
 }
 
 void QuImageGLWidget::setScaleContents(bool scale) {
     d->imgb->setScaleContents(scale);
+}
+
+void QuImageGLWidget::setAutoScale(bool a) {
+    d->imgb->setAutoScale(a);
+}
+
+void QuImageGLWidget::setLowerBound(double lb) {
+    d->imgb->setLowerBound(lb);
+}
+
+void QuImageGLWidget::setUpperBound(double ub) {
+    d->imgb->setUpperBound(ub);
 }
 
 void QuImageGLWidget::mousePressEvent(QMouseEvent *ev)
