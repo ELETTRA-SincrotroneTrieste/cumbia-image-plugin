@@ -39,7 +39,7 @@ CuDisplay::CuDisplay(CumbiaPool *cumbia_pool, QWidget *parent) :
 //        printf("\e[1;33mCuDisplay : setting mouse tracking for testing purposes\e[0m\n");
 //        iw->asWidget()->setMouseTracking(true);
         sa->setImage(QImage(":/seoyeji.png"));
-        sa->imageWidget()->setProperty("autoScale", true);
+//        sa->imageWidget()->setProperty("autoScale", true);
         QCheckBox *cb = new QCheckBox("Fit to window", this);
         connect(cb, SIGNAL(toggled(bool)), sa->scrollArea(), SLOT(setScaleContents(bool)));
         qDebug() << __PRETTY_FUNCTION__ << "setting fitToWindow false";

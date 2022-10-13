@@ -176,8 +176,8 @@ void QuImageBase::m_save_raw_data() {
         for(int i = 0; i < d->image.width(); i++)
             for(int j = 0; j < d->image.height(); j++)
                 vc.push_back(d->image.pixelIndex(i, j));
-
-        d->raw_data = CuMatrix<unsigned char>(vc, d->image.width(), d->image.height());
+        // CuMatrix built with vc, number of rows, number of columns
+        d->raw_data = CuMatrix<unsigned char>(vc, d->image.height(), d->image.width());
     }
 }
 
