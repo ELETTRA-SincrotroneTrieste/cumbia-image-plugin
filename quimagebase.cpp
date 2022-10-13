@@ -92,7 +92,15 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
     if(d->raw_data.isValid()) {
         d->raw_data = data;
     }
-    bool changed = d->image.size() != QSize(data.nrows(), data.ncols());
+    printf("-------------MATRIX------------------------------\n\n");
+    for(size_t i = 0; i < data.nrows(); i++) {
+        for(size_t j = 0; j < data.ncols(); j++) {
+            printf("%d,", data[i][j]);
+        }
+        printf("\n");
+    }
+    printf("-------------------------------------------\n\n");
+    bool changed = d->image.size() != QSize(data.ncols(), data.nrows());
     unsigned int factor = 1, lower = 0;
     printf("QuImageBase::m_set_image autoscale %s changed in size %s ", d->autoscale ? "YES" : "NO", changed ? " YES " : "NO");
     if(d->autoscale) {
@@ -116,10 +124,10 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
     }
     if(changed) {
         QVector<QRgb> &colorT = colorTable();
-        QImage newImage = QImage(data.nrows(), data.ncols(), QImage::Format_Indexed8);
+        QImage newImage = QImage(data.ncols(), data.nrows(), QImage::Format_Indexed8);
         newImage.setColorTable(colorT);
-        for(size_t i = 0; i < data.nrows(); i++)  {
-            for(size_t j = 0; j < data.ncols(); j++) {
+        for(size_t i = 0; i < data.ncols(); i++)  {
+            for(size_t j = 0; j < data.nrows(); j++) {
                 const unsigned int &v = (data[i][j] - lower) * factor;
                 newImage.setPixel(i, j, v);
             }
@@ -131,15 +139,15 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
 
         for(size_t i = 0; i < d->image.size().width(); i++) {
             for(size_t j = 0; j < d->image.size().height(); j++)  {
-                printf("\e[1;33m%d,%d\e[1;32m %d\e[0m,", i, j, d->image.pixelIndex(i, j));
+                printf("\e[1;33m%d,%d\e[0m: \e[1;32m %d\e[0m,", i, j, d->image.pixelIndex(i, j));
             }
         }
         d->widget->updateGeometry();
     }
     else  {/* no resize needed */
         int chcnt = 0;
-        for(size_t i = 0; i < data.nrows(); i++) {
-            for(size_t j = 0; j < data.ncols(); j++)  {
+        for(size_t i = 0; i < data.ncols(); i++) {
+            for(size_t j = 0; j < data.nrows(); j++)  {
                 const unsigned int &v = (data[i][j] - lower) * factor;
                 if(d->image.pixel(i, j) != v) {
                     chcnt++;
