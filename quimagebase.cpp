@@ -65,7 +65,7 @@ QImage &QuImageBase::image() const {
 
 void QuImageBase::setImage(const QImage &img) {
     d->painter.dirty = true;
-    d->image = std::move(img);
+    d->image = img;
 }
 
 void QuImageBase::setImage(const CuMatrix<double> &data) {
@@ -92,17 +92,10 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
     if(d->raw_data.isValid()) {
         d->raw_data = data;
     }
-    printf("-------------MATRIX------------------------------\n\n");
-    for(size_t i = 0; i < data.nrows(); i++) {
-        for(size_t j = 0; j < data.ncols(); j++) {
-            printf("%d,", data[i][j]);
-        }
-        printf("\n");
-    }
-    printf("-------------------------------------------\n\n");
-    bool changed = d->image.size() != QSize(data.ncols(), data.nrows());
+    QSize olds(d->image.size());
+    // use d->painter.dirty as changed flag
+    d->painter.dirty = d->image.size() != QSize(data.ncols(), data.nrows());
     unsigned int factor = 1, lower = 0;
-    printf("QuImageBase::m_set_image autoscale %s changed in size %s ", d->autoscale ? "YES" : "NO", changed ? " YES " : "NO");
     if(d->autoscale) {
         double m = 0, M = 0.0;
         for(size_t i = 0; i < data.nrows(); i++)  {
@@ -122,56 +115,48 @@ void QuImageBase::m_set_image(const CuMatrix<unsigned char> &data)
         if(d->lower < d->upper)
             factor = 255.0/(M-m);
     }
-    if(changed) {
+    if(d->painter.dirty) {
         QVector<QRgb> &colorT = colorTable();
-        QImage newImage = QImage(data.ncols(), data.nrows(), QImage::Format_Indexed8);
-        newImage.setColorTable(colorT);
-        for(size_t i = 0; i < data.ncols(); i++)  {
-            for(size_t j = 0; j < data.nrows(); j++) {
-                const unsigned int &v = (data[i][j] - lower) * factor;
-                newImage.setPixel(i, j, v);
+        d->image = QImage(data.ncols(), data.nrows(), QImage::Format_Indexed8);
+        d->image.setColorTable(colorT);
+        for(size_t i = 0; i < data.nrows(); i++)  {
+            uchar *line = d->image.scanLine(i);
+            for(size_t j = 0; j < data.ncols(); j++) {
+                const uchar &v = (data[i][j] - lower) * factor;
+                line[j] = v;
             }
         }
         /* newImage without colorTable. setImage will save current color table from current image
          * and then restore it
          */
-        setImage(newImage);
-
-        for(size_t i = 0; i < d->image.size().width(); i++) {
-            for(size_t j = 0; j < d->image.size().height(); j++)  {
-                printf("\e[1;33m%d,%d\e[0m: \e[1;32m %d\e[0m,", i, j, d->image.pixelIndex(i, j));
-            }
-        }
-        d->widget->updateGeometry();
+        printf(" image size changed from %dx%d to %dx%d setting new image \n", olds.width(), olds.height(), d->image.width(), d->image.height());
+        d->widget->update();
     }
     else  {/* no resize needed */
         int chcnt = 0;
-        for(size_t i = 0; i < data.ncols(); i++) {
-            for(size_t j = 0; j < data.nrows(); j++)  {
-                const unsigned int &v = (data[i][j] - lower) * factor;
-                if(d->image.pixel(i, j) != v) {
+        for(size_t i = 0; i < data.nrows(); i++) {
+            uchar *line = d->image.scanLine(i);
+            for(size_t j = 0; j < data.ncols(); j++)  {
+                const unsigned char &v = (data[i][j] - lower) * factor;
+                if(line[j] != v) {
                     chcnt++;
-                    changed = true;
-                    printf("([%ld,%ld] %u -> %u) -> ", i, j, d->image.pixelIndex(i, j), v);
-                    d->image.setPixel(i, j, v);
-                    printf("\e[1;34m(%u -> %u)\e[0m,", d->image.pixelIndex(i, j), v);
+                    d->painter.dirty = true; // QuImgPainter::paint needs redraw image
+                    line[j] = v;
                 }
             }
-            printf("\n");
         }
-        printf(" %d pixels changed in image %ldx%ld factor %d lower %d", chcnt, data.nrows(), data.ncols(), factor, lower);
+        printf(" %d/%d pixels changed in image %ldx%ld factor %d lower %d changed %s\n",
+               chcnt, d->image.width() * d->image.height(), data.nrows(), data.ncols(), factor, lower, d->painter.dirty ? "YES" : "NO");
         /* img is a reference to the current image. No resize needed, so image has been reused.
          * setImage will find a non empty color table and won't save/restore it
          */
-//        setImage(img);
-        if(changed)
+        if(d->painter.dirty)
             d->widget->update();
     }
-    printf(" - after processing changed %s\n", changed ? "YES" : "NO");
 }
 
 void QuImageBase::m_save_raw_data() {
-    if(!d->image.isNull() && !d->raw_data.isValid()) {
+    if(!d->image.isNull() && !d->raw_data.isValid() && d->image.colorTable().size() > 0) {
         std::vector<unsigned char> vc;
         for(int i = 0; i < d->image.width(); i++)
             for(int j = 0; j < d->image.height(); j++)
@@ -273,6 +258,7 @@ void QuImageBase::wheelEvent(QWheelEvent *event) {
 }
 
 void QuImageBase::paint(QPaintEvent *e, QWidget *) {
+    printf("QuImageBase.paint: calling d->painter->paint paint rect %dx%d\n", e->rect().width(), e->rect().height());
     d->painter.paint(e, d);
 }
 

@@ -106,6 +106,7 @@ void QuImageWidget::mouseReleaseEvent(QMouseEvent *ev) {
 void QuImageWidget::paintEvent(QPaintEvent *e)
 {
     QWidget::paintEvent(e);
+    printf("QuImageWidget.paintEvent: calling d->imgb->paint paint rect %dx%d\n", e->rect().width(), e->rect().height());
     d->imgb->paint(e, this);
 }
 
