@@ -282,16 +282,42 @@ void QuImageWidget::onNewData(const CuData &da) {
                 break;
             case CuVariant::Int: {
                 CuMatrix<int> mi = v.toMatrix<int>();
-                const std::vector<int> iv =  mi.data();
+                const std::vector<int> &iv =  mi.data();
                 const std::vector<unsigned char> ucv(iv.begin(), iv.end());
                 d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
             }  break;
             case CuVariant::LongInt: {
                 CuMatrix<long int> mi = v.toMatrix<long int>();
-                const std::vector<long int> iv =  mi.data();
+                const std::vector<long int> &iv =  mi.data();
                 const std::vector<unsigned char> ucv(iv.begin(), iv.end());
                 d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
             }  break;
+            case CuVariant::LongUInt: {
+                CuMatrix<unsigned long int> mi = v.toMatrix<unsigned long int>();
+                const std::vector<unsigned long int> &iv =  mi.data();
+                const std::vector<unsigned char> ucv(iv.begin(), iv.end());
+                d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
+            }  break;
+            case CuVariant::UInt: {
+                CuMatrix<unsigned  int> mi = v.toMatrix<unsigned  int>();
+                const std::vector<unsigned  int> &iv =  mi.data();
+                const std::vector<unsigned char> ucv(iv.begin(), iv.end());
+                d->imgb->setImage(CuMatrix<unsigned char>(ucv, mi.nrows(), mi.ncols()));
+            }  break;
+            case CuVariant::Float: {
+                CuMatrix<float> mf = v.toMatrix<float>();
+                const std::vector<float> iv =  mf.data();
+                const std::vector<unsigned char> ucv(iv.begin(), iv.end());
+                d->imgb->setImage(CuMatrix<unsigned char>(ucv, mf.nrows(), mf.ncols()));
+                break;
+            }
+            case CuVariant::Short: {
+                CuMatrix<short> ms = v.toMatrix<short>();
+                const std::vector<short> sv =  ms.data();
+                const std::vector<unsigned char> ucv(sv.begin(), sv.end());
+                d->imgb->setImage(CuMatrix<unsigned char>(ucv, ms.nrows(), ms.ncols()));
+                break;
+            }
             default:
                 err = true;
                 msg = "QuImageWidget: data type " + v.dataTypeStr(v.getType()) + " unsupported";
