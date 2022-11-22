@@ -29,8 +29,6 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d) {
     else imgRect.setSize(imgb_d->image.size() * (imgb_d->zoomer->level()/100.0));
     const float &irw = static_cast<float>(imgRect.width());
     const float &irh = static_cast<float>(imgRect.height());
-
-    printf("QuImgPainter::paint dirty flag %s\n", dirty ? "TRUE" : "FALSE");
     if(dirty &&  fabs(irh / imgb_d->image.height() - irw / imgb_d->image.width()) > 0.01) {
         imgb_d->cached_img = imgb_d->image.scaled(imgRect.width(), imgRect.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         p.drawImage(imgb_d->cached_img.rect(), imgb_d->cached_img, imgb_d->cached_img.rect());

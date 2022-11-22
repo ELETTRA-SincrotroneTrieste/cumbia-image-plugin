@@ -106,7 +106,6 @@ void QuImageWidget::mouseReleaseEvent(QMouseEvent *ev) {
 void QuImageWidget::paintEvent(QPaintEvent *e)
 {
     QWidget::paintEvent(e);
-    printf("QuImageWidget.paintEvent: calling d->imgb->paint paint rect %dx%d\n", e->rect().width(), e->rect().height());
     d->imgb->paint(e, this);
 }
 
@@ -261,6 +260,7 @@ QWidget *QuImageWidget::asWidget() const {
  * \li int (converted to unsigned char)
  */
 void QuImageWidget::onNewData(const CuData &da) {
+    auto t1 = std::chrono::high_resolution_clock::now();
     bool err = da["err"].toBool();
     std::string msg = da["msg"].toString();
     const CuVariant &v = da["value"];
@@ -340,6 +340,8 @@ void QuImageWidget::onNewData(const CuData &da) {
     d->imgb->asWidget()->setToolTip(msg.c_str());
 
     emit newData(da);
+    auto t2 = std::chrono::high_resolution_clock::now();
+    printf("QuImageWidget: updating image took %ldus\n", std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count());
 }
 
 QPoint QuImageWidget::mapToImg(const QPoint& p) const {
