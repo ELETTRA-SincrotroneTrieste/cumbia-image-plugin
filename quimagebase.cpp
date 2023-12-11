@@ -1,6 +1,6 @@
 #include "quimagebase.h"
 #include <QPaintEvent>
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QtDebug>
