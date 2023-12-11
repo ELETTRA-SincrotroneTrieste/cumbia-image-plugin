@@ -258,7 +258,6 @@ void QuImageBase::wheelEvent(QWheelEvent *event) {
 }
 
 void QuImageBase::paint(QPaintEvent *e, QWidget *) {
-    printf("QuImageBase.paint: calling d->painter->paint paint rect %dx%d\n", e->rect().width(), e->rect().height());
     d->painter.paint(e, d);
 }
 
