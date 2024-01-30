@@ -13,7 +13,6 @@ class CumbiaPool;
 class CuControlsReaderFactoryI;
 class CuControlsFactoryPool;
 class QString;
-class QStringList;
 class CuData;
 class CuContext;
 class CuVariant;

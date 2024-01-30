@@ -29,7 +29,6 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d) {
     else imgRect.setSize(imgb_d->image.size() * (imgb_d->zoomer->level()/100.0));
     const float &irw = static_cast<float>(imgRect.width());
     const float &irh = static_cast<float>(imgRect.height());
-
     if(dirty &&  fabs(irh / imgb_d->image.height() - irw / imgb_d->image.width()) > 0.01) {
         imgb_d->cached_img = imgb_d->image.scaled(imgRect.width(), imgRect.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         p.drawImage(imgb_d->cached_img.rect(), imgb_d->cached_img, imgb_d->cached_img.rect());
@@ -65,7 +64,7 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d) {
         if(!imgb_d->mouse_t->left_button) {
             float fl = sqrt(pow(p2x - p1x, 2) + pow(p2y - p1y, 2));
             QString val = QString("%1").arg(fl, 0, 'f', 2);
-            p.fillRect(QRectF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y(), fm.width(val), fm.height()), bg);
+            p.fillRect(QRectF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y(), fm.horizontalAdvance(val), fm.height()), bg);
             /* first draw line */
             p.drawLine(imgb_d->mouse_t->mP1, imgb_d->mouse_t->mP2);
             /* then text */
@@ -79,7 +78,7 @@ void QuImgPainter::paint(QPaintEvent *e, QuImageBasePrivate *imgb_d) {
             /* then text */
             QString val = QString("%1,%2 %3x%4").arg(p1x).arg(p1y).arg(fabs(p2x - p1x)).
                     arg(fabs(p2y - p1y));
-            p.fillRect(QRectF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y(), fm.width(val), fm.height()), bg);
+            p.fillRect(QRectF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y(), fm.horizontalAdvance(val), fm.height()), bg);
             pen.setColor(Qt::black);
             p.setPen(pen);
             p.drawText(QPointF(imgb_d->mouse_t->mP1.x(), imgb_d->mouse_t->mP1.y() + fm.height()), val);
